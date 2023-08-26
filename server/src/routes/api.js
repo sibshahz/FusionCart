@@ -1,14 +1,14 @@
 const express = require('express');
-
+const productsRouter = require("./products/products.router");
+const adminsRouter = require("./admins/admins.router");
+const userAuthRouter = require('./user-auth/user-auth.router');
 // const launchesRouter = require('./launches/launches.router');
 
 const api = express.Router();
 
-api.get('/message',(req,res)=>{
-    res.status(201);
-    res.send("What are you looking for???")
-})
-// api.use('/planets', planetsRouter);
+api.use('/auth', userAuthRouter);
+api.use('/products', productsRouter);
+api.use('/admins',adminsRouter);
 // api.use('/launches', launchesRouter);
 
 module.exports = api;
