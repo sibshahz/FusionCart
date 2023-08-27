@@ -8,6 +8,11 @@ const userAuthRouter = express.Router();
 
 userAuthRouter.post('/signup', authController.signup);
 
+
+userAuthRouter.get('/protected',authController.isUserAuthenticated,(req,res) => {
+    res.status(200).send({message: "you are now on protected route"});
+});
+
 userAuthRouter.post('/login', passport.authenticate('local', { session: false }), authController.login);
 
 module.exports = userAuthRouter;
