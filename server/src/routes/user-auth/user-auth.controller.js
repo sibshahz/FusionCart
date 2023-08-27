@@ -7,7 +7,8 @@ require("../../services/passport.strategy");
 
 const signup = async (req, res) => {
   const { email, password } = req.body;
-    if(userExists(email)!==null){
+  const checkUser = await userExists(email)
+    if(checkUser){
       res.status(401).json({message: "User already exists"})
     }else{
       try {
@@ -25,7 +26,7 @@ const signup = async (req, res) => {
 
 const login = (req, res) => {
   const user = req.user;
-  const token = jwt.sign({ id: user._id, email: user.email }, 'your_secret_key');
+  const token = jwt.sign({ id: user._id, email: user.email, role: 'customer' }, 'your_secret_key');
   
   // Return user data and token in the response body
   res.setHeader('Authorization', `Bearer ${token}`);
@@ -44,8 +45,11 @@ const isUserAuthenticated = (req, res, next) => {
   jwt.verify(tokenWithoutBearer, 'your_secret_key', (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: 'Invalid token' });
+    }else if(decoded.role!=='customer'){
+      return res.status(401).json({ message: 'Unauthorized access sir' });
     } else {
       req.user = decoded; // Attach the decoded user to the request object
+      
       return next();
     }
   });
