@@ -6,12 +6,50 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   description: String,
-  category: String,
+  featuredImages:[{
+    type: String,
+  }],
+  images: [{
+    type: String,
+  }],
+  status: {
+    type: String,
+    enum: ['draft', 'published', 'outstock'],
+    default: 'draft',
+  },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+  },
+  tags: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Tag',
+  }],
   stock: {
     type: Number,
     required: false
   },
-  imageUrl: String,
+  price: {
+    type: Number,
+    required: true,
+  },
+  salePrice: {
+    type: Number,
+    required: false,
+  },
+  upsells: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+  }],
+  crossSells: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+  }],
+  attributes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Attribute',
+  }],
+  featured: Boolean,
   priceHistory: [
     {
       price: {
