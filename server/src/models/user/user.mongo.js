@@ -33,6 +33,7 @@ const userSchema = new mongoose.Schema({
   city: String,
   postalCode: String,
   password: String,
+  avatarUrl: String,
 },{
   timestamps: true,
 });
