@@ -4,14 +4,17 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
-const passport = require('passport'); // Import passport at the beginning // Import your passport strategies
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
+
+// const passport = require('passport'); // Import passport at the beginning // Import your passport strategies
 
 const api = require('./routes/api');
 
 const app = express();
 
 app.use(express.json());
-
 app.use(cors({
   origin: process.env.WEB_ORIGIN,
 }));
@@ -20,10 +23,6 @@ app.use(helmet());
 
 app.use(morgan('combined'));
 
-// Apply passport middleware after express.json() and before your routes
-app.use(passport.initialize()); // Initialize Passport
-// app.use(passport.session());    // If needed, this is for persistent login sessions
-
 app.get('/', (req, res) => {
   const statusCode = 201;
   res.status(statusCode);
@@ -31,5 +30,40 @@ app.get('/', (req, res) => {
 });
 
 app.use('/v1', api);
+//swagger setup
+const options = {
+  definition: {
+    openapi: "3.1.0",
+    info: {
+      title: "LogRocket Express API with Swagger",
+      version: "0.1.0",
+      description:
+        "This is a simple CRUD API application made with Express and documented with Swagger",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+      contact: {
+        name: "LogRocket",
+        url: "https://logrocket.com",
+        email: "info@email.com",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:443",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, { explorer: true })
+);
+//end swagger setup
 
 module.exports = app;

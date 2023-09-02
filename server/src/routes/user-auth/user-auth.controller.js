@@ -1,19 +1,31 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../../models/user/user.model');
+const User = require('../../models/user/user.mongo');
 
 require("../../services/passport.strategy");
 
+async function httpSignUp(req, res) {
+  return res.status(200).json({name:"registered successfully",payload:"sent successfully"})
+}
+async function httpSignIn(req,res){
+  return res.status(200).json({name:"loggedin successfully",payload:"sent successfully"})
+}
+async function httpUserExists(req,res){
+  return res.status(200).json({name:"loggedin successfully",payload:"sent successfully"})
+}
+async function httpIsAuthenticated(req,res){
+  return res.status(200).json({name:"loggedin successfully",payload:"sent successfully"})
+}
 
 const signup = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password,firstName,lastName } = req.body;
   const checkUser = await userExists(email)
     if(checkUser){
       res.status(401).json({message: "User already exists"})
     }else{
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ email, password: hashedPassword });
+        const newUser = new User({ email, password: hashedPassword,firstName,lastName });
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully' });  
   
