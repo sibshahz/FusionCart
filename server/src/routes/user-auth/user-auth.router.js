@@ -13,6 +13,10 @@ userAuthRouter.get('/protected',authController.isUserAuthenticated,(req,res) => 
     res.status(200).send({message: "you are now on protected route"});
 });
 
+userAuthRouter.get('/admin',authController.isUserAuthenticatedAuthorized("admin"),(req,res) => {
+    res.status(200).send({message: "you are now on protected route as admin"});
+});
+
 userAuthRouter.post('/login', passport.authenticate('local', { session: false }), authController.login);
 
 module.exports = userAuthRouter;

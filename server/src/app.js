@@ -19,7 +19,7 @@ app.use(cors({
   origin: process.env.WEB_ORIGIN,
 }));
 
-app.use(helmet());
+// app.use(helmet());
 
 app.use(morgan('combined'));
 

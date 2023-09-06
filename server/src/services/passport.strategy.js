@@ -1,6 +1,7 @@
 const passport = require('passport');
+// const User = require('../models/user/user.model');
+const User = require('../models/user/user.mongo')
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('../models/user/user.model');
 const bcrypt = require('bcrypt');
 
 passport.use('local',new LocalStrategy({
@@ -8,15 +9,17 @@ passport.use('local',new LocalStrategy({
   passwordField: 'password'
 }, async (email, password, done) => {
   try {
-    const user = await User.findOne({ email });
-
-    if (!user) return done(null, false, { message: 'Incorrect email' });
+    console.log(User)
+    const iuser = await User.findOne({ email });
     
-    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (!iuser) return done(null, false, { message: 'Incorrect email' });
+    
+    const isValidPassword = await bcrypt.compare(password, iuser.password);
     
     if (!isValidPassword) return done(null, false, { message: 'Incorrect password' });
 
-    return done(null, user);
+    return done(null, iuser);
   } catch (error) {
     return done(error);
   }

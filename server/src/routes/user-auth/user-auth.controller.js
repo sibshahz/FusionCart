@@ -18,27 +18,30 @@ async function httpIsAuthenticated(req,res){
 }
 
 const signup = async (req, res) => {
-  const { email, password,firstName,lastName } = req.body;
-  const checkUser = await userExists(email)
-    if(checkUser){
-      res.status(401).json({message: "User already exists"})
-    }else{
-      try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ email, password: hashedPassword,firstName,lastName });
-        await newUser.save();
-        res.status(201).json({ message: 'User registered successfully' });  
+  const { email, password,firstName,lastName,userType } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ email, password: hashedPassword,firstName,lastName,userType });
+    await newUser.save();
+    res.status(201).json({ message: 'User registered successfully' });  
+
+  } catch (error) {
+      res.status(500).json(error.message)
+  }
   
-      } catch (error) {
-          res.status(500).json(error.message)
-      }
-    }
+  // const checkUser = await userExists(email)
+    
+  // if(checkUser){
+  //     res.status(401).json({message: "User already exists"})
+  //   }else{
+      
+  //   }
   };
 
 
 const login = (req, res) => {
   const user = req.user;
-  const token = jwt.sign({ id: user._id, email: user.email, role: 'customer' }, 'your_secret_key');
+  const token = jwt.sign({ id: user._id, email: user.email, userType:user.userType }, 'your_secret_key');
   
   // Return user data and token in the response body
   res.setHeader('Authorization', `Bearer ${token}`);
@@ -62,6 +65,27 @@ const isUserAuthenticated = (req, res, next) => {
     } else {
       req.user = decoded; // Attach the decoded user to the request object
       
+      return next();
+    }
+  });
+};
+
+const isUserAuthenticatedAuthorized = (expectedRole) => (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token || !token.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Token missing or invalid' });
+  }
+
+  const tokenWithoutBearer = token.replace('Bearer ', '');
+
+  jwt.verify(tokenWithoutBearer, 'your_secret_key', (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }else if(decoded.userType!==expectedRole){
+      return res.status(401).json({ message: 'Unauthorized access sir' });
+    } else {
+      req.user = decoded; // Attach the decoded user to the request object
       return next();
     }
   });
@@ -94,4 +118,5 @@ module.exports = {
   login,
   userExists,
   isUserAuthenticated,
+  isUserAuthenticatedAuthorized,
 };
