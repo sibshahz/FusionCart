@@ -1,25 +1,17 @@
 const express = require('express');
+const authController = require('../user-auth/user-auth.controller');
 
-const {
-  httpGetAllProducts,
-  httpPostProduct,
-  httpGetProduct,
-  httpUpdateProduct,
-  httpDelProduct,
-  httpGetProductCategory,
-  httpGetProductTags,
-  httpGetProductCatAndTags
-} = require('./products.controller');
+const productsController = require('./products.controller');
 
 const productsRouter = express.Router();
 
-productsRouter.get('/', httpGetAllProducts);
-productsRouter.post('/', httpPostProduct);
-productsRouter.get('/:id', httpGetProduct);
-productsRouter.put('/:id', httpUpdateProduct);
-productsRouter.delete('/:id', httpDelProduct);
-productsRouter.get('/category/:categoryId', httpGetProductCategory);
-productsRouter.get('/tags?tagIds', httpGetProductTags);
-productsRouter.get('/category/:categoryId/tags?tagIds', httpGetProductCatAndTags);
+productsRouter.get('/', productsController.httpGetAllProducts);
+productsRouter.post('/',authController.isUserAuthenticatedAuthorized("admin"), productsController.httpPostProduct);
+productsRouter.get('/:id', productsController.httpGetProduct);
+productsRouter.put('/:id', productsController.httpUpdateProduct);
+productsRouter.delete('/:id', productsController.httpDelProduct);
+productsRouter.get('/category/:categoryId', productsController.httpGetProductCategory);
+productsRouter.get('/tags?tagIds', productsController.httpGetProductTags);
+productsRouter.get('/category/:categoryId/tags?tagIds', productsController.httpGetProductCatAndTags);
 
 module.exports = productsRouter;
