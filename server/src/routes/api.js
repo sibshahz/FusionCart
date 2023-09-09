@@ -9,6 +9,5 @@ const api = express.Router();
 api.use('/auth', userAuthRouter);
 api.use('/products', productsRouter);
 api.use('/admins',adminsRouter);
-// api.use('/launches', launchesRouter);
 
 module.exports = api;
