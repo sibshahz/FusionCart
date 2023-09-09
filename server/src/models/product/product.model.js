@@ -20,4 +20,37 @@ async function getAllProducts(){
   }
 }
 
-module.exports={getAllProducts,addProduct}
+async function getProduct(){
+  return true;
+}
+
+async function updateProduct(){
+  return true;
+}
+
+async function delProduct(){
+  return true;
+}
+
+async function getProductCategory(){
+  return true;
+}
+
+async function getProductTags(){
+  return true;
+}
+
+async function getProductCatAndTags(){
+  return true;
+}
+
+module.exports={
+  getAllProducts,
+  addProduct,
+  getProduct,
+  updateProduct,
+  delProduct,
+  getProductCategory,
+  getProductTags,
+  getProductCatAndTags
+}
