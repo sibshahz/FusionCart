@@ -20,16 +20,31 @@ async function getAllProducts(){
   }
 }
 
-async function getProduct(){
-  return true;
+async function getProduct(id){
+  try {
+    const product=await Product.findById(id);
+    return product;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-async function updateProduct(){
-  return true;
+async function updateProduct(id,update){
+  try{
+    const updatedProduct= await Product.findByIdAndUpdate(id,update,{new: true});
+    return updatedProduct;
+  }catch(error){
+    console.log(error);
+  }
 }
 
-async function delProduct(){
-  return true;
+async function delProduct(id){
+  try {
+    const productDeleted=await Product.findByIdAndDelete(id);
+    return productDeleted;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function getProductCategory(){

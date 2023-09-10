@@ -9,15 +9,18 @@ async function httpPostProduct(req, res) {
 }
 
 async function httpGetProduct(req, res) {
-  return res.status(200).json(await productModel.getProduct());
+  const {id}=req.params;
+  return res.status(200).json(await productModel.getProduct(id));
 }
 
 async function httpUpdateProduct(req, res) {
-  return res.status(200).json(await productModel.updateProduct());
+  const {id}=req.params;
+  return res.status(200).json(await productModel.updateProduct(id,req.body));
 }
 
 async function httpDelProduct(req, res) {
-  return res.status(200).json(await productModel.delProduct());
+  const {id}=req.params;
+  return res.status(200).json(await productModel.delProduct(id));
 }
 
 async function httpGetProductCategory(req, res) {
