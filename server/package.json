@@ -9,7 +9,7 @@
     "watch": "nodemon src/server.js",
     "start": "node src/server.js",
     "cluster": "pm2 start src/server.js -i max",
-    "generate-docs": "jsdoc -c ./jsdocs.config.json"
+    "generate-docs": "jsdoc -c ./jsdoc.conf.json"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "jest": "^29.6.3",
+    "jsdoc": "^4.0.2",
     "nodemon": "^3.0.1"
   }
 }

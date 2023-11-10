@@ -8,8 +8,28 @@ const attributesRouter = require('./attributes/attributes.router');
 const reviewsRouter = require('./reviews/reviews.router');
 
 const api = express.Router();
-
 api.use('/auth', userAuthRouter);
+/**
+ * @swagger
+ * /products:
+ *   get:
+ *     summary: Get examples
+ *     description: Retrieve a list of examples
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   name:
+ *                     type: string
+ */
 api.use('/products', productsRouter);
 api.use('/admins',adminsRouter);
 api.use('/tags',tagsRouter);

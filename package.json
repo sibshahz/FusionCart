@@ -4,9 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-conc": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+    "server-watch": "cd server && npm run watch",
+    "client-dev" : "cd client && npm run dev" 
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }

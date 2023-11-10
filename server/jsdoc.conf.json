@@ -1,0 +1,9 @@
+{
+  "source": {
+    "include": ["./src/routes"],
+    "exclude": ["./node_modules"]
+  },
+  "opts": {
+    "destination": "./src/docs"
+  }
+}
