@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import '../globals.css'
+import Header from '@/src/components/user/header/header.component'
 
 const poppins = localFont({
   src: [
@@ -57,7 +58,7 @@ export default function UserRootLayout({
   return (
     <html lang="en"  className={`${poppins.variable} font-sans`}>
       <body  className={`${poppins.className} font-sans`}>
-        <h1>User layout</h1>
+        <Header />
         {children}
       </body>
     </html>
