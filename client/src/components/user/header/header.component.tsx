@@ -13,12 +13,12 @@ const Header:FC = () => {
   const pathname = usePathname()
   return (
     <LayoutContainer>
-    <div className='flex justify-between items-center'>
+    <div className='flex justify-between flex-wrap items-center h-24'>
       <div className='header--logo-container flex items-center'>
         <div className="inline">
           <Image src={Logo.src} width={50} height={32} alt='Furniro Furnitures' />
         </div>
-        <h1 className='font-bold text-3xl inline text-primary font-heading'>Furniro</h1>
+        <h1 className='font-bold text-3xl inline text-black font-heading'>Furniro</h1>
       </div>
       
       <div className='header--nav-container'>
@@ -30,8 +30,8 @@ const Header:FC = () => {
                 href={item.url} 
                 className={
                   pathname === item.url ?
-                  'mr-16 bg-slate-500' :
-                  'mr-16'}>
+                  'mr-16 bg-slate-500 font-medium' :
+                  'mr-16 font-medium'}>
                 {item.title}
               </Link>
             )

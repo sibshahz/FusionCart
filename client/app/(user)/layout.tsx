@@ -99,7 +99,9 @@ export default function UserRootLayout({
 }) {
   return (
     <html lang="en"  className={`${poppins.variable} ${montserrat.variable}`}>
-      <body  className={`font-sans`}>
+      <body  
+      // className={`font-sans`}
+      >
         <Header />
         {children}
       </body>
