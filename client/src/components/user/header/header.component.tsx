@@ -14,7 +14,11 @@ const Header:FC = () => {
   const pathname = usePathname()
   return (
     <LayoutContainer>
-    <div className='flex justify-between flex-wrap items-center min-h-[100px] pt-2 pb-2'>
+    <div className='flex justify-between
+                    flex-wrap items-center
+                    lg:flex-row sm:flex-col
+                    sm:gap-3 min-h-[100px] 
+                    pt-2 pb-2'>
       <div className='header--logo-container flex items-center'>
         <div className="inline">
           <Image src={Logo.src} width={50} height={32} alt='Furniro Furnitures' />
@@ -22,9 +26,8 @@ const Header:FC = () => {
         <h1 className='font-bold text-3xl inline text-black font-heading'>Furniro</h1>
       </div>
       
-      <div className='header--nav-container flex flex-wrap gap-16'>
+      <div className='header--nav-container flex flex-wrap gap-x-16 gap-y-2 mb-3'>
         {
-
           MainNav.map((item,index) => {
             return(
               <Link
@@ -32,8 +35,8 @@ const Header:FC = () => {
                 href={item.url} 
                 className={
                   pathname === item.url ?
-                  'bg-gray-2 text-primary font-medium' :
-                  'font-medium'}>
+                  'bg-gray-2 text-primary font-medium text-base' :
+                  'font-medium text-base'}>
                 {item.title}
               </Link>
             )
@@ -42,7 +45,7 @@ const Header:FC = () => {
         }
       </div>
       
-      <div className='header--icons-container flex flex-wrap items-center gap-11'>
+      <div className='header--icons-container flex flex-wrap items-center gap-x-11'>
         <img  className="inline hover:cursor-pointer" src={Account.src} alt="Account" />
         <img  className="inline hover:cursor-pointer" src={Search.src} alt="Search" />
         <img  className="inline hover:cursor-pointer" src={Heart.src} alt="Heart" />

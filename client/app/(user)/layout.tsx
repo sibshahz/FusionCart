@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import '../globals.css'
 import Header from '@/src/components/user/header/header.component'
+import { Footer } from '@/src/components/user/footer/footer.component'
 
 const poppins = localFont({
   src: [
@@ -101,9 +102,12 @@ export default function UserRootLayout({
     <html lang="en"  className={`${poppins.variable} ${montserrat.variable}`}>
       <body  
       // className={`font-sans`}
+      className='min-h-screen'
+
       >
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   )
