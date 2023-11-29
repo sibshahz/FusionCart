@@ -59,7 +59,7 @@ export const Footer: FC<IProps> = (props) => {
                   placeholder="Enter Your Email Address" 
                   className="border-solid border-b 
                           border-black font-normal 
-                            mb-2 text-sm leading-normal 
+                            text-sm leading-normal 
                             text-gray-5 focus:ring-0 p-1 pr-5" 
                 />
                 <button 
