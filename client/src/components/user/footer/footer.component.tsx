@@ -9,7 +9,7 @@ export const Footer: FC<IProps> = (props) => {
       <LayoutContainer>
           
         <div className="footer-container font-poppins">
-          <div className="grid grid-flow-col">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <div className="footer--branding-container">
               <h4 className="text-gray-5 font-medium text-base mb-14">Furniro</h4>
             </div>
