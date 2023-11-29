@@ -62,11 +62,12 @@ const Header:FC = () => {
       <div className="header--menu-burger 
                       hover:cursor-pointer 
                       bg-white fixed right-6 
-                      top-3 md:hidden z-10"
+                      top-3 md:hidden z-10 
+                      shadow-md p-1"
                       onClick={toggleMenu}
                       >
         {
-          mobileMenu ? <Cross strokeWidth={1} size={36} /> : <ThreeLineHorizontal strokeWidth={1} size={36} /> 
+          mobileMenu ? <Cross strokeWidth={1} size={32} /> : <ThreeLineHorizontal strokeWidth={1} size={32} /> 
         
         }
       </div>

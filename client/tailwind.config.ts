@@ -13,6 +13,7 @@ const config: Config = {
       'red-accents': '#E97171',
       'green-accents': '#2EC1AC',
       'black':'#000',
+      'white':'#fff',
       'gray-1':'#3A3A3A',
       'gray-3':'#898989',
       'gray-4':'#B0B0B0',
