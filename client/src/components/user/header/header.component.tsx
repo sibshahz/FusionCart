@@ -84,7 +84,9 @@ const Header:FC = () => {
           {
             MainNav.map((item,index) => {
               return(
-                <div className='mb-2 border-solid border-b-2 border-border-gray max-w-full  w-full text-center'>
+                <div className='mb-2 border-solid border-b-2 
+                              border-border-gray max-w-full  
+                                w-full text-center'>
                 <Link
                   onClick={() => setMobileMenu(!mobileMenu)}
                   key={`nav-item-${index}`} 
