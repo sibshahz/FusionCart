@@ -12,11 +12,10 @@ const D_Sidebar:FC = () => {
       {
         D_MainNav.map((item,index) => {
           return(
-            <div className='mb-2 border-solid border-b-2 
-                          border-border-gray max-w-full  
-                            w-full text-center'>
-            <Link
-              key={`nav-item-${index}`} 
+            <div 
+              key={`d-nav-item-${index}`}
+              className='mb-2 border-solid border-b-2 border-border-gray max-w-full w-full text-center'>
+            <Link 
               href={item.url} 
               className={
                 pathname === item.url ?

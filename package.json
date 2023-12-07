@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev-conc": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
     "server-watch": "cd server && npm run watch",
-    "client-dev" : "cd client && npm run dev" 
+    "client-dev": "cd client && npm run dev"
   },
   "keywords": [],
   "author": "",

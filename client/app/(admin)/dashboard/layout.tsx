@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import '../../globals.css'
-import { Inter } from 'next/font/google'
 import D_Sidebar from '@/src/components/admin/Sidebar/D_Sidebar'
 import localFont from 'next/font/local'
+import { ChakraProviders } from '../providers/chakra-provider'
+import CustomDrawer from '@/src/components/admin/Sidebar/Drawer'
 
 
 const poppins = localFont({
@@ -107,8 +108,11 @@ export default function AdminRootLayout({
 
       >
         <h1>Admin layout</h1>
-        <D_Sidebar />
-        {children}
+        <ChakraProviders>
+          {/* <D_Sidebar /> */}
+          <CustomDrawer />
+          {children}
+        </ChakraProviders>
       </body>
     </html>
   )
