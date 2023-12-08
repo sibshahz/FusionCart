@@ -4,7 +4,7 @@ type Props = {}
 
 const D_RegisterAccount = (props: Props) => {
   return (
-    <div>D_RegisterAccount</div>
+    <div>Oppsie! You cant just barge in here...</div>
   )
 }
 

@@ -3,6 +3,7 @@ import localFont from 'next/font/local'
 import '../globals.css'
 import Header from '@/src/components/user/header/header.component'
 import { Footer } from '@/src/components/user/footer/footer.component'
+import ReactQueryProvider from '@/src/providers/ReactQueryProvider'
 
 const poppins = localFont({
   src: [
@@ -105,9 +106,11 @@ export default function UserRootLayout({
       className='min-h-screen'
 
       >
-        <Header />
-        {children}
-        <Footer />
+        <ReactQueryProvider>
+          <Header />
+          {children}
+          <Footer />
+        </ReactQueryProvider>
       </body>
     </html>
   )
