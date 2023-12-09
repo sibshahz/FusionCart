@@ -8,6 +8,8 @@ import {
   getProducts
 } from '@/src/api/products/products'
 import Link from 'next/link'
+import { Product } from '@/src/types/product/product.types'
+import ProductComponent from '@/src/components/user/product/product.component'
 
 const ShopPage = () => {
   const queryClient = useQueryClient()
@@ -23,13 +25,9 @@ const ShopPage = () => {
     
       <div className="flex gap-10">
         {
-          data?.map((item, index:number)=>{
+          data?.map((item:Product, index:number)=>{
             return(
-              <div className='' key={index}>
-                <Link href={`/shop/${item._id}`}><span className='text-2xl text-red-accents'>{item.name}</span></Link>
-                <p>{item.description}</p>
-                <p>{item.price}</p>
-              </div>
+              <ProductComponent {...item} key={item._id} />
             )
           })
         }
