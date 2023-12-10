@@ -1,7 +1,7 @@
-import { Images } from "@/src/types/images/images.types"
-import { Category } from "@/src/types/category/category.types"
-import { Tag } from "@/src/types/tags/tags.types"
-import { Attribute } from "@/src/types/attribute/attribute.types"
+import { Images } from "../images/images.types"
+import { Category } from "../category/category.types"
+import { Tag } from "../tags/tags.types"
+import { Attribute } from "../attribute/attribute.types"
 
 enum Status{
   DRAFT="draft",

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Product } from '@/src/types/product/product.types'
 import Image from 'next/image'
 import Link from 'next/link'
+import {Product} from '../../../../../common/product/product.types'
 
 
 const ProductComponent = (product: Product) => {

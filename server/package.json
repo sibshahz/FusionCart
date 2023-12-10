@@ -2,13 +2,13 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Server application for FusionCart by Shahid Gillani",
-  "main": "src/server.js",
+  "main": "dist/server.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
     "test-watch": "jest --watch",
-    "watch": "nodemon src/server.js",
-    "start": "node src/server.js",
-    "cluster": "pm2 start src/server.js -i max",
+    "watch": "nodemon src/server.ts",
+    "start": "node dist/server.js",
+    "cluster": "pm2 start dist/server.js -i max",
     "generate-docs": "jsdoc -c ./jsdoc.conf.json"
   },
   "author": "",
@@ -27,7 +27,8 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
     "jest": "^29.6.3",
