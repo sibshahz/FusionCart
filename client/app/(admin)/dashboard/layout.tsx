@@ -1,5 +1,6 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import type { Metadata } from 'next'
+import ReactQueryProvider from '@/src/providers/ReactQueryProvider'
 import '../../globals.css'
 import D_Sidebar from '@/src/components/admin/Sidebar/D_Sidebar'
 import localFont from 'next/font/local'
@@ -107,12 +108,14 @@ export default function AdminRootLayout({
       className='min-h-screen'
 
       >
-        <h1>Admin layout</h1>
-        <CssBaseline />
-        <ThemeProvider theme={theme}>
-          <D_Sidebar />
-          {children}
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <h1>Admin layout</h1>
+          <CssBaseline />
+          <ThemeProvider theme={theme}>
+            <D_Sidebar />
+            {children}
+          </ThemeProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   )

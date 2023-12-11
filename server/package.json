@@ -2,11 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Server application for FusionCart by Shahid Gillani",
-  "main": "dist/server.js",
+  "main": "./src/server.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
     "test-watch": "jest --watch",
-    "watch": "nodemon src/server.ts",
+    "watch": "nodemon src/server.js",
     "start": "node dist/server.js",
     "cluster": "pm2 start dist/server.js -i max",
     "generate-docs": "jsdoc -c ./jsdoc.conf.json"

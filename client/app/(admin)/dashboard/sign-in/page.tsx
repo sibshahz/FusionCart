@@ -10,7 +10,7 @@ type Props = {}
 const D_SignIn = (props: Props) => {
   return (
     <>
-    <div className="flex flex-col justify-center p-5 items-center mt-28">
+    <div className="flex flex-col flex-grow justify-center p-5 items-center">
       <D_SignInForm />
     </div>
 

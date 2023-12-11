@@ -1,47 +1,83 @@
+"use client"
 import React from 'react'
-
-import { 
-  Input,InputGroup, FormControl, 
-  FormLabel, FormHelperText, InputRightElement, 
-  Button, 
-  Link
-} from '@chakra-ui/react'
+import {FormHelperText,Button,FormControl,Stack,TextField,Box} from '@mui/material';
+import { postLogin } from '@/src/api/auth/auth';
+import {useQueryClient,useMutation} from 'react-query'
+import { useRouter } from 'next/navigation';
 
 type Props = {}
 
 const D_SignInForm = (props: Props) => {
-  const [show, setShow] = React.useState(false)
-  const handleClick = () => setShow(!show)
+  const router=useRouter();
+  const queryClient=useQueryClient();
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  
+  const { mutate, isLoading } = useMutation(postLogin, {
+    onSuccess: data => {
+    console.log("SUCCESS")
+    
+    router.push('/dashboard')      
+ },
+   onError: (error) => {
+        console.log("there was an error: ",error)
+ },
+   onSettled: () => {
+      queryClient.invalidateQueries('create')
+ }
+ });
+
+  const handleSignin=()=>{
+    const userDetails={
+      email,
+      password
+    };
+    mutate(userDetails)
+  }
 
   return (
-    <InputGroup size='md' className='flex flex-col lg:max-w-[50%] gap-5'>
-      <FormControl>
-        <FormLabel>Email address</FormLabel>
-        <Input type='email' />
-        <FormHelperText>We'll never share your email.</FormHelperText>
-      </FormControl>
-      <FormControl>
-        <FormLabel>Password</FormLabel>
-        <InputGroup>
-        <Input
-        pr='4.5rem'
-        type={show ? 'text' : 'password'}
-        placeholder='Enter password'
-        />
-        <InputRightElement width='4.5rem'>
-          <Button h='1.75rem' size='sm' onClick={handleClick}>
-            {show ? 'Hide' : 'Show'}
+    <Box
+      component="form"
+      sx={{
+        '& > :not(style)': { m: 1, width: '65ch' },
+      }}
+      noValidate
+      autoComplete="on"
+    >
+      <FormControl required>
+      <Stack spacing={2}>
+        <TextField 
+          id="outlined-basic" 
+          label="Email" 
+          variant="outlined" 
+          placeholder='johndoe@gmail.com'
+          fullWidth
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setEmail(event.target.value);
+          }}
+          />
+        <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
+        <TextField 
+          id="outlined-basic" 
+          type="password" 
+          label="Password" 
+          variant="outlined" 
+          placeholder='*******'
+          fullWidth  
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setPassword(event.target.value);
+          }}
+          />
+        <Button 
+          variant="outlined"
+          onClick={handleSignin}
+          >
+            Sign in
           </Button>
-        </InputRightElement>
-        </InputGroup>
+      </Stack>
       </FormControl>
-      <Button colorScheme='teal' size='md' w={120}>
-        Sign In
-      </Button>
-      <div className="self-start">
-        Don't have an account? <Link href="/dashboard/register">Register</Link>
-      </div>
-    </InputGroup>
+
+    </Box>
   )
 }
 
