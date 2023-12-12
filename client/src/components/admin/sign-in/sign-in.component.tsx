@@ -14,9 +14,7 @@ const D_SignInForm = (props: Props) => {
   const [password, setPassword] = React.useState('');
   
   const { mutate, isLoading } = useMutation(postLogin, {
-    onSuccess: data => {
-    console.log("SUCCESS")
-    
+    onSuccess: data => {    
     router.push('/dashboard')      
  },
    onError: (error) => {

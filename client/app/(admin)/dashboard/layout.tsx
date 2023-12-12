@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import ReactQueryProvider from '@/src/providers/ReactQueryProvider'
 import '../../globals.css'
 import D_Sidebar from '@/src/components/admin/Sidebar/D_Sidebar'
-import localFont from 'next/font/local'
 import  theme  from '@/src/providers/MUIThemeProvider'
+import StoreProvider from '@/src/redux/StoreProvider'
 
 
 // const poppins = localFont({
@@ -108,14 +108,16 @@ export default function AdminRootLayout({
       className='min-h-screen'
 
       >
-        <ReactQueryProvider>
-          <h1>Admin layout</h1>
-          <CssBaseline />
-          <ThemeProvider theme={theme}>
-            <D_Sidebar />
-            {children}
-          </ThemeProvider>
-        </ReactQueryProvider>
+        <StoreProvider>
+          <ReactQueryProvider>
+            <h1>Admin layout</h1>
+            <CssBaseline />
+            <ThemeProvider theme={theme}>
+              <D_Sidebar />
+              {children}
+            </ThemeProvider>
+          </ReactQueryProvider>
+        </StoreProvider>
       </body>
     </html>
   )
