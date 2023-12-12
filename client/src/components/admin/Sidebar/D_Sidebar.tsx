@@ -20,6 +20,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/navigation';
+import D_SignIn from '@/app/(admin)/dashboard/sign-in/page';
+import { D_MainNav } from '@/src/utils/admin/navigations';
+import { Stack } from '@mui/material';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const drawerWidth = 240;
 
@@ -31,7 +35,11 @@ interface Props {
   window?: () => Window;
 }
 
-export default function ResponsiveDrawer(props: Props) {
+export default function ResponsiveDrawer({
+  children,
+}: {
+  children: React.ReactNode
+},props:Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const dispatch= useDispatch();
@@ -39,6 +47,10 @@ export default function ResponsiveDrawer(props: Props) {
   const isLoggedIn = useSelector((state:RootState) => state.user.isLoggedIn);
   const isAdmin=useSelector((state: RootState) => state.user.userType === 'admin');
 
+  if(!isLoggedIn || !isAdmin){
+    router.push('/dashboard/sign-in')
+  }
+  
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -48,7 +60,9 @@ export default function ResponsiveDrawer(props: Props) {
   }
 
   const drawer = (
-    <div>
+    <Box sx={{ 
+      backgroundColor:"primary.main"
+     }}>
       <CssBaseline />
       
       <Toolbar 
@@ -58,32 +72,27 @@ export default function ResponsiveDrawer(props: Props) {
          }}
         variant='regular'><h1>Furniro Dashboard</h1></Toolbar>
       <Divider />
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+      <List sx={{ 
+        backgroundColor:'primary.main',
+        color:'#fff'
+       }}>
+        {D_MainNav.map((text, index) => (
+          <ListItem key={`d_main_nav${index}`} disablePadding>
+            <ListItemButton href={`/dashboard/${ text.url }`}>
+              <ListItemIcon sx={{ 
+                color:'#fff'
+               }}>
+                {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
+                {
+                  text.icon
+                }
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text.title} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </div>
+    </Box>
   );
 
   // Remove this const when copying and pasting into your project.
@@ -98,8 +107,16 @@ export default function ResponsiveDrawer(props: Props) {
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
           }}
+          elevation={0}
         >
-          <Toolbar>
+          <Toolbar
+            sx={{ 
+              backgroundColor:'#fff',
+              color:'primary.main'
+             }}
+
+          >
+            <Stack direction="row"  justifyContent="space-between" minWidth='100%'>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -109,15 +126,23 @@ export default function ResponsiveDrawer(props: Props) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              Responsive drawer
-            </Typography>
-            <Typography 
-              onClick={handleLogOut}
-              variant="h6" noWrap 
-              component="div">
-              Logout
-            </Typography>
+             <Stack direction="row" gap={6} minWidth='100%' justifyContent='space-between'>
+              <Typography variant="h6" noWrap component="div">
+                Responsive drawer
+              </Typography>
+              <Typography 
+                onClick={handleLogOut}
+                sx={{ 
+                  ":hover":{
+                    cursor:"pointer",
+                  }
+                 }}
+                variant="h6" noWrap 
+                component="div">
+                <ExitToAppIcon />
+              </Typography>
+             </Stack>
+            </Stack>
           </Toolbar>
         </AppBar>
         <Box
@@ -157,17 +182,15 @@ export default function ResponsiveDrawer(props: Props) {
           sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
           <Toolbar />
-          <Typography paragraph>
-            Admin Dashboard
-          </Typography>
+          {children}
         </Box>
       </Box>
     );
   }else{
     {
-      router.push('/dashboard/sign-in')
+      return(
+        <D_SignIn />
+      )
     }
   }
-
-  
 }

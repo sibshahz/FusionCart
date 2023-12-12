@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import {FormHelperText,Button,FormControl,Stack,TextField,Box} from '@mui/material';
+import {FormHelperText,Button,FormControl,Stack,TextField,Box, Typography} from '@mui/material';
 import { postLogin } from '@/src/api/auth/auth';
 import {useQueryClient,useMutation} from 'react-query'
 import { useRouter } from 'next/navigation';
@@ -46,6 +46,12 @@ const D_SignInForm = (props: Props) => {
       noValidate
       autoComplete="on"
     >
+      <Box>
+      <Typography
+        fontSize={26}
+        textAlign={'center'}
+      >Furniro | Admin Dashboard</Typography>
+      </Box>
       <FormControl required>
       <Stack spacing={2}>
         <TextField 

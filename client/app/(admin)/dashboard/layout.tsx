@@ -112,8 +112,9 @@ export default function AdminRootLayout({
           <ReactQueryProvider>
             <CssBaseline />
             <ThemeProvider theme={theme}>
-              <D_Sidebar />
-              {children}
+              <D_Sidebar>
+                {children}
+              </D_Sidebar>
             </ThemeProvider>
           </ReactQueryProvider>
         </StoreProvider>
