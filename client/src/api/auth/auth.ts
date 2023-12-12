@@ -4,12 +4,26 @@ type LoginDetails={
   email:string,
   password:string
 }
+type userDetails={
+  firstName?:string,
+  lastName?:string,
+  email?:string,
+  userType?:string,
+  isLoggedIn:boolean,
+}
 const postLogin=async (details:LoginDetails)=>{
   try {
     const {data:response} = await axios_default.post(`/auth/login`,details);
-    // handle success
+    const userData: userDetails = {
+      firstName: response.user.firstName,
+      lastName: response.user.lastName,
+      email: response.user.email,
+      userType: response.user.userType,
+      isLoggedIn:true,
+    };
     setAuthDetails(response);
-    // return response; // Assuming you want to return the data property of the response
+    return userData;
+
   } catch (error) {
     // handle error
     resetUserDetails();

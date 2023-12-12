@@ -13,8 +13,8 @@ export interface UserState {
 }
 
 const initialState: UserState = {
-    _id:'123',
-    firstName:'jh',
+    _id:'',
+    firstName:'',
     profilePic:'',
     lastName:'',
     email:'',
@@ -28,27 +28,38 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state,action:PayloadAction<UserState>) => {
       const {
-        _id,
+        // _id,
         firstName,
-        profilePic,
+        // profilePic,
         lastName,
         email,
         userType,
         isLoggedIn,
       } = action.payload;
       
-      state._id = _id ?? '';
+      // state._id = _id ?? '';
       state.firstName = firstName ?? '';
-      state.profilePic = profilePic ?? '';
+      // state.profilePic = profilePic ?? '';
       state.lastName = lastName ?? '';
       state.email = email ?? '';
       state.userType = userType ?? '';
       state.isLoggedIn = isLoggedIn ?? false;
     },
+    logOutUser: (state) => {
+
+      
+      // state._id = _id ?? '';
+      state.firstName = undefined;
+      // state.profilePic = profilePic ?? '';
+      state.lastName = undefined;
+      state.email = undefined;
+      state.userType = undefined;
+      state.isLoggedIn = false;
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setUser } = userSlice.actions
+export const { setUser,logOutUser } = userSlice.actions
 
 export default userSlice.reducer

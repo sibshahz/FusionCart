@@ -110,7 +110,6 @@ export default function AdminRootLayout({
       >
         <StoreProvider>
           <ReactQueryProvider>
-            <h1>Admin layout</h1>
             <CssBaseline />
             <ThemeProvider theme={theme}>
               <D_Sidebar />

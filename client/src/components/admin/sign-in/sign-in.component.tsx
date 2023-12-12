@@ -4,18 +4,22 @@ import {FormHelperText,Button,FormControl,Stack,TextField,Box} from '@mui/materi
 import { postLogin } from '@/src/api/auth/auth';
 import {useQueryClient,useMutation} from 'react-query'
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/src/redux/features/user/userSlice';
 
 type Props = {}
 
 const D_SignInForm = (props: Props) => {
+  const dispatch=useDispatch();
   const router=useRouter();
   const queryClient=useQueryClient();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   
   const { mutate, isLoading } = useMutation(postLogin, {
-    onSuccess: data => {    
-    router.push('/dashboard')      
+    onSuccess: data => {
+    dispatch(setUser(data));    
+    router.push('/dashboard')   
  },
    onError: (error) => {
         console.log("there was an error: ",error)
