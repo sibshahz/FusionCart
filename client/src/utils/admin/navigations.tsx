@@ -6,7 +6,16 @@ import {
   CreditCard,
   Analytics,
   SupervisorAccount,
-  SettingsSuggest
+  SettingsSuggest,
+  CheckBox,
+  EmojiPeople,
+  Summarize,
+  Settings,
+  LibraryAdd,
+  Category,
+  Style,
+  EditAttributes,
+  RateReview
 } from '@mui/icons-material';
 
 export const D_MainNav:D_MenuItems[]=[
@@ -22,19 +31,24 @@ export const D_MainNav:D_MenuItems[]=[
     children:[
       {
         title:"Orders",
-        url:"/orders"
+        url:"/orders",
+        icon:<CheckBox />
+
       },
       {
         title:"Customers",
-        url:"/customers"
+        url:"/customers",
+        icon:<EmojiPeople />
       },
       {
         title:"Reports",
-        url:"/reports"
+        url:"/reports",
+        icon:<Summarize />
       },
       {
         title:"Settings",
-        url:"/settings"
+        url:"/settings",
+        icon:<Settings />
       }
     ]
   },
@@ -46,22 +60,27 @@ export const D_MainNav:D_MenuItems[]=[
       {
         title: "Add Product",
         url: "/add-product",
+        icon:<LibraryAdd />
       },
       {
         title: "Categories",
         url: "/categories",
+        icon:<Category />
       },
       {
         title: "Tags",
         url: "/tags",
+        icon:<Style />
       },
       {
         title: "Attributes",
         url: "/attributes",
+        icon:<EditAttributes />
       },
       {
         title: "Reviews",
         url: "/reviews",
+        icon:<RateReview />
       },
     ]
   },
