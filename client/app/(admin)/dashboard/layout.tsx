@@ -2,7 +2,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import type { Metadata } from 'next'
 import ReactQueryProvider from '@/src/providers/ReactQueryProvider'
 import '../../globals.css'
-import D_Sidebar from '@/src/components/admin/Sidebar/D_Sidebar'
+import D_Sidebar from '@/src/components/admin/sidebar/d_sidebar'
 import  theme  from '@/src/providers/MUIThemeProvider'
 import StoreProvider from '@/src/redux/StoreProvider'
 

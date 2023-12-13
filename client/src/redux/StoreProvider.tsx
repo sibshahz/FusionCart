@@ -3,6 +3,8 @@ import React from 'react'
 import { store } from './store'
 
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import {persistor} from './store'
 
 // Create a client
 const StoreProvider = ({
@@ -12,7 +14,9 @@ const StoreProvider = ({
 }) => {
   return (
     <Provider store={store}>
-      {children}
+      <PersistGate persistor={persistor}>
+        {children}
+      </PersistGate>
     </Provider>
   )
 }

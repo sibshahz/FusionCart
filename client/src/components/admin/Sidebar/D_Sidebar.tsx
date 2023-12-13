@@ -24,6 +24,7 @@ import D_SignIn from '@/app/(admin)/dashboard/sign-in/page';
 import { D_MainNav } from '@/src/utils/admin/navigations';
 import { Stack } from '@mui/material';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import D_AccountMenu from '../account/d_account.component';
 
 const drawerWidth = 240;
 
@@ -126,21 +127,11 @@ export default function ResponsiveDrawer({
             >
               <MenuIcon />
             </IconButton>
-             <Stack direction="row" gap={6} minWidth='100%' justifyContent='space-between'>
-              <Typography variant="h6" noWrap component="div">
+             <Stack direction="row" gap={6} minWidth='100%' justifyContent='flex-end'>
+              {/* <Typography variant="h6" noWrap component="div">
                 Responsive drawer
-              </Typography>
-              <Typography 
-                onClick={handleLogOut}
-                sx={{ 
-                  ":hover":{
-                    cursor:"pointer",
-                  }
-                 }}
-                variant="h6" noWrap 
-                component="div">
-                <ExitToAppIcon />
-              </Typography>
+              </Typography> */}
+              <D_AccountMenu />
              </Stack>
             </Stack>
           </Toolbar>
@@ -179,6 +170,7 @@ export default function ResponsiveDrawer({
         </Box>
         <Box
           component="main"
+          gap={6}
           sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
           <Toolbar />
