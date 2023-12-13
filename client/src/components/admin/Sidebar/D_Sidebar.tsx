@@ -75,10 +75,21 @@ export default function ResponsiveDrawer({
       <Divider />
       <List sx={{ 
         backgroundColor:'primary.main',
-        color:'#fff'
+        color:'#fff',
+        width:'100%'
        }}>
         {D_MainNav.map((text, index) => (
-          <ListItem key={`d_main_nav${index}`} disablePadding>
+          <ListItem 
+            sx={{ 
+              minWidth:'100%',
+             }}
+            key={`d_main_nav${index}`} disablePadding>
+          <Stack 
+            sx={{ 
+              minWidth:'100%',
+            }}
+            direction="column">
+
             <ListItemButton href={`/dashboard/${ text.url }`}>
               <ListItemIcon sx={{ 
                 color:'#fff'
@@ -90,6 +101,28 @@ export default function ResponsiveDrawer({
               </ListItemIcon>
               <ListItemText primary={text.title} />
             </ListItemButton>
+            {text.children && text.children.length > 0 && (
+              <List>
+                {text.children.map((child, childIndex) => (
+                  <ListItem key={`child_item_${childIndex}`} disablePadding>
+                    {/* Render child item content here */}
+                    <ListItemButton href={`/dashboard/${text.url}/${ child.url }`}>
+                    <ListItemIcon sx={{ 
+                      color:'#fff'
+                    }}>
+                      {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
+                      {
+                        child.icon
+                      }
+                    </ListItemIcon>
+                      <ListItemText primary={child.title} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            )}
+          </Stack>
+
           </ListItem>
         ))}
       </List>

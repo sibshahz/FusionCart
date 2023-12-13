@@ -10,20 +10,16 @@ import {
 } from '@mui/icons-material';
 
 export const D_MainNav:D_MenuItems[]=[
-  {
-    title:"Dashboard",
-    url:"/dashboard",
-    icon:<Dashboard />,
-  },
+  // {
+  //   title:"Dashboard",
+  //   url:"/dashboard",
+  //   icon:<Dashboard />,
+  // },
   {
     title:"Fusion Cart",
     url:"/fusion-cart",
     icon:<Diamond />,
     children:[
-      {
-        title:"Home",
-        url:"/home"
-      },
       {
         title:"Orders",
         url:"/orders"
@@ -47,10 +43,6 @@ export const D_MainNav:D_MenuItems[]=[
     url:"/products",
     icon:<ShoppingCart />,
     children:[
-      {
-        title: "All Products",
-        url: "/all-products",
-      },
       {
         title: "Add Product",
         url: "/add-product",
