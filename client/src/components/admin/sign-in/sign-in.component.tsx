@@ -66,7 +66,7 @@ const D_SignInForm = (props: Props) => {
           />
         <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
         <TextField 
-          id="outlined-basic" 
+          id="outlined-basic2" 
           type="password" 
           label="Password" 
           variant="outlined" 

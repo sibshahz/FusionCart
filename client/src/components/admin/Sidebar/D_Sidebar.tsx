@@ -19,12 +19,13 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import D_SignIn from '@/app/(admin)/dashboard/sign-in/page';
 import { D_MainNav } from '@/src/utils/admin/navigations';
 import { Stack } from '@mui/material';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import D_AccountMenu from '../account/d_account.component';
+import { Diamond } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
@@ -47,10 +48,16 @@ export default function ResponsiveDrawer({
   const router=useRouter();
   const isLoggedIn = useSelector((state:RootState) => state.user.isLoggedIn);
   const isAdmin=useSelector((state: RootState) => state.user.userType === 'admin');
+  const pathName= usePathname();
+
+  if((isLoggedIn || isAdmin) && pathName.includes('sign-in')){
+    router.push('/dashboard')
+  }
 
   if(!isLoggedIn || !isAdmin){
     router.push('/dashboard/sign-in')
   }
+
   
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -69,9 +76,15 @@ export default function ResponsiveDrawer({
       <Toolbar 
         sx={{ 
           bgcolor:"primary.main",
-          color:"#fff"
+          color:"#fff",
+          paddingLeft:1,
          }}
-        variant='regular'><h1>Furniro Dashboard</h1></Toolbar>
+        variant='regular'>
+        <Diamond />
+        <Typography sx={{ 
+          marginLeft:3
+         }}>Fusion Cart</Typography>
+      </Toolbar>
       <Divider />
       <List sx={{ 
         backgroundColor:'primary.main',
@@ -176,7 +189,6 @@ export default function ResponsiveDrawer({
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-          aria-label="mailbox folders"
         >
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Drawer

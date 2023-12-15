@@ -25,9 +25,9 @@ export const D_MainNav:D_MenuItems[]=[
   //   icon:<Dashboard />,
   // },
   {
-    title:"Fusion Cart",
-    url:"/fusion-cart",
-    icon:<Diamond />,
+    title:"Dashboard",
+    url:"",
+    icon:<Dashboard />,
     children:[
       {
         title:"Orders",
