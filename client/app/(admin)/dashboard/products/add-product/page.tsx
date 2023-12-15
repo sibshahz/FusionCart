@@ -1,6 +1,6 @@
 "use client"
 import D_ProductForm from '@/src/components/admin/product/d_product-form.component'
-import LayoutContainer from '@/src/components/user/layout-container/laytout-container.component'
+import LayoutContainer from '@/src/components/user/layout-container/layout-container.component'
 import { Typography,Box } from '@mui/material'
 import React from 'react'
 

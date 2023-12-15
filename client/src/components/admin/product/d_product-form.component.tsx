@@ -5,7 +5,6 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { FormGroup, TextField,Stack, Button, FormHelperText} from '@mui/material';
 import { useForm, SubmitHandler } from "react-hook-form"
-import { GridItem } from '@chakra-ui/react';
 
 type Props = {}
 
@@ -72,7 +71,7 @@ function D_ProductForm({}: Props) {
             </Button>
           </Stack>
 
-          </form>
+        </form>
         </Item>
       </Grid>
       <Grid xs={12} md={4} lg={3}>

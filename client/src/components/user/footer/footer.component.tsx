@@ -1,5 +1,5 @@
 import { FC } from "react";
-import LayoutContainer from "../layout-container/laytout-container.component";
+import LayoutContainer from "../layout-container/layout-container.component";
 import Link from "next/link";
 import { MainNav,HelpNav } from "@/src/utils/user/navigations";
 interface IProps {};

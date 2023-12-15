@@ -1,5 +1,5 @@
 "use client"
-import LayoutContainer from '@/src/components/user/layout-container/laytout-container.component'
+import LayoutContainer from '@/src/components/user/layout-container/layout-container.component'
 import React from 'react'
 import Cover from '../../public/imgs/main-cover.jpg'
 import Image from 'next/image'
