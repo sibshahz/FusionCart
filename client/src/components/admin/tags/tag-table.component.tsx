@@ -1,12 +1,13 @@
 "use client"
-
 import * as React from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { useQuery } from 'react-query';
+import { getTagsList } from '@/src/api/tags/tags';
 
 const columns: GridColDef[] = [
-  { field: 'name', headerName: 'Name', width: 220 },
-  { field: 'description', headerName: 'Description', width: 220 },
-  { field: 'slug', headerName: 'Slug', width: 220 },
+  { field: 'tagName', headerName: 'Name', width: 220 },
+  { field: 'tagDescription', headerName: 'Description', width: 220 },
+  { field: 'tagSlug', headerName: 'Slug', width: 220 },
 ];
 
 const rows = [
@@ -48,13 +49,29 @@ const rows = [
   { id: 9, name: 'Roxie', description: 'Harvey', slug: 65 },
 ];
 
-export default function D_TagTable() {
+function D_TagTable() {
+  const [rows, setRows] = React.useState([]);
+  const { isLoading, isError, data, error } = useQuery('tags', getTagsList)
+
+  if (isLoading) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error: Cannot load tags</span>
+  }
+
+  if(data){
+    // console.table(data)
+  }
+
+
   return (
     <div style={{ maxHeight: 600, width: '100%' }}>
       <DataGrid
         filterMode='client'
-        
-        rows={rows}
+        getRowId={(row) => row._id}  
+        rows={data}
         columns={columns}
         initialState={{
           pagination: {
@@ -67,3 +84,4 @@ export default function D_TagTable() {
     </div>
   );
 }
+export default D_TagTable

@@ -41,7 +41,7 @@ const signup = async (req, res) => {
 
 const login = (req, res) => {
   const user = req.user;
-  const token = jwt.sign({ id: user._id, email: user.email, userType:user.userType }, 'your_secret_key');
+  const token = jwt.sign({ id: user._id, email: user.email, userType:user.userType }, process.env.JWT_SECRET_KEY);
   
   // Return user data and token in the response body
   res.setHeader('Authorization', `Bearer ${token}`);
@@ -57,7 +57,7 @@ const isUserAuthenticated = (req, res, next) => {
 
   const tokenWithoutBearer = token.replace('Bearer ', '');
 
-  jwt.verify(tokenWithoutBearer, 'your_secret_key', (err, decoded) => {
+  jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: 'Invalid token' });
     }else if(decoded.role!=='customer'){
@@ -79,7 +79,7 @@ const isUserAuthenticatedAuthorized = (expectedRole) => (req, res, next) => {
 
   const tokenWithoutBearer = token.replace('Bearer ', '');
 
-  jwt.verify(tokenWithoutBearer, 'your_secret_key', (err, decoded) => {
+  jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: 'Invalid token' });
     }else if(decoded.userType!==expectedRole){

@@ -11,7 +11,7 @@ const tagSchema = new mongoose.Schema({
   },
   tagDescription: {
     type: String,
-    required: true,
+    required: false,
   },
 },{
   timestamps: true,

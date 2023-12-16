@@ -20,7 +20,6 @@ type Props = {}
 
 const TagsPage = (props: Props) => {
   return (
-    <LayoutContainer bg="inherit">
       <Grid container spacing={2} >
         <Grid xs={12} md={4} maxWidth='86vw'>
             <D_TagForm />
@@ -29,7 +28,6 @@ const TagsPage = (props: Props) => {
             <D_TagTable />
         </Grid>
       </Grid>
-    </LayoutContainer>
   )
 }
 

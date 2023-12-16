@@ -8,7 +8,7 @@ import {
   getProducts
 } from '@/src/api/products/products'
 import Link from 'next/link'
-import { Product } from '@/src/types/product/product.types'
+import { Product } from '../../../../common/product/product.types'
 import ProductComponent from '@/src/components/user/product/product.component'
 
 const ShopPage = () => {

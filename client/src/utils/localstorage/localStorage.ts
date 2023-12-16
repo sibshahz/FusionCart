@@ -38,6 +38,6 @@ export function resetUserDetails(){
       userType:undefined
     }
   }
-  localStorage.setItem("header-Key",response.token)
-  localStorage.setItem("user-type",response.user.userType);
+  localStorage.removeItem("header-Key")
+  localStorage.removeItem("user-type");
 }

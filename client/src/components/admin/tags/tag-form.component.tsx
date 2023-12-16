@@ -2,6 +2,8 @@
 import React from 'react'
 import { Stack, FormGroup, TextField, FormHelperText, Button } from '@mui/material';
 import { useForm, SubmitHandler } from "react-hook-form"
+import { useMutation, useQueryClient } from 'react-query';
+import { postTag } from '@/src/api/tags/tags';
 
 
 type Props = {}
@@ -11,18 +13,38 @@ type Inputs = {
   tagDescription:string
 }
 const D_TagForm = (props: Props) => {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation(postTag, {
+    onSuccess: data => {
+    // dispatch(setUser(data));    
+    // router.push('/dashboard')   
+  },
+    onError: (error) => {
+          console.log("there was an error: ",error)
+  },
+    onSettled: () => {
+        queryClient.invalidateQueries('tags')
+  }
+  });
+  
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
-  } = useForm<Inputs>()
+  } = useForm<Inputs>({
+    resetOptions:{
+      keepDirtyValues:false
+    }
+  })
 
   return (
     <>
        <form 
           onSubmit={handleSubmit((data) => {
-          console.table(data);
+            mutate(data);
+            reset();
           })} >
           <Stack direction="column" rowGap={2}>
             <FormGroup>

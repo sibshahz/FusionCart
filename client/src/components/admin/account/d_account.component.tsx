@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { logOutUser } from '@/src/redux/features/user/userSlice';
 import { RootState } from '@/src/redux/store';
+import { resetUserDetails } from '@/src/utils/localstorage/localStorage';
 export default function D_AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -30,6 +31,7 @@ export default function D_AccountMenu() {
   };
   const handleLogOut=()=>{
     dispatch(logOutUser());
+    resetUserDetails();
     setAnchorEl(null);
     router.push('/dashboard/sign-in')
   }
