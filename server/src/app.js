@@ -67,4 +67,11 @@ app.use(
 );
 //end swagger setup
 
+// app.use((err,req,res,next)=>{
+//   res.json({
+//     msg: "Sorry something is wrong with our server"
+//   })
+//   next();
+// })
+
 module.exports = app;
