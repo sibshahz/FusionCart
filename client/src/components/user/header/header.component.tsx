@@ -20,7 +20,7 @@ const Header:FC = () => {
     setMobileMenu(!mobileMenu)
   }
   return (
-    <LayoutContainer>
+    <LayoutContainer bg='inherit'>
     <div className='flex justify-between
                     flex-wrap items-center
                     flex-col lg:flex-row
