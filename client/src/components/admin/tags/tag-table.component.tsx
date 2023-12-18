@@ -7,8 +7,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
-import { setTags,deleteTagState } from '@/src/redux/features/tags/tagSlice';
-import { useDispatch } from 'react-redux';
+import { setTags,deleteTagState, enableEditTagMode, setCurrentEditingTag } from '@/src/redux/features/tags/tagSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/src/redux/store';
 
 
 
@@ -20,6 +21,7 @@ function D_TagTable() {
   const dispatch=useDispatch();
   const { isLoading, isError, data, error } = useQuery('tags', getTagsList);
   const queryClient = useQueryClient();
+  const tags=useSelector((state:RootState) => state.tags.tags);
   const { mutate:deleteMutate, isLoading:deleteLoading } = useMutation(deleteTag, {
     onSuccess: data => {
     dispatch(deleteTagState(data));
@@ -41,7 +43,8 @@ function D_TagTable() {
   }
   
   const handleEditClick=(id:string)=>{
-    console.log("EDIT ITEM IS: ",id)
+    dispatch(enableEditTagMode(true));
+    dispatch(setCurrentEditingTag(id))
   }
 
   const columns: GridColDef[] = [
@@ -55,27 +58,27 @@ function D_TagTable() {
       width: 100,
       cellClassName: 'actions',
       getActions: ({ id }) => {
-        const isInEditMode = data?.mode === GridRowModes.Edit;
+        // const isInEditMode = data?.mode === GridRowModes.Edit;
   
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              // onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              // onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
+        // if (isInEditMode) {
+        //   return [
+        //     <GridActionsCellItem
+        //       icon={<SaveIcon />}
+        //       label="Save"
+        //       sx={{
+        //         color: 'primary.main',
+        //       }}
+        //       // onClick={handleSaveClick(id)}
+        //     />,
+        //     <GridActionsCellItem
+        //       icon={<CancelIcon />}
+        //       label="Cancel"
+        //       className="textPrimary"
+        //       // onClick={handleCancelClick(id)}
+        //       color="inherit"
+        //     />,
+        //   ];
+        // }
   
         return [
           <GridActionsCellItem
@@ -116,8 +119,9 @@ function D_TagTable() {
       <DataGrid
         filterMode='client'
         getRowId={(row) => row._id}  
-        rows={data}
-        editMode="row"
+        // rows={data}
+        rows={tags}
+        // editMode="row"
         columns={columns}
         initialState={{
           pagination: {

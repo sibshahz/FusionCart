@@ -3,8 +3,11 @@ import React from 'react'
 import { Stack, FormGroup, TextField, FormHelperText, Button } from '@mui/material';
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useMutation, useQueryClient } from 'react-query';
-import { postTag } from '@/src/api/tags/tags';
-
+import { postTag,updateTag } from '@/src/api/tags/tags';
+import { useDispatch,useSelector } from 'react-redux';
+import { enableEditTagMode, setCurrentEditingTag, updateCurrentEditingTag } from '@/src/redux/features/tags/tagSlice';
+import { RootState } from '@/src/redux/store';
+import {Tag} from '../../../../../common/tags/tags.types';
 
 type Props = {}
 type Inputs = {
@@ -13,6 +16,10 @@ type Inputs = {
   tagDescription:string
 }
 const D_TagForm = (props: Props) => {
+  const dispatch=useDispatch();
+  const editTagMode = useSelector((state:RootState) => state.tags.editTagMode)
+  const currentEditingTag=useSelector((state:RootState) => state.tags.currentEditingTag);
+  
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(postTag, {
     onSuccess: data => {
@@ -26,18 +33,56 @@ const D_TagForm = (props: Props) => {
         queryClient.invalidateQueries('tags')
   }
   });
-  
+
+  const { mutate:mutateUpdate, isLoading:updateLoading } = useMutation(updateTag, {
+    onSuccess: data => {
+    dispatch(updateCurrentEditingTag(data));
+    dispatch(enableEditTagMode(false));
+    dispatch(setCurrentEditingTag({}))
+    reset({ tagName: '',tagDescription:'',tagSlug:'' })
+    // router.push('/dashboard')   
+  },
+    onError: (error) => {
+          console.log("there was an error: ",error)
+  },
+    onSettled: () => {
+        queryClient.invalidateQueries('tags')
+  }
+  });
+
+  const handleCancelEdit=()=>{
+    // reset({"tagName","tagSlug""tagDescription"})
+    reset({ tagName: '',tagDescription:'',tagSlug:'' })
+    dispatch(setCurrentEditingTag({}))
+    dispatch(enableEditTagMode(false))
+  }
+  const handleUpdateEdit=()=>{
+    if(currentEditingTag){
+      const values=getValues();
+      values._id=currentEditingTag._id;
+      console.log("SENT DATA IS: ", values)
+      mutateUpdate(values);
+    }
+    reset();
+  }
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    getValues,
+    setValue,
     formState: { errors },
-  } = useForm<Inputs>({
-    resetOptions:{
-      keepDirtyValues:false
+  } = useForm<Inputs>()
+  
+  React.useEffect(()=>{
+    console.log("useEffect executed");
+    if(editTagMode && currentEditingTag){
+      setValue('tagName',currentEditingTag?.tagName)
+      setValue('tagSlug',currentEditingTag?.tagSlug)
+      setValue('tagDescription',currentEditingTag?.tagDescription);
     }
-  })
+  },[editTagMode,currentEditingTag])
 
   return (
     <>
@@ -52,7 +97,9 @@ const D_TagForm = (props: Props) => {
                 id="tag-name" 
                 label="Name" 
                 variant="outlined" 
-                autoComplete="false" 
+                autoComplete="false"
+                value={watch("tagName")}
+                // onChange={(e) => setValue("tagName", e.target.value)}
                 {...register("tagName", {required: true})}
               />
               {errors.tagName && <FormHelperText error filled>Tag name is required</FormHelperText>}
@@ -61,9 +108,11 @@ const D_TagForm = (props: Props) => {
             <FormGroup>
               <TextField 
                 id="tag-slug" 
-                label="Slug" 
-                variant="outlined" 
+                label="Slug"
+                variant="outlined"
+                value={watch("tagSlug")}
                 autoComplete="false" 
+                // onChange={(e) => setValue("tagSlug", e.target.value)}
                 {...register("tagSlug", {required: true})}
               />
               {errors.tagSlug && <FormHelperText error filled>Tag slug is required</FormHelperText>}
@@ -75,13 +124,30 @@ const D_TagForm = (props: Props) => {
                 multiline
                 rows={8}
                 variant="outlined"
+                value={watch("tagDescription")}
+                // onChange={(e) => setValue("tagDescription", e.target.value)}
                 {...register("tagDescription")}
               />
             </FormGroup>
+          {
+            editTagMode && currentEditingTag && (
+              <Stack direction='row' gap={2}>
+                <Button variant="contained" size="large" onClick={handleUpdateEdit}>Update tag</Button>
+                <Button variant="contained" size="large" onClick={handleCancelEdit}>Cancel</Button>
+              </Stack>
+            )
+          }
 
-            <Button variant="contained" size="large" type='submit'>
-              Add new tag
-            </Button>
+          {
+            !editTagMode && (
+              <Stack direction='row'>
+                <Button variant="contained" size="large" type='submit'>
+                  Add new tag
+                </Button>
+              </Stack>
+            )
+            
+          }
           </Stack>
         </form>
     </>
