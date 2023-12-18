@@ -1,5 +1,5 @@
 export type Tag={
-  tagID?:string,
+  _id?:string,
   tagName:string,
   tagSlug:string,
   tagDescription?:string

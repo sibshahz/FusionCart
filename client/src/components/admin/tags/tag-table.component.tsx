@@ -7,6 +7,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
+import { setTags,deleteTagState } from '@/src/redux/features/tags/tagSlice';
+import { useDispatch } from 'react-redux';
 
 
 
@@ -15,10 +17,12 @@ function D_TagTable() {
 
 
   // const [rowModesModel, setRowModesModel] = React.useState({});
-  const { isLoading, isError, data, error } = useQuery('tags', getTagsList)
+  const dispatch=useDispatch();
+  const { isLoading, isError, data, error } = useQuery('tags', getTagsList);
   const queryClient = useQueryClient();
   const { mutate:deleteMutate, isLoading:deleteLoading } = useMutation(deleteTag, {
     onSuccess: data => {
+    dispatch(deleteTagState(data));
     // dispatch(setUser(data));    
     // router.push('/dashboard')   
   },
@@ -26,6 +30,7 @@ function D_TagTable() {
           console.log("there was an error: ",error)
   },
     onSettled: () => {
+      
         queryClient.invalidateQueries('tags')
   }
   });
@@ -101,7 +106,7 @@ function D_TagTable() {
   }
 
   if(data){
-    // console.table(data)
+    dispatch(setTags(data))
   }
 
 
