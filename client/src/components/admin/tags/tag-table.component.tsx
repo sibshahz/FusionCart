@@ -10,6 +10,7 @@ import CancelIcon from '@mui/icons-material/Close';
 import { setTags,deleteTagState, enableEditTagMode, setCurrentEditingTag } from '@/src/redux/features/tags/tagSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/src/redux/store';
+import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 
 
 
@@ -25,6 +26,7 @@ function D_TagTable() {
   const { mutate:deleteMutate, isLoading:deleteLoading } = useMutation(deleteTag, {
     onSuccess: data => {
     dispatch(deleteTagState(data));
+    dispatch(setSnackbar({message:"Tag deleted", severity:"warning",snackbarOpen:true}))
     // dispatch(setUser(data));    
     // router.push('/dashboard')   
   },

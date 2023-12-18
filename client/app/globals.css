@@ -23,3 +23,28 @@ body {
 h1,h2,h3,h4,h5,h6{
   font-family: var('--font-montserrat');
 }
+/* SCROLLBAR STYLES generated on https://codepen.io/stephenpaton-tech/full/JjRvGmY */
+
+
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #151529 #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #151529;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }

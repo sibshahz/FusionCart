@@ -18,10 +18,12 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#b56739',
+      // main: '#b56739',
+      main:'#151529',
     },
     secondary: {
-      main: '#e2cb08',
+      // main: '#e2cb08',
+      main:'#a3a6b7'
     },
   },
   // Add any additional theme configuration here, such as typography, spacing, etc.

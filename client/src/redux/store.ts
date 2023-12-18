@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './features/user/userSlice';
 import tagsReducer from '@/src/redux/features/tags/tagSlice'
+import snackReducer from "@/src/redux/features/snackbar/snackbar"
 // import productReducer from './features/product/productSlice';
 
 const persistConfig = {
@@ -13,6 +14,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   tags: tagsReducer,
+  snackbar:snackReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
