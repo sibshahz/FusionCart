@@ -33,10 +33,9 @@ const getTagsList=async ()=>{
 }
 
 const updateTag=async (tag:Tag)=>{
-  try {
+  try{  
     console.table("UPDATING TAG: ", tag);
     const response = await axios_default.put(`/tags/${tag._id}`,tag);
-    console.log("TAG RESPONSE: ",response.data)
     // handle success
     return response.data; // Assuming you want to return the data property of the response
   } catch (error) {

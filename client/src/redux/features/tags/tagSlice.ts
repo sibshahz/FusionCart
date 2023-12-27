@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import {Tag} from '../../../../../common/tags/tags.types';
+import {Tag} from '@/tags/tags.types';
+
 export interface TagsState {
     tags:[Tag] | [],
     editTagMode:boolean,

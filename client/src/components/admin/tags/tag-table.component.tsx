@@ -50,9 +50,9 @@ function D_TagTable() {
   }
 
   const columns: GridColDef[] = [
-    { field: 'tagName', headerName: 'Name', width: 200, editable:true },
+    { field: 'tagName', headerName: 'Name', width: 180, editable:true },
     { field: 'tagDescription', headerName: 'Description', width: 200, editable:true },
-    { field: 'tagSlug', headerName: 'Slug', width: 200 ,editable:true },
+    { field: 'tagSlug', headerName: 'Slug', width: 100 ,editable:true },
     {
       field: 'actions',
       type: 'actions',

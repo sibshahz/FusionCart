@@ -81,7 +81,6 @@ const D_TagForm = (props: Props) => {
   } = useForm<Inputs>()
   
   React.useEffect(()=>{
-    console.log("useEffect executed");
     if(editTagMode && currentEditingTag){
       setValue('tagName',currentEditingTag?.tagName)
       setValue('tagSlug',currentEditingTag?.tagSlug)
