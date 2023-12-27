@@ -1,7 +1,7 @@
 import { Product } from "@/product/product.types";
 import { axios_default } from "../axios-core";
 
-const getProducts=async ()=>{
+const getProductsList=async ()=>{
   try {
     const response = await axios_default.get(`/products`);
     // handle success
@@ -79,7 +79,7 @@ const updateProduct=async (product:Product)=>{
 }
 
 export{
-  getProducts,
+  getProductsList,
   getProduct,
   postProduct,
   deleteProduct,

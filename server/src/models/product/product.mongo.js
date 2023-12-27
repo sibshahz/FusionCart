@@ -17,10 +17,10 @@ const productSchema = new mongoose.Schema({
     enum: ['draft', 'published', 'outstock'],
     default: 'draft',
   },
-  category: {
+  category: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
-  },
+  }],
   tags: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tag',

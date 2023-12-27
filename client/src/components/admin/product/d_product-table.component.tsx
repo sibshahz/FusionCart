@@ -1,58 +1,53 @@
 "use client"
-import * as React from 'react';
-import { DataGrid, GridActionsCellItem, GridColDef, GridEventListener, GridRowModes, GridValueGetterParams } from '@mui/x-data-grid';
+import { deleteProduct, getProductsList } from '@/src/api/products/products';
+import { deleteProductState, setProducts } from '@/src/redux/features/products/productSlice';
+import { GridColDef, GridActionsCellItem, DataGrid } from '@mui/x-data-grid';
+import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { deleteTag, getTagsList } from '@/src/api/tags/tags';
+import { useDispatch, useSelector } from 'react-redux';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
-import { setTags,deleteTagState, enableEditTagMode, setCurrentEditingTag } from '@/src/redux/features/tags/tagSlice';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/src/redux/store';
 import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
+import CustomizedSnackbars from '../snackbar/snackbar.component';
 
+type Props = {}
 
+const D_ProductTable = (props: Props) => {
 
-function D_TagTable() {
-
-
-
-  // const [rowModesModel, setRowModesModel] = React.useState({});
   const dispatch=useDispatch();
-  const { isLoading, isError, data, error } = useQuery('tags', getTagsList);
+  const { isLoading, isError, data, error } = useQuery('products', getProductsList);
   const queryClient = useQueryClient();
-  const tags=useSelector((state:RootState) => state.tags.tags);
-  const { mutate:deleteMutate, isLoading:deleteLoading } = useMutation(deleteTag, {
+  if(data){
+    dispatch(setProducts(data))
+  }
+  const products = useSelector((state:RootState) => state.products.products)
+
+  const { mutate:deleteMutate, isLoading:deleteLoading } = useMutation(deleteProduct, {
     onSuccess: data => {
-    dispatch(deleteTagState(data));
-    dispatch(setSnackbar({message:"Tag deleted", severity:"warning",snackbarOpen:true}))
-    // dispatch(setUser(data));    
-    // router.push('/dashboard')   
+    dispatch(deleteProductState(data));
+    dispatch(setSnackbar({message:"Product deleted", severity:"warning",snackbarOpen:true}))
   },
     onError: (error) => {
           console.log("there was an error: ",error)
   },
     onSettled: () => {
       
-        queryClient.invalidateQueries('tags')
+        queryClient.invalidateQueries('products')
   }
   });
-
   const handleDeleteClick=(id:string)=>{
     deleteMutate(id);
-    console.log("DELETE ITEM IS: ",id)
-  }
-  
-  const handleEditClick=(id:string)=>{
-    dispatch(enableEditTagMode(true));
-    dispatch(setCurrentEditingTag(id))
   }
 
   const columns: GridColDef[] = [
-    { field: 'tagName', headerName: 'Name', width: 180, editable:true },
-    { field: 'tagDescription', headerName: 'Description', width: 260, editable:true },
-    { field: 'tagSlug', headerName: 'Slug', width: 100 ,editable:true },
+    { field: 'name', headerName: 'Name', width: 100, editable:true },
+    { field: 'description', headerName: 'Description', width: 260, editable:true },
+    { field: 'stock', headerName: 'Stock', width: 100 ,editable:true },
+    { field: 'price', headerName: 'Price', width: 100 ,editable:true },
+    { field: 'productCategories', headerName: 'Categories', width: 100 ,editable:true },
+    { field: 'tags', headerName: 'Tags', width: 100 ,editable:true },
+    { field: 'productDate', headerName: 'Date', width: 100 ,editable:true },
     {
       field: 'actions',
       type: 'actions',
@@ -87,7 +82,7 @@ function D_TagTable() {
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
-            onClick={() => handleEditClick(id)}
+            // onClick={() => handleEditClick(id)}
             color="inherit"
           />,
           <GridActionsCellItem
@@ -100,29 +95,14 @@ function D_TagTable() {
       },
     },
   ];
-  
-
-  if (isLoading) {
-    return <span>Loading...</span>
-  }
-
-  if (isError) {
-    return <span>Error: Cannot load tags</span>
-  }
-
-  if(data){
-    dispatch(setTags(data))
-  }
-
-
 
   return (
-    <div style={{ maxHeight: 600, width: '100%' }}>
-      <DataGrid
+    <div>
+    <DataGrid
         filterMode='client'
         getRowId={(row) => row._id}  
         // rows={data}
-        rows={tags}
+        rows={products}
         // editMode="row"
         columns={columns}
         initialState={{
@@ -131,8 +111,11 @@ function D_TagTable() {
           },
         }}
         pageSizeOptions={[5, 10,15,20]}
+        // checkboxSelection
       />
+      <CustomizedSnackbars />
     </div>
-  );
+  )
 }
-export default D_TagTable
+
+export default D_ProductTable

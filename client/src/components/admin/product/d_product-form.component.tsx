@@ -5,11 +5,13 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { FormGroup, TextField,Stack, Button, FormHelperText, Typography, Box} from '@mui/material';
 import { useForm, SubmitHandler } from "react-hook-form"
-import { postProduct } from '@/src/api/products/products';
+import { postProduct, updateProduct } from '@/src/api/products/products';
 import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import { useQueryClient, useMutation } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Product } from '@/product/product.types';
+import { enableEditProductMode, setCurrentEditingProduct, updateCurrentEditingProduct } from '@/src/redux/features/products/productSlice';
+import CustomizedSnackbars from '../snackbar/snackbar.component';
 
 
 type Props = {}
@@ -50,6 +52,22 @@ function D_ProductForm({}: Props) {
   }
   });
 
+  const { mutate:mutateUpdate, isLoading:updateLoading } = useMutation(updateProduct, {
+    onSuccess: data => {
+    dispatch(updateCurrentEditingProduct(data));
+    dispatch(enableEditProductMode(false));
+    dispatch(setCurrentEditingProduct({}))
+    reset({ name: '',description:'',price:'',salePrice:'',stock:'' })
+    dispatch(setSnackbar({message:"Product data updated", severity:"success",snackbarOpen:true}))
+  },
+    onError: (error) => {
+          console.log("there was an error: ",error)
+  },
+    onSettled: () => {
+        queryClient.invalidateQueries('tags')
+  }
+  });
+
   const {
     register,
     handleSubmit,
@@ -64,6 +82,14 @@ function D_ProductForm({}: Props) {
   //   // abort();
 
   // }
+
+  // React.useEffect(()=>{
+  //   if(editTagMode && currentEditingTag){
+  //     setValue('name',currentEditingProduct?.name)
+  //     setValue('description',currentEditingTag?.tagSlug)
+  //     setValue('tagDescription',currentEditingTag?.tagDescription);
+  //   }
+  // },[editTagMode,currentEditingTag])
 
   return (
     <Grid container spacing={2}>
@@ -144,6 +170,7 @@ function D_ProductForm({}: Props) {
           </Stack>
 
         </form>
+        <CustomizedSnackbars />
         </Item>
       </Grid>
       <Grid xs={12} md={4} lg={3}>
