@@ -17,7 +17,6 @@ import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 function D_TagTable() {
 
 
-
   // const [rowModesModel, setRowModesModel] = React.useState({});
   const dispatch=useDispatch();
   const { isLoading, isError, data, error } = useQuery('tags', getTagsList);

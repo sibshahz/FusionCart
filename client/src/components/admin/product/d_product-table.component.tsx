@@ -1,6 +1,6 @@
 "use client"
 import { deleteProduct, getProductsList } from '@/src/api/products/products';
-import { deleteProductState, setProducts } from '@/src/redux/features/products/productSlice';
+import { deleteProductState, enableEditProductMode, setCurrentEditingProduct, setProducts } from '@/src/redux/features/products/productSlice';
 import { GridColDef, GridActionsCellItem, DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -10,12 +10,15 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { RootState } from '@/src/redux/store';
 import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import CustomizedSnackbars from '../snackbar/snackbar.component';
+import FullScreenDialog from '../dialog/dialog.component';
+import D_ProductForm from './d_product-form.component';
 
 type Props = {}
 
 const D_ProductTable = (props: Props) => {
 
   const dispatch=useDispatch();
+  const editProductMode = useSelector((state:RootState) => state.products.editProductMode)
   const { isLoading, isError, data, error } = useQuery('products', getProductsList);
   const queryClient = useQueryClient();
   if(data){
@@ -38,6 +41,10 @@ const D_ProductTable = (props: Props) => {
   });
   const handleDeleteClick=(id:string)=>{
     deleteMutate(id);
+  }
+  const handleEditClick=(id:string)=>{
+    dispatch(enableEditProductMode(true));
+    dispatch(setCurrentEditingProduct(id))
   }
 
   const columns: GridColDef[] = [
@@ -82,7 +89,7 @@ const D_ProductTable = (props: Props) => {
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
-            // onClick={() => handleEditClick(id)}
+            onClick={() => handleEditClick(id)}
             color="inherit"
           />,
           <GridActionsCellItem
@@ -98,7 +105,11 @@ const D_ProductTable = (props: Props) => {
 
   return (
     <div>
+    <FullScreenDialog buttonText="Add new product" dialogTitle="Add new product" openMode={editProductMode}><D_ProductForm /></FullScreenDialog>
     <DataGrid
+        sx={{ 
+          marginTop:2
+         }}
         filterMode='client'
         getRowId={(row) => row._id}  
         // rows={data}

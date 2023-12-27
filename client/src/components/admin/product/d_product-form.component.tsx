@@ -8,10 +8,11 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { postProduct, updateProduct } from '@/src/api/products/products';
 import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import { useQueryClient, useMutation } from 'react-query';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Product } from '@/product/product.types';
 import { enableEditProductMode, setCurrentEditingProduct, updateCurrentEditingProduct } from '@/src/redux/features/products/productSlice';
 import CustomizedSnackbars from '../snackbar/snackbar.component';
+import { RootState } from '@/src/redux/store';
 
 
 type Props = {}
@@ -36,7 +37,8 @@ type Inputs = {
 function D_ProductForm({}: Props) {
   
   const dispatch=useDispatch();
-
+  const editProductMode = useSelector((state:RootState) => state.products.editProductMode)
+  const currentEditingProduct = useSelector((state:RootState) => state.products.currentEditingProduct)
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(postProduct, {
     onSuccess: data => {
@@ -61,18 +63,34 @@ function D_ProductForm({}: Props) {
     dispatch(setSnackbar({message:"Product data updated", severity:"success",snackbarOpen:true}))
   },
     onError: (error) => {
-          console.log("there was an error: ",error)
+      console.log("there was an error: ",error)
   },
     onSettled: () => {
-        queryClient.invalidateQueries('tags')
+      queryClient.invalidateQueries('products')
   }
   });
-
+  const handleCancelEdit=()=>{
+    // reset({"tagName","tagSlug""tagDescription"})
+    reset({ name:'',description:'',price:'',salePrice:'',stock:'' })
+    dispatch(setCurrentEditingProduct({}))
+    dispatch(enableEditProductMode(false))
+    dispatch(setSnackbar({message:"Edit cancelled", severity:"info",snackbarOpen:true}))
+  }
+  const handleUpdateEdit=()=>{
+    if(currentEditingProduct){
+      const values=getValues();
+      values._id=currentEditingProduct?._id;
+      mutateUpdate(values);
+    }
+    reset();
+  }
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm<Inputs>()
   // const onSubmit: SubmitHandler<Inputs> = (data) => {
@@ -90,6 +108,16 @@ function D_ProductForm({}: Props) {
   //     setValue('tagDescription',currentEditingTag?.tagDescription);
   //   }
   // },[editTagMode,currentEditingTag])
+  React.useEffect(()=>{
+    if(editProductMode && currentEditingProduct){
+      setValue('name',currentEditingProduct?.name)
+      setValue('description',currentEditingProduct?.description)
+      setValue('price',currentEditingProduct?.price);
+      setValue('salePrice',currentEditingProduct?.salePrice);
+      setValue('stock',currentEditingProduct?.stock);
+    }
+  },[editProductMode,currentEditingProduct])
+
 
   return (
     <Grid container spacing={2}>
@@ -164,9 +192,25 @@ function D_ProductForm({}: Props) {
                 </Stack>
               </Stack>
             </Stack>
-            <Button variant="contained" size="large" type='submit'>
-              Publish
-            </Button>
+            {
+            editProductMode && currentEditingProduct && (
+              <Stack direction='row' gap={2}>
+                <Button variant="contained" size="large" onClick={handleUpdateEdit}>Update tag</Button>
+                <Button variant="contained" size="large" onClick={handleCancelEdit}>Cancel</Button>
+              </Stack>
+            )
+          }
+
+          {
+            !editProductMode && (
+              <Stack direction='row'>
+                <Button variant="contained" size="large" type='submit'>
+                  Add product
+                </Button>
+              </Stack>
+            )
+            
+          }
           </Stack>
 
         </form>
