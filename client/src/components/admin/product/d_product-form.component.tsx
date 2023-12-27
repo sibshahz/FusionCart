@@ -70,7 +70,6 @@ function D_ProductForm({}: Props) {
   }
   });
   const handleCancelEdit=()=>{
-    // reset({"tagName","tagSlug""tagDescription"})
     reset({ name:'',description:'',price:'',salePrice:'',stock:'' })
     dispatch(setCurrentEditingProduct({}))
     dispatch(enableEditProductMode(false))
@@ -120,7 +119,7 @@ function D_ProductForm({}: Props) {
 
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} maxWidth="100%">
       <Grid xs={12} md={8} lg={9}>
         <Item elevation={1}>
         <form

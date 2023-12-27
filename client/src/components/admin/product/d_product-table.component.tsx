@@ -48,10 +48,10 @@ const D_ProductTable = (props: Props) => {
   }
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Name', width: 100, editable:true },
-    { field: 'description', headerName: 'Description', width: 260, editable:true },
-    { field: 'stock', headerName: 'Stock', width: 100 ,editable:true },
-    { field: 'price', headerName: 'Price', width: 100 ,editable:true },
+    { field: 'name', headerName: 'Name', width: 160, editable:true },
+    { field: 'description', headerName: 'Description', width: 240, editable:true },
+    { field: 'stock', headerName: 'Stock', width: 80 ,editable:true },
+    { field: 'price', headerName: 'Price', width: 80 ,editable:true },
     { field: 'productCategories', headerName: 'Categories', width: 100 ,editable:true },
     { field: 'tags', headerName: 'Tags', width: 100 ,editable:true },
     { field: 'productDate', headerName: 'Date', width: 100 ,editable:true },
