@@ -1,4 +1,3 @@
-import { resetUserDetails, setAuthDetails } from "@/src/utils/localstorage/localStorage";
 import { axios_default } from "../axios-core";
 import {Tag} from '../../../../common/tags/tags.types'
 
