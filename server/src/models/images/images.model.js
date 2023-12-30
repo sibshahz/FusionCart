@@ -6,7 +6,6 @@ const uuid = require('uuid');
 
 
 async function addImages(imagesData) {
-  console.log("RECEIVED ARG IMAGE: ");
   try {
     const imageDirectory = path.join(__dirname, '..', '..', 'public', 'images');
 
@@ -20,7 +19,7 @@ async function addImages(imagesData) {
     // Process each image
     for (const imageData of imagesData) {
       // Extract image data without the prefix
-      const base64Data = imageData.replace(/^data:image\/\w+;base64,/, '');
+      const base64Data = imageData.imagePath.replace(/^data:image\/\w+;base64,/, '');
 
       // Decode Base64 data
       const bufferData = Buffer.from(base64Data, 'base64');
@@ -36,8 +35,11 @@ async function addImages(imagesData) {
       await fs.writeFileSync(imagePath, bufferData);
 
       // Store the path to the saved image
-      const relativePath=path.join('public','images',imageFileName)
+      const relativePath=path.join('images',imageFileName)
       const newImage = new Image({
+        imageTitle:imageData.imageTitle,
+        imageAlt:imageData.imageAlt,
+        imageDescription:imageData.imageDescription,
         imagePath: relativePath,
       });
       await newImage.save();

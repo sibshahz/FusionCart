@@ -9,6 +9,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getImagesList, postImages } from '@/src/api/images/images';
 import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import CustomizedSnackbars from '../snackbar/snackbar.component';
+import { Image } from '@/images/images.types';
+import D_ImageForm from './image-form.component';
 
 
 interface TabPanelProps {
@@ -105,11 +107,15 @@ function D_Gallery() {
     // dispatch(setImages(data))
   }
   return (
-    <Box sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
+    <Box 
+      sx={{ 
+      // maxWidth: { xs: 320, sm: 480 },
+      bgcolor: 'background.paper' 
+    }}>
       <Tabs
         value={value}
         onChange={handleChange}
-        variant="fullWidth"
+        variant="standard"
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
       >
@@ -117,31 +123,23 @@ function D_Gallery() {
         <Tab label="Upload Media"  {...a11yProps(1)} />
       </Tabs>
       <TabPanel value={value} index={0} dir={theme.direction}>
-        oooo
-          <img src='http://localhost:8080/src/public/images/5d19f5b4-28f4-4a91-8524-d4da06c760de_image.jpg' alt="" />
+          {
+            <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth='100%'>
+            {data.map((link:Image, index) => (
+              <img
+                key={index}
+                id={link?._id}
+                src={`http://localhost:8080/${link.imagePath}`}
+                alt={``}
+                style={{ width: '250px', height: '250px', marginRight: '5px', marginBottom: '5px' }}
+              />
+            ))}
+          </Stack>
+          }
       </TabPanel>
   
       <TabPanel value={value} index={1} dir={theme.direction}>
-        <input 
-          onChange={onChange}
-          type="file"
-          name="file"
-          multiple
-        />
-        <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap">
-        {imgsSrc.map((link, index) => (
-          <img
-            key={index}
-            src={link}
-            alt={`Preview ${index + 1}`}
-            style={{ width: '150px', height: '150px', marginRight: '5px', marginBottom: '5px' }}
-          />
-        ))}
-      </Stack>
-      {
-        imgsSrc.length > 0 ? <Button variant='contained' onClick={() => mutatePostImages(imgsSrc)}>Upload {imgsSrc.length} files</Button> : null
-      }
-
+       <D_ImageForm />
       </TabPanel>
 
       <CustomizedSnackbars />
