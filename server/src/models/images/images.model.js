@@ -98,8 +98,17 @@ async function delImage(id) {
   }
 }
 
+async function updateImage(id,image){
+  try {
+    const updatedImage= await Image.findByIdAndUpdate(id,image,{new: true});
+    return updatedImage;
+  } catch (error) {
+    console.log(error);
+  }
+}
 module.exports = {
   addImages,
+  updateImage,
   getAllImages,
   getImage,
   delImage

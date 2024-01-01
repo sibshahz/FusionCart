@@ -10,7 +10,10 @@ import { deleteImage, getImagesList } from '@/src/api/images/images'
 import { Box, Divider, IconButton, Paper, Popover, Stack, Typography } from '@mui/material'
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { useDispatch } from 'react-redux';
+import { enableEditImageMode, setCurrentEditingImage, setImages } from '@/src/redux/features/images/imageSlice';
+
 type Props = {}
+
 const GalleryList = (props: Props) => {
   const queryClient = useQueryClient();
   const dispatch=useDispatch();
@@ -18,10 +21,7 @@ const GalleryList = (props: Props) => {
 
   const { mutate:deleteMutate, isLoading:deleteLoading } = useMutation(deleteImage, {
     onSuccess: data => {
-    // dispatch(deleteTagState(data));
     dispatch(setSnackbar({message:"Image deleted", severity:"warning",snackbarOpen:true}))
-    // dispatch(setUser(data));    
-    // router.push('/dashboard')   
   },
     onError: (error) => {
           console.log("there was an error: ",error)
@@ -39,14 +39,18 @@ const GalleryList = (props: Props) => {
     return <span>Error: Cannot load images</span>;
   }
 
+  if(data){
+    dispatch(setImages(data));
+  }
+
   return (
     <>
       <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth="100%">
-        {data?.map((link: Image, index) => (
+        {data?.map((link: Image, index:number) => (
           <Paper key={index} elevation={1} sx={{ position:'relative' }}>
             <Stack flexDirection='column' justifyContent='end' sx={{ position:'absolute', right:8,top:6 }}>
               <IconButton size="small" sx={{ backgroundColor:'whitesmoke', marginBottom:'6px' }}>
-                <ModeEditIcon fontSize="small" />
+                <ModeEditIcon fontSize="small" onClick={() => {dispatch(enableEditImageMode(true)),dispatch(setCurrentEditingImage(link._id))}} />
               </IconButton>
               <IconButton size="small" sx={{ backgroundColor:'whitesmoke' }} onClick={() => deleteMutate(link?._id)}>
                 <DeleteIcon fontSize="small" />

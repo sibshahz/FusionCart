@@ -14,6 +14,11 @@ imagesRouter.post(
   authController.isUserAuthenticatedAuthorized("admin"),
   imagesController.httpPostImages);
 
+imagesRouter.put(
+  '/:id',
+  authController.isUserAuthenticatedAuthorized("admin"),
+  imagesController.httpUpdateImage);
+
 imagesRouter.get(
   '/:id', 
   imagesController.httpGetImage);

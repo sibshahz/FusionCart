@@ -8,6 +8,8 @@ import { Button, Stack, Typography, useTheme } from '@mui/material';
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import D_ImageForm from './image-form.component';
 import GalleryList from './gallery-list.component';
+import GalleryFormDialog from './gallery-dialog.component';
+import ImageMetaForm from './image-meta-form.component';
 
 
 interface TabPanelProps {
@@ -78,7 +80,7 @@ function D_Gallery() {
       <TabPanel value={value} index={1} dir={theme.direction}>
         <D_ImageForm />
       </TabPanel>
-
+      <GalleryFormDialog buttonText='Edit Image' dialogTitle='Edit image meta'><ImageMetaForm /></GalleryFormDialog>
     </Box>
   );
 }

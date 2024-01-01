@@ -5,7 +5,7 @@ import userReducer from './features/user/userSlice';
 import productsReducer from './features/products/productSlice'
 import tagsReducer from '@/src/redux/features/tags/tagSlice'
 import snackReducer from "@/src/redux/features/snackbar/snackbar"
-// import productReducer from './features/product/productSlice';
+import imagesReducer from "@/src/redux/features/images/imageSlice"
 
 const persistConfig = {
   key: 'root',
@@ -17,6 +17,7 @@ const rootReducer = combineReducers({
   products:productsReducer,
   tags: tagsReducer,
   snackbar:snackReducer,
+  images:imagesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

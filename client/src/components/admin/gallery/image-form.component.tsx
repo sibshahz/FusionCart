@@ -18,7 +18,7 @@ type Inputs = {
 const D_ImageForm = () => {
   const dispatch=useDispatch();
   const [imageIndex,setImageIndex] = React.useState();
-  const [imagesData,setImagesData] = React.useState();
+  const [imagesData,setImagesData] = React.useState([]);
 
   
   const queryClient = useQueryClient();
@@ -79,7 +79,7 @@ const D_ImageForm = () => {
   
   const editImage=(index)=>{
     setValue("imageTitle",imagesData[index]?.imageTitle);
-    setValue("imageAlt",imagesData[index]?.imageAlt,);
+    setValue("imageAlt",imagesData[index]?.imageAlt);
     setValue("imageDescription",imagesData[index]?.imageDescription);
     setImageIndex(index);
   };
@@ -190,7 +190,7 @@ const D_ImageForm = () => {
                 </Stack>
                 <Button sx={{ marginRight:2 }} variant='contained' onClick={updateMetadata}>Save metadata</Button>
               </form>
-            </Stack>
+              </Stack>
             )
           }
 
