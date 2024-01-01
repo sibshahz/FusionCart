@@ -87,6 +87,10 @@ async function getImage(id) {
 async function delImage(id) {
   try {
     const imageDeleted = await Image.findByIdAndDelete(id);
+    const pathToFile=path.join(__dirname,'..', '..', 'public',imageDeleted.imagePath)
+    fs.unlink(pathToFile, (err) => {
+      if (err) throw err;
+    });
     
     return imageDeleted;
   } catch (error) {
