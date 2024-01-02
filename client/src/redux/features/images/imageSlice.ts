@@ -6,16 +6,22 @@ export interface ImagesState {
     images:Image[],
     editImageMode:boolean,
     currentEditingImage: Image | {},
+    imageSelectMode:boolean,
+    selectedImagesId:string[],
+    selectedImages:string[]
 }
 
 const initialState: ImagesState = {
     images:[],
     editImageMode:false,
     currentEditingImage:{},
+    imageSelectMode:false,
+    selectedImagesId:[],
+    selectedImages:[],
 }
 
 export const imagesSlice = createSlice({
-  name: 'images',
+  name: 'state-images',
   initialState,
   reducers: {
     setImages: (state,action:PayloadAction<Image[]>) => {      
@@ -48,16 +54,43 @@ export const imagesSlice = createSlice({
       }
 
     },
+    enableImageSelectMode: (state,action) => {
+      state.imageSelectMode=action.payload
+    },
+    toggleAddSelectedImageId: (state, action: PayloadAction<string>) => {
+      const index = state.selectedImagesId.indexOf(action.payload);
+      if (index !== -1) {
+        state.selectedImagesId=state.selectedImagesId.filter((item) => item !== action.payload)
+      } else {
+        state.selectedImagesId.push(action.payload)
+        console.log("TABLE: ",state.selectedImagesId)
+      }
+    },
+
+    resetAddSelectedImageId: (state, action: PayloadAction<string[]>) => {
+      state.selectedImagesId = [];
+    },
+    addSelectedImages: (state) => {
+      state.selectedImages=state.selectedImagesId
+    },
+    resetSelectedImages: (state) => {
+      state.selectedImages=[]
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
 export const { 
   setImages,
+  enableImageSelectMode,
   deleteImageState,
   enableEditImageMode,
   setCurrentEditingImage,
-  updateCurrentEditingImage
+  updateCurrentEditingImage,
+  toggleAddSelectedImageId,
+  resetAddSelectedImageId,
+  resetSelectedImages,
+  addSelectedImages,
  } = imagesSlice.actions
 
 export default imagesSlice.reducer

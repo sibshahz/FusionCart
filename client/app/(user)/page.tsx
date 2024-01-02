@@ -8,16 +8,16 @@ import {
   useQueryClient,
 } from 'react-query'
 import {
-  getProducts
+  getProductsList
 } from '@/src/api/products/products'
 
 const Home = () => {
   const queryClient = useQueryClient()
 
   // Queries
-  const query = useQuery('products', getProducts)
+  const query = useQuery('products', getProductsList)
   return (
-    <LayoutContainer>
+    <LayoutContainer bg='inherit'>
       <h1>Furnior Products</h1>
       <Image src={Cover.src} alt="Main cover" width={500} height={500} />
     </LayoutContainer>

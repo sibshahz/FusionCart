@@ -10,8 +10,9 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/src/redux/store';
-import { enableEditImageMode, setCurrentEditingImage } from '@/src/redux/features/images/imageSlice';
+import { enableEditImageMode, enableImageSelectMode, resetAddSelectedImageId, resetSelectedImages, setCurrentEditingImage } from '@/src/redux/features/images/imageSlice';
 import { Box, Fade } from '@mui/material';
+import D_Gallery from './gallery.component';
 
 interface DialogComponentProps {
   children: React.ReactNode;
@@ -28,21 +29,25 @@ const Transition = React.forwardRef(function Transition(
   return <Fade ref={ref} {...props} />;
 });
 
-export default function GalleryFormDialog(props:DialogComponentProps){
+export default function ImageSelectorDialog(
+  // props:DialogComponentProps
+  ){
   // const [open, setOpen] = React.useState(false);
   const dispatch=useDispatch();
-  const open = useSelector((state:RootState) => state.images.editImageMode);
+  const open = useSelector((state:RootState) => state.images.imageSelectMode);
 
 
   const handleClickOpen = () => {
     // setOpen(true);
-    dispatch(enableEditImageMode(true))
+    dispatch(enableImageSelectMode(true))
   };
 
   const handleClose = () => {
     // setOpen(false);
-    dispatch(enableEditImageMode(false))
-    dispatch(setCurrentEditingImage({}))
+    dispatch(enableImageSelectMode(false))
+
+    dispatch(resetAddSelectedImageId([]))
+    dispatch(resetSelectedImages([]))
 
   };
 
@@ -73,7 +78,8 @@ export default function GalleryFormDialog(props:DialogComponentProps){
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              {props.dialogTitle}
+              {/* {props.dialogTitle}  */}
+              Select images for product
             </Typography>
             {/* <Button autoFocus color="inherit" onClick={handleClose}>
               save
@@ -81,7 +87,8 @@ export default function GalleryFormDialog(props:DialogComponentProps){
           </Toolbar>
         </AppBar>
         <Box padding="16px">
-          {props.children}
+          {/* {props.children} */}
+          <D_Gallery />
         </Box>
       </Dialog>
     </React.Fragment>

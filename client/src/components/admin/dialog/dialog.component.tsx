@@ -14,7 +14,7 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/src/redux/store';
-import { enableEditProductMode } from '@/src/redux/features/products/productSlice';
+import { enableAddProductMode, enableEditProductMode } from '@/src/redux/features/products/productSlice';
 
 interface DialogComponentProps {
   children: React.ReactNode;
@@ -34,17 +34,17 @@ const Transition = React.forwardRef(function Transition(
 export default function FullScreenDialog(children:DialogComponentProps){
   // const [open, setOpen] = React.useState(false);
   const dispatch=useDispatch();
-  const open = useSelector((state:RootState) => state.products.editProductMode);
+  const open = useSelector((state:RootState) => state.products.addProductMode);
 
 
   const handleClickOpen = () => {
     // setOpen(true);
-    dispatch(enableEditProductMode(true))
+    dispatch(enableAddProductMode(true))
   };
 
   const handleClose = () => {
     // setOpen(false);
-    dispatch(enableEditProductMode(false))
+    dispatch(enableAddProductMode(false))
 
   };
 

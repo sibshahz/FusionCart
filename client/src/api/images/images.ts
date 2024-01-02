@@ -1,16 +1,10 @@
 import { Image } from "@/images/images.types";
 import { axios_default } from "../axios-core";
 
-const postImages = async (images) => {
+const postImages = async (images:Image[]) => {
   try {
     const {data:response} = await axios_default.post(`/images`,images);
-    const tagData: Tag = {
-      tagID:response._id,
-      tagName:response.tagName,
-      tagSlug:response.tagSlug,
-      tagDescription:response.tagDescription ? response.tagDescription : ''
-    };
-    return tagData;
+    return response;
 
   } catch (error) {
     // handle error
@@ -42,7 +36,7 @@ const getImagesList=async ()=>{
     throw error; // Re-throw the error to handle it at the caller's level if needed
   }
 }
-const deleteImage=async (id)=>{
+const deleteImage=async (id:string)=>{
   try {
     const response = await axios_default.delete(`/images/${id}`);
     // handle success

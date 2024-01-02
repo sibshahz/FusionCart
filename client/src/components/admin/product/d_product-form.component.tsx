@@ -10,9 +10,12 @@ import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import { useQueryClient, useMutation } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { Product } from '@/product/product.types';
-import { enableEditProductMode, setCurrentEditingProduct, updateCurrentEditingProduct } from '@/src/redux/features/products/productSlice';
+import { enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, updateCurrentEditingProduct } from '@/src/redux/features/products/productSlice';
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { RootState } from '@/src/redux/store';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import { enableImageSelectMode } from '@/src/redux/features/images/imageSlice';
+import ImageSelectorDialog from '../gallery/image-selector-dialog.component';
 
 
 type Props = {}
@@ -38,6 +41,7 @@ function D_ProductForm({}: Props) {
   
   const dispatch=useDispatch();
   const editProductMode = useSelector((state:RootState) => state.products.editProductMode)
+  const imageSelectMode = useSelector((state:RootState) => state.images.imageSelectMode)
   const currentEditingProduct = useSelector((state:RootState) => state.products.currentEditingProduct)
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(postProduct, {
@@ -92,21 +96,7 @@ function D_ProductForm({}: Props) {
     getValues,
     formState: { errors },
   } = useForm<Inputs>()
-  // const onSubmit: SubmitHandler<Inputs> = (data) => {
-  //   console.log('Product Data is: ', data)
-  //   mutate(data);
-  //   // reset();
-  //   // abort();
 
-  // }
-
-  // React.useEffect(()=>{
-  //   if(editTagMode && currentEditingTag){
-  //     setValue('name',currentEditingProduct?.name)
-  //     setValue('description',currentEditingTag?.tagSlug)
-  //     setValue('tagDescription',currentEditingTag?.tagDescription);
-  //   }
-  // },[editTagMode,currentEditingTag])
   React.useEffect(()=>{
     if(editProductMode && currentEditingProduct){
       setValue('name',currentEditingProduct?.name)
@@ -117,7 +107,6 @@ function D_ProductForm({}: Props) {
     }
   },[editProductMode,currentEditingProduct])
 
-
   return (
     <Grid container spacing={2} maxWidth="100%">
       <Grid xs={12} md={8} lg={9}>
@@ -125,7 +114,7 @@ function D_ProductForm({}: Props) {
         <form
           onSubmit={handleSubmit((data) => {
             mutate(data);
-            reset();
+            reset({name:"",description:"",price:"",salePrice:"",stock:""});
           })}
         >
           
@@ -153,6 +142,10 @@ function D_ProductForm({}: Props) {
               />
               {errors.description && <FormHelperText error filled>Description of product is required</FormHelperText>}
 
+            </FormGroup>
+
+            <FormGroup>
+              <Button size="large" variant='outlined' fullWidth={false} onClick={() => dispatch(enableImageSelectMode(true))}><AddBoxIcon /> Add Media</Button>
             </FormGroup>
 
             <Stack rowGap={2}>
@@ -213,6 +206,7 @@ function D_ProductForm({}: Props) {
           </Stack>
 
         </form>
+        <ImageSelectorDialog />
         <CustomizedSnackbars />
         </Item>
       </Grid>

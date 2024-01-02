@@ -6,12 +6,14 @@ export interface ProductsState {
     products:Product[],
     editProductMode:boolean,
     currentEditingProduct?: Product | {},
+    addProductMode:boolean,
 }
 
 const initialState: ProductsState = {
     products:[],
     editProductMode:false,
     currentEditingProduct:{},
+    addProductMode:false,
 }
 
 export const productsSlice = createSlice({
@@ -27,6 +29,9 @@ export const productsSlice = createSlice({
     },
     enableEditProductMode: (state, action) => {
       state.editProductMode=action.payload
+    },
+    enableAddProductMode: (state, action) => {
+      state.addProductMode=action.payload
     },
     setCurrentEditingProduct: (state, action) => {
       const foundProduct = state.products.find((item: Product) => item._id === action.payload);
@@ -57,6 +62,7 @@ export const {
   setProducts,
   deleteProductState,
   enableEditProductMode,
+  enableAddProductMode,
   setCurrentEditingProduct,
   updateCurrentEditingProduct
  } = productsSlice.actions

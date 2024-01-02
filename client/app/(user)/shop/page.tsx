@@ -5,7 +5,7 @@ import {
   useQueryClient,
 } from 'react-query'
 import {
-  getProducts
+  getProductsList
 } from '@/src/api/products/products'
 import Link from 'next/link'
 import { Product } from '../../../../common/product/product.types'
@@ -15,7 +15,7 @@ const ShopPage = () => {
   const queryClient = useQueryClient()
 
   // Queries
-  const { data, error, isLoading, refetch }= useQuery('products', getProducts)
+  const { data, error, isLoading, refetch }= useQuery('products', getProductsList)
   return (
     <>
     {
