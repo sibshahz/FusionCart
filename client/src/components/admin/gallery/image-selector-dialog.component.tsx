@@ -1,10 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -14,7 +10,9 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/src/redux/store';
-import { enableAddProductMode, enableEditProductMode } from '@/src/redux/features/products/productSlice';
+import { enableEditImageMode, enableImageSelectMode, resetAddSelectedImageId, resetSelectedImages, setCurrentEditingImage } from '@/src/redux/features/images/imageSlice';
+import { Box, Fade } from '@mui/material';
+import D_Gallery from './gallery.component';
 
 interface DialogComponentProps {
   children: React.ReactNode;
@@ -28,33 +26,43 @@ const Transition = React.forwardRef(function Transition(
   },
   ref: React.Ref<unknown>,
 ) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Fade ref={ref} {...props} />;
 });
 
-export default function FullScreenDialog(children:DialogComponentProps){
+export default function ImageSelectorDialog(
+  // props:DialogComponentProps
+  ){
   // const [open, setOpen] = React.useState(false);
   const dispatch=useDispatch();
-  const open = useSelector((state:RootState) => state.products.addProductMode);
+  const open = useSelector((state:RootState) => state.images.imageSelectMode);
 
 
   const handleClickOpen = () => {
     // setOpen(true);
-    dispatch(enableAddProductMode(true))
+    dispatch(enableImageSelectMode(true))
   };
 
   const handleClose = () => {
     // setOpen(false);
-    dispatch(enableAddProductMode(false))
+    dispatch(enableImageSelectMode(false))
+
+    dispatch(resetAddSelectedImageId([]))
+    // dispatch(resetSelectedImages([]))
 
   };
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        {children.buttonText}
-      </Button>
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
+        {props.buttonText}
+      </Button> */}
       <Dialog
-        fullScreen
+        sx={{ 
+          padding:'6px'
+        }}
+        fullScreen={false}
+        maxWidth="lg"
+        fullWidth
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
@@ -70,15 +78,18 @@ export default function FullScreenDialog(children:DialogComponentProps){
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              {children.dialogTitle}
+              {/* {props.dialogTitle}  */}
+              Select images for product
             </Typography>
             {/* <Button autoFocus color="inherit" onClick={handleClose}>
               save
             </Button> */}
           </Toolbar>
         </AppBar>
-        
-        {children.children}
+        <Box padding="16px">
+          {/* {props.children} */}
+          <D_Gallery />
+        </Box>
       </Dialog>
     </React.Fragment>
   );

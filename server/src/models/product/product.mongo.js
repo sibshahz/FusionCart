@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Image=require('../images/images.mongo.js');
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -6,11 +7,13 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   description: String,
-  featuredImages:[{
-    type: String,
-  }],
+  featuredImages:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Image',
+  },
   images: [{
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Image',
   }],
   status: {
     type: String,

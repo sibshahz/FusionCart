@@ -1,4 +1,4 @@
-import { D_MenuItems,D_MenuItem } from "./navigations.types"; 
+import { D_MenuItems } from "./navigations.types"; 
 import {
   Dashboard,
   Diamond,
@@ -15,7 +15,8 @@ import {
   Category,
   Style,
   EditAttributes,
-  RateReview
+  RateReview,
+  ImageOutlined
 } from '@mui/icons-material';
 
 export const D_MainNav:D_MenuItems[]=[
@@ -61,6 +62,11 @@ export const D_MainNav:D_MenuItems[]=[
         title: "Add Product",
         url: "/add-product",
         icon:<LibraryAdd />
+      },
+      {
+        title: "Gallery",
+        url: "/gallery",
+        icon:<ImageOutlined />
       },
       {
         title: "Categories",

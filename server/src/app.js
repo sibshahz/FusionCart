@@ -7,14 +7,15 @@ const morgan = require('morgan');
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
-
 // const passport = require('passport'); // Import passport at the beginning // Import your passport strategies
 
 const api = require('./routes/api');
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({limit: '10mb'}));
+app.use(express.static(path.join(__dirname,'public')));
+
 app.use(cors({
   origin: process.env.WEB_ORIGIN,
 }));

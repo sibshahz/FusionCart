@@ -1,6 +1,6 @@
 "use client"
 import { deleteProduct, getProductsList } from '@/src/api/products/products';
-import { deleteProductState, enableEditProductMode, setCurrentEditingProduct, setProducts } from '@/src/redux/features/products/productSlice';
+import { deleteProductState, enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, setProducts } from '@/src/redux/features/products/productSlice';
 import { GridColDef, GridActionsCellItem, DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -18,7 +18,7 @@ type Props = {}
 const D_ProductTable = (props: Props) => {
 
   const dispatch=useDispatch();
-  const editProductMode = useSelector((state:RootState) => state.products.editProductMode)
+  const addProductMode = useSelector((state:RootState) => state.products.addProductMode)
   const { isLoading, isError, data, error } = useQuery('products', getProductsList);
   const queryClient = useQueryClient();
   if(data){
@@ -44,6 +44,7 @@ const D_ProductTable = (props: Props) => {
   }
   const handleEditClick=(id:string)=>{
     dispatch(enableEditProductMode(true));
+    dispatch(enableAddProductMode(true));
     dispatch(setCurrentEditingProduct(id))
   }
 
@@ -105,7 +106,7 @@ const D_ProductTable = (props: Props) => {
 
   return (
     <div>
-    <FullScreenDialog buttonText="Add new product" dialogTitle="Add new product" openMode={editProductMode}><D_ProductForm /></FullScreenDialog>
+    <FullScreenDialog buttonText="Add new product" dialogTitle="Add new product" openMode={addProductMode}><D_ProductForm /></FullScreenDialog>
     <DataGrid
         sx={{ 
           marginTop:2

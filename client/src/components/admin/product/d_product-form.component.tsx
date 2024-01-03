@@ -10,9 +10,12 @@ import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import { useQueryClient, useMutation } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { Product } from '@/product/product.types';
-import { enableEditProductMode, setCurrentEditingProduct, updateCurrentEditingProduct } from '@/src/redux/features/products/productSlice';
+import { enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, updateCurrentEditingProduct } from '@/src/redux/features/products/productSlice';
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { RootState } from '@/src/redux/store';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import { enableImageSelectMode, resetFilteredImages, resetSelectedImages, setFilteredImages } from '@/src/redux/features/images/imageSlice';
+import ImageSelectorDialog from '../gallery/image-selector-dialog.component';
 
 
 type Props = {}
@@ -31,6 +34,7 @@ type Inputs = {
   name: string,
   description: string,
   price:Number,
+  images:string[],
   salePrice:Number,
   stock:Number,
 }
@@ -38,11 +42,17 @@ function D_ProductForm({}: Props) {
   
   const dispatch=useDispatch();
   const editProductMode = useSelector((state:RootState) => state.products.editProductMode)
+  const imageSelectMode = useSelector((state:RootState) => state.images.imageSelectMode)
   const currentEditingProduct = useSelector((state:RootState) => state.products.currentEditingProduct)
+  const selectedImages = useSelector((state:RootState) => state.images.selectedImages)
+  const filteredImages=useSelector((state:RootState) => state.images.filteredImages)
+
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(postProduct, {
     onSuccess: data => {
     dispatch(setSnackbar({message:"New product added", severity:"success",snackbarOpen:true}))
+    dispatch(resetSelectedImages())
+
       // dispatch(setUser(data));    
     // router.push('/dashboard')   
   },
@@ -79,9 +89,17 @@ function D_ProductForm({}: Props) {
     if(currentEditingProduct){
       const values=getValues();
       values._id=currentEditingProduct?._id;
+      values.images=selectedImages;
       mutateUpdate(values);
     }
     reset();
+  }
+
+  const handlePostProduct=(data:Product)=>{
+    const dataPost:Product=({...data,images:selectedImages})
+    console.log("ADDING: ", dataPost);
+    mutate(dataPost);
+    dispatch(resetFilteredImages());
   }
   const {
     register,
@@ -92,21 +110,7 @@ function D_ProductForm({}: Props) {
     getValues,
     formState: { errors },
   } = useForm<Inputs>()
-  // const onSubmit: SubmitHandler<Inputs> = (data) => {
-  //   console.log('Product Data is: ', data)
-  //   mutate(data);
-  //   // reset();
-  //   // abort();
 
-  // }
-
-  // React.useEffect(()=>{
-  //   if(editTagMode && currentEditingTag){
-  //     setValue('name',currentEditingProduct?.name)
-  //     setValue('description',currentEditingTag?.tagSlug)
-  //     setValue('tagDescription',currentEditingTag?.tagDescription);
-  //   }
-  // },[editTagMode,currentEditingTag])
   React.useEffect(()=>{
     if(editProductMode && currentEditingProduct){
       setValue('name',currentEditingProduct?.name)
@@ -114,9 +118,15 @@ function D_ProductForm({}: Props) {
       setValue('price',currentEditingProduct?.price);
       setValue('salePrice',currentEditingProduct?.salePrice);
       setValue('stock',currentEditingProduct?.stock);
+      setValue('images',currentEditingProduct?.images);
     }
   },[editProductMode,currentEditingProduct])
 
+  React.useEffect(()=>{
+    if(!editProductMode && !currentEditingProduct){
+      dispatch(setFilteredImages());
+    }
+  },[editProductMode,currentEditingProduct])
 
   return (
     <Grid container spacing={2} maxWidth="100%">
@@ -124,8 +134,9 @@ function D_ProductForm({}: Props) {
         <Item elevation={1}>
         <form
           onSubmit={handleSubmit((data) => {
-            mutate(data);
-            reset();
+            // mutate(data);
+            handlePostProduct(data);
+            reset({name:"",description:"",price:"",salePrice:"",stock:""});
           })}
         >
           
@@ -154,6 +165,47 @@ function D_ProductForm({}: Props) {
               {errors.description && <FormHelperText error filled>Description of product is required</FormHelperText>}
 
             </FormGroup>
+
+            <FormGroup>
+              <Button size="large" variant='outlined' fullWidth={false} onClick={() => dispatch(enableImageSelectMode(true))}><AddBoxIcon /> Add Media</Button>
+            </FormGroup>
+            {
+              !editProductMode &&(
+                <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth="100%">
+                {
+                  filteredImages?.map((link: Image, index:number) => (
+                  <Paper key={index} elevation={1} sx={{ position:'relative' }}>
+                    {/* <ImageIconControllers imageId={link?._id} /> */}
+                    <img
+                      id={link?._id}
+                      src={`http://localhost:8080/${link.imagePath}`}
+                      alt={``}
+                      style={{ width: '250px', height: '250px', marginRight: '5px', marginBottom: '5px' }}
+                    />
+                  </Paper>
+                ))}
+              </Stack>
+              )
+            }
+            
+            
+            {
+              editProductMode && currentEditingProduct &&(
+                <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth="100%">
+                {currentEditingProduct.images?.map((link: Image, index:number) => (
+                  <Paper key={index} elevation={1} sx={{ position:'relative' }}>
+                    {/* <ImageIconControllers imageId={link?._id} /> */}
+                    <img
+                      id={link?._id}
+                      src={`http://localhost:8080/${link.imagePath}`}
+                      alt={``}
+                      style={{ width: '250px', height: '250px', marginRight: '5px', marginBottom: '5px' }}
+                    />
+                  </Paper>
+                ))}
+              </Stack>
+              )
+            }
 
             <Stack rowGap={2}>
               <Typography>Product data:</Typography>
@@ -213,6 +265,7 @@ function D_ProductForm({}: Props) {
           </Stack>
 
         </form>
+        <ImageSelectorDialog />
         <CustomizedSnackbars />
         </Item>
       </Grid>
