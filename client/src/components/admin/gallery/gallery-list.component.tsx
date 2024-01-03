@@ -10,7 +10,7 @@ import { deleteImage, getImagesList } from '@/src/api/images/images'
 import { Box, Button, Divider, IconButton, Paper, Popover, Stack, Typography } from '@mui/material'
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSelectedImages, enableEditImageMode, setCurrentEditingImage, setImages, toggleAddSelectedImageId } from '@/src/redux/features/images/imageSlice';
+import { addSelectedImages, enableEditImageMode, setCurrentEditingImage, setFilteredImages, setImages, toggleAddSelectedImageId } from '@/src/redux/features/images/imageSlice';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { RootState } from '@/src/redux/store';
 
@@ -102,8 +102,9 @@ const GalleryList = (props: Props) => {
         ))}
       </Stack>
       {
-        (imageSelectMode && (selectedImagesLength > 0)) && (
-          <Button onClick={()=>{dispatch(addSelectedImages()),dispatch(enableEditImageMode(false))}} variant="contained" >Add images</Button>
+        (
+          imageSelectMode && (selectedImagesLength > 0)) && (
+          <Button onClick={()=>{dispatch(addSelectedImages()),dispatch(setFilteredImages()),dispatch(enableEditImageMode(false))}} variant="contained" >Add images</Button>
         )        
       }
       <CustomizedSnackbars />

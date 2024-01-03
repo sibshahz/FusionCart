@@ -14,7 +14,7 @@ import { enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, 
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { RootState } from '@/src/redux/store';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { enableImageSelectMode, resetSelectedImages } from '@/src/redux/features/images/imageSlice';
+import { enableImageSelectMode, resetFilteredImages, resetSelectedImages, setFilteredImages } from '@/src/redux/features/images/imageSlice';
 import ImageSelectorDialog from '../gallery/image-selector-dialog.component';
 
 
@@ -45,6 +45,7 @@ function D_ProductForm({}: Props) {
   const imageSelectMode = useSelector((state:RootState) => state.images.imageSelectMode)
   const currentEditingProduct = useSelector((state:RootState) => state.products.currentEditingProduct)
   const selectedImages = useSelector((state:RootState) => state.images.selectedImages)
+  const filteredImages=useSelector((state:RootState) => state.images.filteredImages)
 
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(postProduct, {
@@ -98,6 +99,7 @@ function D_ProductForm({}: Props) {
     const dataPost:Product=({...data,images:selectedImages})
     console.log("ADDING: ", dataPost);
     mutate(dataPost);
+    dispatch(resetFilteredImages());
   }
   const {
     register,
@@ -117,6 +119,12 @@ function D_ProductForm({}: Props) {
       setValue('salePrice',currentEditingProduct?.salePrice);
       setValue('stock',currentEditingProduct?.stock);
       setValue('images',currentEditingProduct?.images);
+    }
+  },[editProductMode,currentEditingProduct])
+
+  React.useEffect(()=>{
+    if(!editProductMode && !currentEditingProduct){
+      dispatch(setFilteredImages());
     }
   },[editProductMode,currentEditingProduct])
 
@@ -161,7 +169,26 @@ function D_ProductForm({}: Props) {
             <FormGroup>
               <Button size="large" variant='outlined' fullWidth={false} onClick={() => dispatch(enableImageSelectMode(true))}><AddBoxIcon /> Add Media</Button>
             </FormGroup>
-
+            {
+              !editProductMode &&(
+                <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth="100%">
+                {
+                  filteredImages?.map((link: Image, index:number) => (
+                  <Paper key={index} elevation={1} sx={{ position:'relative' }}>
+                    {/* <ImageIconControllers imageId={link?._id} /> */}
+                    <img
+                      id={link?._id}
+                      src={`http://localhost:8080/${link.imagePath}`}
+                      alt={``}
+                      style={{ width: '250px', height: '250px', marginRight: '5px', marginBottom: '5px' }}
+                    />
+                  </Paper>
+                ))}
+              </Stack>
+              )
+            }
+            
+            
             {
               editProductMode && currentEditingProduct &&(
                 <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth="100%">

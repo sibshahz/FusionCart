@@ -4,6 +4,7 @@ import { Image } from '@/images/images.types';
 
 export interface ImagesState {
     images:Image[],
+    filteredImages:Image[],
     editImageMode:boolean,
     currentEditingImage: Image | {},
     imageSelectMode:boolean,
@@ -13,6 +14,7 @@ export interface ImagesState {
 
 const initialState: ImagesState = {
     images:[],
+    filteredImages:[],
     editImageMode:false,
     currentEditingImage:{},
     imageSelectMode:false,
@@ -26,6 +28,12 @@ export const imagesSlice = createSlice({
   reducers: {
     setImages: (state,action:PayloadAction<Image[]>) => {      
       state.images = action.payload;
+    },
+    setFilteredImages: (state) => {
+      state.filteredImages=state.images?.filter(item => state.selectedImages.includes(item?._id))
+    },
+    resetFilteredImages: (state) => {
+      state.filteredImages=[]
     },
     deleteImageState: (state, action) => {
       const id = action.payload.id;
@@ -82,6 +90,8 @@ export const imagesSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { 
   setImages,
+  setFilteredImages,
+  resetFilteredImages,
   enableImageSelectMode,
   deleteImageState,
   enableEditImageMode,
