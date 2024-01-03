@@ -103,7 +103,7 @@ const GalleryList = (props: Props) => {
       </Stack>
       {
         (imageSelectMode && (selectedImagesLength > 0)) && (
-          <Button onClick={()=>{dispatch(addSelectedImages())}} variant="contained" >Add images</Button>
+          <Button onClick={()=>{dispatch(addSelectedImages()),dispatch(enableEditImageMode(false))}} variant="contained" >Add images</Button>
         )        
       }
       <CustomizedSnackbars />

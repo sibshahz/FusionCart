@@ -1,4 +1,5 @@
 // import Product from "./product.mongo";
+const Image =require('../images/images.mongo');
 const Product = require("./product.mongo");
 
 async function addProduct(productData) {
@@ -13,7 +14,7 @@ async function addProduct(productData) {
 
 async function getAllProducts(){
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).populate('images').exec();
     return products;
   } catch (err) {
     console.error(err);

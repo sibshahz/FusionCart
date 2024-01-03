@@ -47,7 +47,7 @@ export default function ImageSelectorDialog(
     dispatch(enableImageSelectMode(false))
 
     dispatch(resetAddSelectedImageId([]))
-    dispatch(resetSelectedImages([]))
+    // dispatch(resetSelectedImages([]))
 
   };
 

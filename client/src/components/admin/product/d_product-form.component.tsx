@@ -14,7 +14,7 @@ import { enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, 
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { RootState } from '@/src/redux/store';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { enableImageSelectMode } from '@/src/redux/features/images/imageSlice';
+import { enableImageSelectMode, resetSelectedImages } from '@/src/redux/features/images/imageSlice';
 import ImageSelectorDialog from '../gallery/image-selector-dialog.component';
 
 
@@ -34,6 +34,7 @@ type Inputs = {
   name: string,
   description: string,
   price:Number,
+  images:string[],
   salePrice:Number,
   stock:Number,
 }
@@ -43,10 +44,14 @@ function D_ProductForm({}: Props) {
   const editProductMode = useSelector((state:RootState) => state.products.editProductMode)
   const imageSelectMode = useSelector((state:RootState) => state.images.imageSelectMode)
   const currentEditingProduct = useSelector((state:RootState) => state.products.currentEditingProduct)
+  const selectedImages = useSelector((state:RootState) => state.images.selectedImages)
+
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(postProduct, {
     onSuccess: data => {
     dispatch(setSnackbar({message:"New product added", severity:"success",snackbarOpen:true}))
+    dispatch(resetSelectedImages())
+
       // dispatch(setUser(data));    
     // router.push('/dashboard')   
   },
@@ -83,9 +88,16 @@ function D_ProductForm({}: Props) {
     if(currentEditingProduct){
       const values=getValues();
       values._id=currentEditingProduct?._id;
+      values.images=selectedImages;
       mutateUpdate(values);
     }
     reset();
+  }
+
+  const handlePostProduct=(data:Product)=>{
+    const dataPost:Product=({...data,images:selectedImages})
+    console.log("ADDING: ", dataPost);
+    mutate(dataPost);
   }
   const {
     register,
@@ -104,6 +116,7 @@ function D_ProductForm({}: Props) {
       setValue('price',currentEditingProduct?.price);
       setValue('salePrice',currentEditingProduct?.salePrice);
       setValue('stock',currentEditingProduct?.stock);
+      setValue('images',currentEditingProduct?.images);
     }
   },[editProductMode,currentEditingProduct])
 
@@ -113,7 +126,8 @@ function D_ProductForm({}: Props) {
         <Item elevation={1}>
         <form
           onSubmit={handleSubmit((data) => {
-            mutate(data);
+            // mutate(data);
+            handlePostProduct(data);
             reset({name:"",description:"",price:"",salePrice:"",stock:""});
           })}
         >
@@ -147,6 +161,24 @@ function D_ProductForm({}: Props) {
             <FormGroup>
               <Button size="large" variant='outlined' fullWidth={false} onClick={() => dispatch(enableImageSelectMode(true))}><AddBoxIcon /> Add Media</Button>
             </FormGroup>
+
+            {
+              editProductMode && currentEditingProduct &&(
+                <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth="100%">
+                {currentEditingProduct.images?.map((link: Image, index:number) => (
+                  <Paper key={index} elevation={1} sx={{ position:'relative' }}>
+                    {/* <ImageIconControllers imageId={link?._id} /> */}
+                    <img
+                      id={link?._id}
+                      src={`http://localhost:8080/${link.imagePath}`}
+                      alt={``}
+                      style={{ width: '250px', height: '250px', marginRight: '5px', marginBottom: '5px' }}
+                    />
+                  </Paper>
+                ))}
+              </Stack>
+              )
+            }
 
             <Stack rowGap={2}>
               <Typography>Product data:</Typography>
