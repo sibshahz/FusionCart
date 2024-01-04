@@ -30,7 +30,11 @@ export const imagesSlice = createSlice({
       state.images = action.payload;
     },
     setFilteredImages: (state) => {
-      state.filteredImages=state.images?.filter(item => state.selectedImages.includes(item?._id))
+      // state.filteredImages=state.images?.filter(item => state.selectedImages.includes(item?._id))
+      state.filteredImages = state.images?.filter(item => state.selectedImages.includes(item?._id)) || [];
+    },
+    removeFromFilteredImages:(state,action:PayloadAction<string>)=>{
+      state.filteredImages = state.filteredImages?.filter(item => item?._id !== action.payload)
     },
     resetFilteredImages: (state) => {
       state.filteredImages=[]
@@ -92,6 +96,7 @@ export const {
   setImages,
   setFilteredImages,
   resetFilteredImages,
+  removeFromFilteredImages,
   enableImageSelectMode,
   deleteImageState,
   enableEditImageMode,

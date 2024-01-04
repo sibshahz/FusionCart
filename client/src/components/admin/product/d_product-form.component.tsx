@@ -3,7 +3,7 @@ import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import { FormGroup, TextField,Stack, Button, FormHelperText, Typography, Box} from '@mui/material';
+import { FormGroup, TextField,Stack, Button, FormHelperText, Typography, Box, IconButton} from '@mui/material';
 import { useForm, SubmitHandler } from "react-hook-form"
 import { postProduct, updateProduct } from '@/src/api/products/products';
 import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
@@ -14,8 +14,9 @@ import { enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, 
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { RootState } from '@/src/redux/store';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { enableImageSelectMode, resetFilteredImages, resetSelectedImages, setFilteredImages } from '@/src/redux/features/images/imageSlice';
+import { enableImageSelectMode, removeFromFilteredImages, resetFilteredImages, resetSelectedImages, setFilteredImages } from '@/src/redux/features/images/imageSlice';
 import ImageSelectorDialog from '../gallery/image-selector-dialog.component';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 
 type Props = {}
@@ -52,6 +53,7 @@ function D_ProductForm({}: Props) {
     onSuccess: data => {
     dispatch(setSnackbar({message:"New product added", severity:"success",snackbarOpen:true}))
     dispatch(resetSelectedImages())
+    dispatch(resetFilteredImages());
 
       // dispatch(setUser(data));    
     // router.push('/dashboard')   
@@ -97,9 +99,7 @@ function D_ProductForm({}: Props) {
 
   const handlePostProduct=(data:Product)=>{
     const dataPost:Product=({...data,images:selectedImages})
-    console.log("ADDING: ", dataPost);
     mutate(dataPost);
-    dispatch(resetFilteredImages());
   }
   const {
     register,
@@ -175,6 +175,10 @@ function D_ProductForm({}: Props) {
                 {
                   filteredImages?.map((link: Image, index:number) => (
                   <Paper key={index} elevation={1} sx={{ position:'relative' }}>
+                    <IconButton onClick={()=>{ dispatch(removeFromFilteredImages(link?._id))}}
+                    sx={{ position:'absolute', paddingLeft:1,paddingRight:1,top:6,right:6 }}>
+                      <RemoveCircleIcon fontSize='small' />
+                    </IconButton>
                     {/* <ImageIconControllers imageId={link?._id} /> */}
                     <img
                       id={link?._id}
