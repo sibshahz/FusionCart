@@ -19,7 +19,8 @@ const ImageControllers=({ image }: { image: Image }) => {
   const [toggle,setToggle]=React.useState(false);
   const queryClient = useQueryClient();
   const dispatch=useDispatch()
-  const imageIsSelected = useSelector((state: RootState) => state.images.selectedImages.includes(image._id || ''));
+  const selectedImagesId=useSelector((state:RootState) => state.images.selectedImagesId)
+  const imageIsSelected = selectedImagesId.includes(image._id);
   const isImageSelectMode = useSelector((state:RootState) => state.images.imageSelectMode);
   const { mutate:deleteMutate, isLoading:deleteLoading } = useMutation(deleteImage, {
     onSuccess: data => {
@@ -47,7 +48,7 @@ const ImageControllers=({ image }: { image: Image }) => {
             <>
             {
               // selectedImages.includes(`${image?._id}`) ? (
-              toggle ? (
+              imageIsSelected ? (
                 <IconButton
                     color='inherit'
                     size="small"

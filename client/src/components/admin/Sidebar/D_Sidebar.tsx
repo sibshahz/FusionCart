@@ -92,7 +92,7 @@ export default function ResponsiveDrawer({
         width:'100%'
        }}>
         {D_MainNav.map((text, index) => (
-          <>
+          <div key={index}>
           <ListItem 
             sx={{ 
               minWidth:'100%',
@@ -139,7 +139,7 @@ export default function ResponsiveDrawer({
 
           </ListItem>
           <Divider />
-          </>
+          </div>
         ))}
       
       </List>
