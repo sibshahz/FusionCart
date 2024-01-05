@@ -7,6 +7,7 @@ import {
 import {
   getProduct
 } from '@/src/api/products/products'
+import { Product } from '@/product/product.types'
 type Props = {}
 
 const ProductPage = ({ params }: { params: { slug: string } }) => {
@@ -15,7 +16,12 @@ const ProductPage = ({ params }: { params: { slug: string } }) => {
   const { data, error, isLoading, refetch } = useQuery('product', () => getProduct(params.slug));
   
   return (
-    <div>Product page</div>
+    <div>
+      {
+        data.name
+      }
+      
+    </div>
   )
 }
 

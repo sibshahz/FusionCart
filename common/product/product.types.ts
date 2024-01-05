@@ -1,4 +1,4 @@
-import { Images } from "../images/images.types"
+import { Image } from "../images/images.types"
 import { Category } from "../category/category.types"
 import { Tag } from "../tags/tags.types"
 import { Attribute } from "../attribute/attribute.types"
@@ -13,8 +13,8 @@ export type Product={
   name: string,
   description: string,
   tagline?:string,
-  featuredImages?: [Images],
-  images?:[Images],
+  featuredImages?: [Image],
+  images?:[Image],
   status:Status.PUBLISHED,
   category?:[Category],
   tags?:[Tag],

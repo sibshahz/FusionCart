@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addSelectedImages, enableEditImageMode, setFilteredImages, setImages, toggleAddSelectedImageId } from '@/src/redux/features/images/imageSlice';
 import { RootState } from '@/src/redux/store';
 import ImageControllers from './image-controller.component'
+import { useAppSelector } from '@/src/redux/hooks'
 
 type Props = {}
 
@@ -20,7 +21,9 @@ const GalleryList = (props: Props) => {
   
   const dispatch=useDispatch();
   const imageSelectMode = useSelector((state:RootState) => state.images.imageSelectMode);
+  const images=useAppSelector((state:RootState) => state.images.images)
   const selectedImagesLength = useSelector((state:RootState) => state.images.selectedImagesId.length);
+  const filteredImages = useAppSelector((state:RootState) => state.images.filteredImages)
   const { isLoading, isError, data, error } = useQuery('images', getImagesList);
   
   
@@ -40,7 +43,7 @@ const GalleryList = (props: Props) => {
   return (
     <>
       <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth="100%">
-        {data?.map((image: Image, index:number) => (
+        {images?.map((image: Image, index:number) => (
           <div key={index}>
             <ImageControllers 
             image={image}

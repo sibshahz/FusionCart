@@ -2,7 +2,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import type { Metadata } from 'next'
 import ReactQueryProvider from '@/src/providers/ReactQueryProvider'
 import '../../globals.css'
-import D_Sidebar from '@/src/components/admin/sidebar/d_sidebar'
+import ResponsiveDrawer from '@/src/components/admin/sidebar/D_Sidebar' 
 import  theme  from '@/src/providers/MUIThemeProvider'
 import StoreProvider from '@/src/redux/StoreProvider'
 
@@ -112,9 +112,9 @@ export default function AdminRootLayout({
           <ReactQueryProvider>
             <CssBaseline />
             <ThemeProvider theme={theme}>
-              <D_Sidebar>
+              <ResponsiveDrawer>
                 {children}
-              </D_Sidebar>
+              </ResponsiveDrawer>
             </ThemeProvider>
           </ReactQueryProvider>
         </StoreProvider>

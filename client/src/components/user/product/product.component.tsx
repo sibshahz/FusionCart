@@ -1,17 +1,35 @@
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import {Product} from '../../../../../common/product/product.types'
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Product } from '../../../../../common/product/product.types';
 
+interface ImageRollerProps {
+  images: Image[];
+}
+
+const ImageRoller = ({ images }: ImageRollerProps) => {
+  return (
+    <div>
+      {images?.map((link: Image, index: number) => (
+        <div key={index}>
+          <img
+            width={200}
+            height={200}
+            id={link?._id}
+            src={`http://localhost:8080/${link.imagePath}`}
+            alt={link.alt || 'Image not available'}
+            className="image-thumbnail"
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const ProductComponent = (product: Product) => {
   return (
     <div className='flex flex-col product--container'>
-      <Image 
-        src={`/imgs/products/${product.images?.[0]}`} 
-        alt={`some alt}`} 
-        width={285} height={300} 
-      />
+      <ImageRoller images={product.images} />
       <div className="product--details">
         <Link href={`/shop/${product._id}`}>
           <h4 className="product--heading">
@@ -27,11 +45,9 @@ const ProductComponent = (product: Product) => {
             {product.price}
           </span>
         </div>
-        
       </div>
-      
     </div>
-  )
-}
+  );
+};
 
-export default ProductComponent
+export default ProductComponent;

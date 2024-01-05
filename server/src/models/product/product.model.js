@@ -23,7 +23,7 @@ async function getAllProducts(){
 
 async function getProduct(id){
   try {
-    const product=await Product.findById(id);
+    const product=await Product.findById(id).populate('images').exec();
     return product;
   } catch (error) {
     console.log(error);

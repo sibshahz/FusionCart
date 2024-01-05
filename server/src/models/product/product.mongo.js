@@ -7,6 +7,7 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   description: String,
+  tagline:String,
   featuredImages:{
     type: mongoose.Schema.Types.ObjectId,
     ref:'Image',

@@ -12,6 +12,7 @@ import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import FullScreenDialog from '../dialog/dialog.component';
 import D_ProductForm from './d_product-form.component';
+import { setFilteredImages } from '@/src/redux/features/images/imageSlice';
 
 type Props = {}
 
@@ -46,6 +47,7 @@ const D_ProductTable = (props: Props) => {
     dispatch(enableEditProductMode(true));
     dispatch(enableAddProductMode(true));
     dispatch(setCurrentEditingProduct(id))
+    dispatch(setFilteredImages())
   }
 
   const columns: GridColDef[] = [

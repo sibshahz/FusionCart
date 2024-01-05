@@ -173,7 +173,7 @@ function D_ProductForm({}: Props) {
               !editProductMode &&(
                 <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth="100%">
                 {
-                  filteredImages?.map((link: Image, index:number) => (
+                  filteredImages?.map((link:Image, index:number) => (
                   <Paper key={index} elevation={1} sx={{ position:'relative' }}>
                     <IconButton onClick={()=>{ dispatch(removeFromFilteredImages(link?._id))}}
                     sx={{ position:'absolute', paddingLeft:1,paddingRight:1,top:6,right:6 }}>
