@@ -14,7 +14,7 @@ import { enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, 
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { RootState } from '@/src/redux/store';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { addSelectedImagesId, enableImageSelectMode, removeFromFilteredImages, resetAddSelectedImageId, resetFilteredImages, resetSelectedImages, setFilteredImages } from '@/src/redux/features/images/imageSlice';
+import { addSelectedImagesId, enableImageSelectMode, removeFromFilteredImages, resetAddSelectedImageId, resetFilteredImages, resetSelectedImages, setFilteredImages, toggleAddSelectedImageId } from '@/src/redux/features/images/imageSlice';
 import ImageSelectorDialog from '../gallery/image-selector-dialog.component';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
