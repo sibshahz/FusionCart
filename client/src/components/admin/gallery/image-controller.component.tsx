@@ -1,5 +1,5 @@
 import { deleteImage } from '@/src/api/images/images';
-import { toggleAddSelectedImageId, enableEditImageMode, setCurrentEditingImage } from '@/src/redux/features/images/imageSlice';
+import { toggleAddSelectedImageId, enableEditImageMode, setCurrentEditingImage, setFilteredImages } from '@/src/redux/features/images/imageSlice';
 import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import { Stack, IconButton, Paper } from '@mui/material';
 import React from 'react'
@@ -12,13 +12,14 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { Image } from '@/images/images.types';
 import { RootState } from '@/src/redux/store';
+import { useAppDispatch } from '@/src/redux/hooks';
 
 type Props = {}
 
 const ImageControllers=({ image }: { image: Image }) => {
   const [toggle,setToggle]=React.useState(false);
   const queryClient = useQueryClient();
-  const dispatch=useDispatch()
+  const dispatch=useAppDispatch()
   const selectedImagesId=useSelector((state:RootState) => state.images.selectedImagesId)
   const imageIsSelected = selectedImagesId.includes(image._id);
   const isImageSelectMode = useSelector((state:RootState) => state.images.imageSelectMode);
@@ -36,6 +37,7 @@ const ImageControllers=({ image }: { image: Image }) => {
 
   const handleAddToggle=()=>{
     dispatch(toggleAddSelectedImageId(image?._id))
+    dispatch(setFilteredImages())
     setToggle((oldState) => !oldState)
   }
 

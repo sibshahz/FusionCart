@@ -1,6 +1,10 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -10,15 +14,12 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/src/redux/store';
-import { enableEditImageMode, enableImageSelectMode, resetAddSelectedImageId, resetSelectedImages, setCurrentEditingImage } from '@/src/redux/features/images/imageSlice';
-import { Box, Fade } from '@mui/material';
-import D_Gallery from './gallery.component';
+import { toggleProductAddDialog} from '@/src/redux/features/products/productSlice';
+import { useAppSelector } from '@/src/redux/hooks';
+import { resetAddSelectedImageId, resetFilteredImages, resetSelectedImages } from '@/src/redux/features/images/imageSlice';
+import D_ProductAddForm from '../product/d_product-form.component';
 
-interface DialogComponentProps {
-  children: React.ReactNode;
-  buttonText: string;
-  dialogTitle: string;
-}
+
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -26,44 +27,36 @@ const Transition = React.forwardRef(function Transition(
   },
   ref: React.Ref<unknown>,
 ) {
-  return <Fade ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ImageSelectorDialog(
-  // props:DialogComponentProps
-  ){
+export default function ProductAddDialog(){
   // const [open, setOpen] = React.useState(false);
   const dispatch=useDispatch();
-  const open = useSelector((state:RootState) => state.images.imageSelectMode);
+  const productAddDialogOpen = useAppSelector((state:RootState) => state.products.productAddDialogOpen);
 
 
   const handleClickOpen = () => {
-    // setOpen(true);
-    dispatch(enableImageSelectMode(true))
+    // // setOpen(true);
+    // dispatch(enableAddProductMode(true))
   };
 
   const handleClose = () => {
     // setOpen(false);
-    dispatch(enableImageSelectMode(false))
-
-    // dispatch(resetAddSelectedImageId([]))
-    // dispatch(resetSelectedImages([]))
+    dispatch(toggleProductAddDialog());
+    dispatch(resetAddSelectedImageId())
+    dispatch(resetFilteredImages())
 
   };
 
   return (
     <React.Fragment>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
-        {props.buttonText}
+        {children.buttonText}
       </Button> */}
       <Dialog
-        sx={{ 
-          padding:'6px'
-        }}
-        fullScreen={false}
-        maxWidth="lg"
-        fullWidth
-        open={open}
+        fullScreen
+        open={productAddDialogOpen}
         onClose={handleClose}
         TransitionComponent={Transition}
       >
@@ -78,18 +71,14 @@ export default function ImageSelectorDialog(
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              {/* {props.dialogTitle}  */}
-              Select images for product
+              Add Product
             </Typography>
             {/* <Button autoFocus color="inherit" onClick={handleClose}>
               save
             </Button> */}
           </Toolbar>
         </AppBar>
-        <Box padding="16px">
-          {/* {props.children} */}
-          <D_Gallery />
-        </Box>
+        <D_ProductAddForm />
       </Dialog>
     </React.Fragment>
   );

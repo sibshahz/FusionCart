@@ -8,7 +8,7 @@ import { getImagesList } from '@/src/api/images/images'
 import {  Button, Paper, Stack, Typography } from '@mui/material'
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSelectedImages, enableEditImageMode, setFilteredImages, setImages, toggleAddSelectedImageId } from '@/src/redux/features/images/imageSlice';
+import { enableEditImageMode, setFilteredImages, setImages, toggleAddSelectedImageId } from '@/src/redux/features/images/imageSlice';
 import { RootState } from '@/src/redux/store';
 import ImageControllers from './image-controller.component'
 import { useAppSelector } from '@/src/redux/hooks'
@@ -54,7 +54,7 @@ const GalleryList = (props: Props) => {
       {
         (
           imageSelectMode && (selectedImagesLength > 0)) && (
-          <Button onClick={()=>{dispatch(addSelectedImages()),dispatch(setFilteredImages()),dispatch(enableEditImageMode(false))}} variant="contained" >Add images</Button>
+          <Button onClick={()=>{dispatch(setFilteredImages()),dispatch(enableEditImageMode(false))}} variant="contained" >Add images</Button>
         )        
       }
       <CustomizedSnackbars />
