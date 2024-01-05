@@ -10,14 +10,13 @@ import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import { useQueryClient, useMutation } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { Product } from '@/product/product.types';
-import { enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, updateCurrentEditingProduct } from '@/src/redux/features/products/productSlice';
+import { enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, toggleProductEditDialog, updateCurrentEditingProduct } from '@/src/redux/features/products/productSlice';
 import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { RootState } from '@/src/redux/store';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { enableImageSelectMode, removeFromFilteredImages, resetAddSelectedImageId, resetFilteredImages, resetSelectedImages, setFilteredImages, toggleAddSelectedImageId } from '@/src/redux/features/images/imageSlice';
+import { addSelectedImagesId, enableImageSelectMode, removeFromFilteredImages, resetAddSelectedImageId, resetFilteredImages, resetSelectedImages, setFilteredImages } from '@/src/redux/features/images/imageSlice';
 import ImageSelectorDialog from '../gallery/image-selector-dialog.component';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { Image } from '@/images/images.types';
 
 
 type Props = {}
@@ -36,37 +35,52 @@ type Inputs = {
   name: string,
   description: string,
   price:Number,
-  images:Image[],
+  images:string[],
   salePrice:Number,
   stock:Number,
 }
-function D_ProductAddForm({}: Props) {
+function D_ProductEditForm({}: Props) {
   
   const dispatch=useDispatch();
+  const currentEditingProduct = useSelector((state:RootState) => state.products.currentEditingProduct)
   const selectedImagesId = useSelector((state:RootState) => state.images.selectedImagesId)
   const filteredImages=useSelector((state:RootState) => state.images.filteredImages)
 
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation(postProduct, {
-    onSuccess: data => {
-    dispatch(setSnackbar({message:"New product added", severity:"success",snackbarOpen:true}))
-    // dispatch(resetSelectedImages())
-    dispatch(resetFilteredImages());
-    dispatch(resetAddSelectedImageId())
 
+  const { mutate:mutateUpdate, isLoading:updateLoading } = useMutation(updateProduct, {
+    onSuccess: data => {
+    dispatch(updateCurrentEditingProduct(data));
+    dispatch(setCurrentEditingProduct({}))
+    dispatch(toggleProductEditDialog())
+    dispatch(resetFilteredImages());
+    dispatch(resetAddSelectedImageId());
+    reset({ name: '',description:'',price:'',salePrice:'',stock:'',images:[] })
+    dispatch(setSnackbar({message:"Product data updated", severity:"success",snackbarOpen:true}))
   },
     onError: (error) => {
-          console.log("there was an error: ",error)
+      console.log("there was an error: ",error)
   },
     onSettled: () => {
-        queryClient.invalidateQueries('products')
+      queryClient.invalidateQueries('products')
   }
   });
-
-  const handlePostProduct=(data:Product)=>{
-    const dataPost:Product=({...data,images:selectedImagesId})
-    mutate(dataPost);
+  const handleCancelEdit=()=>{
+    reset({ name:'',description:'',price:'',salePrice:'',stock:'',images:[] })
+    dispatch(setCurrentEditingProduct({}))
+    dispatch(toggleProductEditDialog())
+    dispatch(resetAddSelectedImageId());
+    dispatch(resetFilteredImages())
+    dispatch(setSnackbar({message:"Edit cancelled", severity:"info",snackbarOpen:true}))
   }
+  const handleUpdateEdit=()=>{
+    const values=getValues();
+    values._id=currentEditingProduct?._id;
+    values.images=selectedImagesId;
+    mutateUpdate(values);
+    reset();
+  }
+
   const {
     register,
     handleSubmit,
@@ -77,11 +91,16 @@ function D_ProductAddForm({}: Props) {
     formState: { errors },
   } = useForm<Inputs>()
 
-  // React.useEffect(()=>{
-  //   if(!editProductMode && !currentEditingProduct){
-  //     dispatch(setFilteredImages());
-  //   }
-  // },[editProductMode,currentEditingProduct])
+  React.useEffect(()=>{
+    dispatch(addSelectedImagesId(currentEditingProduct?.images))
+    setValue('name',currentEditingProduct?.name)
+    setValue('description',currentEditingProduct?.description)
+    setValue('price',currentEditingProduct?.price);
+    setValue('salePrice',currentEditingProduct?.salePrice);
+    setValue('stock',currentEditingProduct?.stock);
+    setValue('images',currentEditingProduct?.images);
+    dispatch(setFilteredImages())
+  },[])
 
   return (
     <Grid container spacing={2} maxWidth="100%">
@@ -90,7 +109,7 @@ function D_ProductAddForm({}: Props) {
         <form
           onSubmit={handleSubmit((data) => {
             // mutate(data);
-            handlePostProduct(data);
+            handleUpdateEdit(data);
             reset({name:"",description:"",price:"",salePrice:"",stock:"",images:[]});
           })}
         >
@@ -124,24 +143,24 @@ function D_ProductAddForm({}: Props) {
             <FormGroup>
               <Button size="large" variant='outlined' fullWidth={false} onClick={() => dispatch(enableImageSelectMode(true))}><AddBoxIcon /> Add Media</Button>
             </FormGroup>
-              <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth="100%">
-                {
-                  filteredImages?.map((link:Image, index:number) => (
-                  <Paper key={index} elevation={1} sx={{ position:'relative' }}>
-                    <IconButton onClick={()=>{ dispatch(removeFromFilteredImages(link?._id),dispatch(toggleAddSelectedImageId(link?._id)))}}
-                    sx={{ position:'absolute', paddingLeft:1,paddingRight:1,top:6,right:6 }}>
-                      <RemoveCircleIcon fontSize='small' />
-                    </IconButton>
-                    <img
-                      id={link?._id}
-                      src={`http://localhost:8080/${link.imagePath}`}
-                      alt={``}
-                      style={{ width: '250px', height: '250px', marginRight: '5px', marginBottom: '5px' }}
-                    />
-                  </Paper>
-                ))}
-              </Stack>
-              
+
+            <Stack flexDirection="row" gap={2} mt={2} mb={2} flexWrap="wrap" minWidth="100%">
+            {filteredImages?.map((link: Image, index:number) => (
+              <Paper key={index} elevation={1} sx={{ position:'relative' }}>
+              <IconButton onClick={()=>{ dispatch(removeFromFilteredImages(link?._id),dispatch(toggleAddSelectedImageId(link?._id)))}}
+              sx={{ position:'absolute', paddingLeft:1,paddingRight:1,top:6,right:6 }}>
+                <RemoveCircleIcon fontSize='small' />
+              </IconButton>
+              <img
+                id={link?._id}
+                src={`http://localhost:8080/${link.imagePath}`}
+                alt={``}
+                style={{ width: '250px', height: '250px', marginRight: '5px', marginBottom: '5px' }}
+              />
+            </Paper>
+            ))}
+          </Stack>
+
             <Stack rowGap={2}>
               <Typography>Product data:</Typography>
               <Stack direction={{ sm:'column',md:'row' }} gap={2}>
@@ -178,15 +197,11 @@ function D_ProductAddForm({}: Props) {
                 </Stack>
               </Stack>
             </Stack>
-          
-          <Stack direction='row'>
-            <Button variant="contained" size="large" type='submit'>
-                Add product
-            </Button>
+              <Stack direction='row' gap={2}>
+                <Button variant="contained" size="large" onClick={handleUpdateEdit}>Update Product</Button>
+                <Button variant="contained" size="large" onClick={handleCancelEdit}>Cancel</Button>
+              </Stack>
           </Stack>
-
-          </Stack>
-
         </form>
         <ImageSelectorDialog />
         <CustomizedSnackbars />
@@ -199,4 +214,4 @@ function D_ProductAddForm({}: Props) {
   )
 }
 
-export default D_ProductAddForm;
+export default D_ProductEditForm;

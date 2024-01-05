@@ -1,6 +1,6 @@
 "use client"
 import { deleteProduct, getProductsList } from '@/src/api/products/products';
-import { deleteProductState, enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, setProducts } from '@/src/redux/features/products/productSlice';
+import { deleteProductState, enableAddProductMode, enableEditProductMode, setCurrentEditingProduct, setProducts, toggleProductAddDialog, toggleProductEditDialog } from '@/src/redux/features/products/productSlice';
 import { GridColDef, GridActionsCellItem, DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -10,18 +10,20 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { RootState } from '@/src/redux/store';
 import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import CustomizedSnackbars from '../snackbar/snackbar.component';
-import FullScreenDialog from '../dialog/dialog.component';
+import FullScreenDialog from '../dialog/dialog-product-edit.component';
 import D_ProductForm from './d_product-form.component';
 import { setFilteredImages } from '@/src/redux/features/images/imageSlice';
+import ProductAddDialog from '../dialog/dialog-product-add.component';
+import ProductEditDialog from '../dialog/dialog-product-edit.component';
+import { Button } from '@mui/material';
 
 type Props = {}
 
 const D_ProductTable = (props: Props) => {
 
-  const dispatch=useDispatch();
-  const addProductMode = useSelector((state:RootState) => state.products.addProductMode)
-  const { isLoading, isError, data, error } = useQuery('products', getProductsList);
   const queryClient = useQueryClient();
+  const dispatch=useDispatch();
+  const { isLoading, isError, data, error } = useQuery('products', getProductsList);
   if(data){
     dispatch(setProducts(data))
   }
@@ -44,10 +46,13 @@ const D_ProductTable = (props: Props) => {
     deleteMutate(id);
   }
   const handleEditClick=(id:string)=>{
-    dispatch(enableEditProductMode(true));
-    dispatch(enableAddProductMode(true));
+    dispatch(toggleProductEditDialog());
     dispatch(setCurrentEditingProduct(id))
+    // dispatch(setSelectedImages())
     dispatch(setFilteredImages())
+  }
+  const handleAddClick=()=>{
+    dispatch(toggleProductAddDialog())
   }
 
   const columns: GridColDef[] = [
@@ -108,7 +113,7 @@ const D_ProductTable = (props: Props) => {
 
   return (
     <div>
-    <FullScreenDialog buttonText="Add new product" dialogTitle="Add new product" openMode={addProductMode}><D_ProductForm /></FullScreenDialog>
+    <Button onClick={() => handleAddClick()} variant="outlined">Add Product</Button>      
     <DataGrid
         sx={{ 
           marginTop:2
@@ -127,6 +132,8 @@ const D_ProductTable = (props: Props) => {
         pageSizeOptions={[5, 10,15,20]}
         // checkboxSelection
       />
+      <ProductAddDialog />
+      <ProductEditDialog />
       <CustomizedSnackbars />
     </div>
   )

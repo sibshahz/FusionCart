@@ -4,9 +4,11 @@ import { Product } from "@/product/product.types";
 
 export interface ProductsState {
     products:Product[],
-    editProductMode:boolean,
     currentEditingProduct?: Product | {},
+    editProductMode:boolean,
     addProductMode:boolean,
+    productEditDialogOpen:boolean,
+    productAddDialogOpen:boolean,
 }
 
 const initialState: ProductsState = {
@@ -14,6 +16,8 @@ const initialState: ProductsState = {
     editProductMode:false,
     currentEditingProduct:{},
     addProductMode:false,
+    productEditDialogOpen:false,
+    productAddDialogOpen:false,
 }
 
 export const productsSlice = createSlice({
@@ -22,6 +26,12 @@ export const productsSlice = createSlice({
   reducers: {
     setProducts: (state,action:PayloadAction<Product[]>) => {      
       state.products = action.payload;
+    },
+    toggleProductAddDialog:(state)=>{
+      state.productAddDialogOpen=!state.productAddDialogOpen;
+    },
+    toggleProductEditDialog:(state)=>{
+      state.productEditDialogOpen=!state.productEditDialogOpen;
     },
     deleteProductState: (state, action) => {
       const id = action.payload.id;
@@ -64,7 +74,9 @@ export const {
   enableEditProductMode,
   enableAddProductMode,
   setCurrentEditingProduct,
-  updateCurrentEditingProduct
+  updateCurrentEditingProduct,
+  toggleProductEditDialog,
+  toggleProductAddDialog,
  } = productsSlice.actions
 
 export default productsSlice.reducer

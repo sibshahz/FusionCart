@@ -9,6 +9,7 @@ import CustomizedSnackbars from '../snackbar/snackbar.component';
 import { setSnackbar } from '@/src/redux/features/snackbar/snackbar';
 import { postImages } from '@/src/api/images/images';
 import Grid from '@mui/material/Unstable_Grid2';
+import { resetSelectedImages } from '@/src/redux/features/images/imageSlice';
 
 type Inputs = {
   imageTitle: string,
@@ -25,7 +26,8 @@ const D_ImageForm = () => {
   const { mutate:mutatePostImages, isLoading:imagesLoading } = useMutation(postImages, {
     onSuccess: data => {
     dispatch(setSnackbar({message:"Images uploaded", severity:"success",snackbarOpen:true}))
-    setImagesData([])   
+    console.log("UPLOADED IN: ",data);
+    setImagesData([])
   },
     onError: (error) => {
       console.log("there was an error: ",error)

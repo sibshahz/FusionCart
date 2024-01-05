@@ -5,6 +5,7 @@ import { Image } from '@/images/images.types';
 export interface ImagesState {
     images:Image[],
     filteredImages:Image[],
+    filteredImagesId:string[],
     editImageMode:boolean,
     currentEditingImage: Image | {},
     imageSelectMode:boolean,
@@ -15,6 +16,7 @@ export interface ImagesState {
 const initialState: ImagesState = {
     images:[],
     filteredImages:[],
+    filteredImagesId:[],
     editImageMode:false,
     currentEditingImage:{},
     imageSelectMode:false,
@@ -31,7 +33,7 @@ export const imagesSlice = createSlice({
     },
     setFilteredImages: (state) => {
       // state.filteredImages=state.images?.filter(item => state.selectedImages.includes(item?._id))
-      state.filteredImages = state.images?.filter(item => state.selectedImages.includes(item?._id)) || [];
+      state.filteredImages = state.images?.filter(item => state.selectedImagesId.includes(item?._id)) || [];
     },
     removeFromFilteredImages:(state,action:PayloadAction<string>)=>{
       state.filteredImages = state.filteredImages?.filter(item => item?._id !== action.payload)
@@ -75,15 +77,16 @@ export const imagesSlice = createSlice({
         state.selectedImagesId=state.selectedImagesId.filter((item) => item !== action.payload)
       } else {
         state.selectedImagesId.push(action.payload)
-        console.log("TABLE: ",state.selectedImagesId)
       }
     },
 
-    resetAddSelectedImageId: (state, action: PayloadAction<string[]>) => {
+    resetAddSelectedImageId: (state) => {
       state.selectedImagesId = [];
     },
-    addSelectedImages: (state) => {
-      state.selectedImages=state.selectedImagesId
+    addSelectedImagesId: (state,action: PayloadAction<Image[]>) => {
+      state.selectedImagesId=action.payload.map(item => {
+        return item._id
+      })
     },
     resetSelectedImages: (state) => {
       state.selectedImages=[]
@@ -105,7 +108,7 @@ export const {
   toggleAddSelectedImageId,
   resetAddSelectedImageId,
   resetSelectedImages,
-  addSelectedImages,
+  addSelectedImagesId,
  } = imagesSlice.actions
 
 export default imagesSlice.reducer
