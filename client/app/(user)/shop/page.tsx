@@ -25,7 +25,8 @@ const ShopPage = () => {
       error ? ("ERROR") : (
     
       <LayoutContainer bg='inherit'>
-        <div className='flex gap-8 flex-1 flex-wrap basis-6/12'>
+        {/* <div className='flex gap-8 flex-1 flex-wrap basis-6/12'> */}
+        <div className='grid grid-cols-12 gap-8'>
         {
           data?.map((item:Product, index:number)=>{
             return(
