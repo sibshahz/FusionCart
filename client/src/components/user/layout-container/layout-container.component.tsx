@@ -8,7 +8,6 @@ const LayoutContainer = ({
   bg:string
 }) => {
   return (
-    <>
     <div
       style={{ 
         backgroundColor:bg
@@ -18,7 +17,7 @@ const LayoutContainer = ({
         {children}
         </div>
     </div>
-    </>
+
   )
 }
 

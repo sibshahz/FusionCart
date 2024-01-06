@@ -9,16 +9,16 @@ interface ImageRollerProps {
 
 const ImageRoller = ({ images }: ImageRollerProps) => {
   return (
-    <div>
+    <div className='w-full'>
       {images?.map((link: Image, index: number) => (
-        <div key={index}>
+        <div key={index} className='w-full'>
           <img
             width={200}
             height={200}
             id={link?._id}
             src={`http://localhost:8080/${link.imagePath}`}
             alt={link.alt || 'Image not available'}
-            className="image-thumbnail"
+            className="image-thumbnail min-w-full"
           />
         </div>
       ))}
@@ -28,9 +28,17 @@ const ImageRoller = ({ images }: ImageRollerProps) => {
 
 const ProductComponent = (product: Product) => {
   return (
-    <div className='flex flex-col product--container'>
-      <ImageRoller images={product.images} />
-      <div className="product--details">
+    <div className='flex flex-col product--container w-[285px]'>
+      {/* <ImageRoller images={product.images} /> */}
+      <div className='w-full h-[300px] overflow-hidden'>
+        
+        <img
+          src={`http://localhost:8080/${product?.images[0]?.imagePath}` || ''}
+          alt={product?.images[0]?.alt || 'Image not available'}
+          className="image-thumbnail min-h-full w-auto h-auto"
+        />
+      </div>
+      <div className="product--details w-full">
         <Link href={`/shop/${product._id}`}>
           <h4 className="product--heading">
             {product.name}

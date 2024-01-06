@@ -8,6 +8,7 @@ import {
   getProduct
 } from '@/src/api/products/products'
 import { Product } from '@/product/product.types'
+import LayoutContainer from '@/src/components/user/layout-container/layout-container.component'
 type Props = {}
 
 const ProductPage = ({ params }: { params: { slug: string } }) => {
@@ -17,10 +18,11 @@ const ProductPage = ({ params }: { params: { slug: string } }) => {
   
   return (
     <div>
-      {
-        data.name
-      }
-      
+      <LayoutContainer bg='inherit'>
+        {
+          data?.name
+        }
+      </LayoutContainer>
     </div>
   )
 }

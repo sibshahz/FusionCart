@@ -13,7 +13,7 @@ const api = require('./routes/api');
 
 const app = express();
 
-app.use(express.json({limit: '10mb'}));
+app.use(express.json({limit: '1000mb'}));
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use(cors({

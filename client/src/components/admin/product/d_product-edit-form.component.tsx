@@ -38,6 +38,7 @@ type Inputs = {
   images:string[],
   salePrice:Number,
   stock:Number,
+  tagline:string,
 }
 function D_ProductEditForm({}: Props) {
   
@@ -55,7 +56,7 @@ function D_ProductEditForm({}: Props) {
     dispatch(toggleProductEditDialog())
     dispatch(resetFilteredImages());
     dispatch(resetAddSelectedImageId());
-    reset({ name: '',description:'',price:'',salePrice:'',stock:'',images:[] })
+    reset({ name: '',description:'',price:'',salePrice:'',stock:'',images:[],tagline:'' })
     dispatch(setSnackbar({message:"Product data updated", severity:"success",snackbarOpen:true}))
   },
     onError: (error) => {
@@ -66,7 +67,7 @@ function D_ProductEditForm({}: Props) {
   }
   });
   const handleCancelEdit=()=>{
-    reset({ name:'',description:'',price:'',salePrice:'',stock:'',images:[] })
+    reset({ name:'',description:'',price:'',salePrice:'',stock:'',images:[],tagline:'' })
     dispatch(setCurrentEditingProduct({}))
     dispatch(toggleProductEditDialog())
     dispatch(resetAddSelectedImageId());
@@ -99,6 +100,7 @@ function D_ProductEditForm({}: Props) {
     setValue('salePrice',currentEditingProduct?.salePrice);
     setValue('stock',currentEditingProduct?.stock);
     setValue('images',currentEditingProduct?.images);
+    setValue('tagline',currentEditingProduct?.tagline);
     dispatch(setFilteredImages())
   },[])
 
@@ -138,6 +140,17 @@ function D_ProductEditForm({}: Props) {
               />
               {errors.description && <FormHelperText error filled>Description of product is required</FormHelperText>}
 
+            </FormGroup>
+
+            <FormGroup>
+              <TextField 
+                label="Product Tagline"
+                multiline
+                rows={8}
+                variant="outlined"
+                value={watch("tagline")}
+                {...register("tagline", { required: false })}
+              />
             </FormGroup>
 
             <FormGroup>

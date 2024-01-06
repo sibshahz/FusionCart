@@ -18,8 +18,8 @@ type Inputs = {
 }
 const D_ImageForm = () => {
   const dispatch=useDispatch();
-  const [imageIndex,setImageIndex] = React.useState();
   const [imagesData,setImagesData] = React.useState([]);
+  const [imageIndex,setImageIndex] = React.useState(0);
 
   
   const queryClient = useQueryClient();

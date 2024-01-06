@@ -10,6 +10,7 @@ import {
 import Link from 'next/link'
 import { Product } from '../../../../common/product/product.types'
 import ProductComponent from '@/src/components/user/product/product.component'
+import LayoutContainer from '@/src/components/user/layout-container/layout-container.component'
 
 const ShopPage = () => {
   const queryClient = useQueryClient()
@@ -23,7 +24,8 @@ const ShopPage = () => {
 
       error ? ("ERROR") : (
     
-      <div className="flex gap-10">
+      <LayoutContainer bg='inherit'>
+        <div className='flex gap-8 flex-1 flex-wrap basis-6/12'>
         {
           data?.map((item:Product, index:number)=>{
             return(
@@ -31,7 +33,8 @@ const ShopPage = () => {
             )
           })
         }
-      </div>
+        </div>
+      </LayoutContainer>
       )}
     </>
   )

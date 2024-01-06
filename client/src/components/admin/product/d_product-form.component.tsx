@@ -39,6 +39,7 @@ type Inputs = {
   images:Image[],
   salePrice:Number,
   stock:Number,
+  tagline:string,
 }
 function D_ProductAddForm({}: Props) {
   
@@ -91,7 +92,7 @@ function D_ProductAddForm({}: Props) {
           onSubmit={handleSubmit((data) => {
             // mutate(data);
             handlePostProduct(data);
-            reset({name:"",description:"",price:"",salePrice:"",stock:"",images:[]});
+            reset({name:"",description:"",price:"",salePrice:"",stock:"",images:[],tagline:""});
           })}
         >
           
@@ -119,6 +120,16 @@ function D_ProductAddForm({}: Props) {
               />
               {errors.description && <FormHelperText error filled>Description of product is required</FormHelperText>}
 
+            </FormGroup>
+            <FormGroup>
+              <TextField 
+                id="product-tagline" 
+                label="Tagline" 
+                variant="outlined" 
+                autoComplete="false" 
+                value={watch("tagline")} 
+                {...register("tagline", {required: false})}
+              />
             </FormGroup>
 
             <FormGroup>
