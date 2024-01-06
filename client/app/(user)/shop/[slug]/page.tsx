@@ -20,6 +20,20 @@ const ProductPage = ({ params }: { params: { slug: string } }) => {
   return (
     <div>
       <LayoutContainer bg='inherit'>
+        <div className='w-[400px]'>
+       { data?.images?.map((link: Image, index: number) => (
+        <div key={index} className='w-full'>
+          <img
+            width={200}
+            height={200}
+            id={link?._id}
+            src={`http://localhost:8080/${link.imagePath}`}
+            alt={link.alt || 'Image not available'}
+            className="image-thumbnail min-w-full"
+          />
+        </div>
+      ))}
+        </div>
         <div>{
           data?.name
         }</div>
