@@ -10,6 +10,7 @@ import {
 import { Product } from '@/product/product.types'
 import LayoutContainer from '@/src/components/user/layout-container/layout-container.component'
 import ProductComponent from '@/src/components/user/product/product.component'
+import SingleProduct from '@/src/components/user/product/single-product.component'
 type Props = {}
 
 const ProductPage = ({ params }: { params: { slug: string } }) => {
@@ -19,8 +20,9 @@ const ProductPage = ({ params }: { params: { slug: string } }) => {
   
   return (
     <div>
-      <LayoutContainer bg='inherit'>
-        <div className='w-[400px]'>
+
+        <SingleProduct product={data} />
+        {/* <div className='w-[400px]'>
        { data?.images?.map((link: Image, index: number) => (
         <div key={index} className='w-full'>
           <img
@@ -48,8 +50,7 @@ const ProductPage = ({ params }: { params: { slug: string } }) => {
         }</div>
         <div>{
           data?.salePrice
-        }</div>
-      </LayoutContainer>
+        }</div> */}
     </div>
   )
 }

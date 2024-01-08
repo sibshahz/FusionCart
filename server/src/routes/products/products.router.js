@@ -5,6 +5,53 @@ const productsController = require('./products.controller');
 
 const productsRouter = express.Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Products
+ *   description: Operations related to Products
+ */
+
+
+/**
+ * @swagger
+ * /products:
+ *   get:
+ *     summary: Get all products
+ *     tags: [Products]
+ *     responses:
+ *       '200':
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             example:
+ *               products:
+ *                 - id: 1
+ *                   title: "Buy groceries"
+ *                 - id: 2
+ *                   title: "Complete homework"
+ *
+ *   post:
+ *     summary: Create a new todo
+ *     tags: [Products]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *             required:
+ *               - title
+ *     responses:
+ *       '201':
+ *         description: Todo created successfully
+ *       '400':
+ *         description: Bad request
+ */
+
 productsRouter.get(
   '/',
   productsController.httpGetAllProducts);
