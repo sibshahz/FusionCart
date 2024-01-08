@@ -47,10 +47,10 @@ const ProductComponent = (product: Product) => {
         <div className='font-medium font-poppins text-gray-3 text-base m-4'>{product.tagline}</div>
         <div className="flex m-4 flex-row justify-between">
           <span className="product--sale-price text-gray-1 font-poppins text-xl font-semibold leading-7">
-            {product.salePrice}
+            Rs. {product.salePrice}
           </span>
           <span className="product--sale-price text-gray-4 font-poppins text-base font-normal line-through">
-            {product.price}
+            Rs. {product.price}
           </span>
         </div>
       </div>

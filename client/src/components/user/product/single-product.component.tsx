@@ -16,8 +16,8 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
   return (
     <>
     <LayoutContainer bg='inherit'>
-    <div className='grid grid-cols-12 gap-20'>
-      <div className="col-span-5">
+    <div className='grid grid-cols-1 lg:grid-cols-2 gap-20'>
+      <div className="">
         <div className='product--image-gallery flex flex-row gap-7'>
           <div className='product--image-roller'>
           <div className='rounded-lg flex flex-col gap-8 overflow-hidden'>
@@ -28,7 +28,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
                   key={index} 
                   className='rounded-lg overflow-hidden flex-shrink-0 w-20 h-20 hover:cursor-pointer'>
                   <img 
-                    src={`http://localhost:8080/${img?.imagePath}` || ''}
+                    src={`http://localhost:8080/${img?.imagePath}` || 'Image alt'}
                     alt={img?.imageAlt}
                     className='w-full h-full object-cover'
                   />
@@ -40,7 +40,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
           </div>
 
           </div>
-          <div className='product--image-selected overflow-hidden'>
+          <div className='product--image-selected overflow-hidden max-h-[470px] rounded-lg'>
             <img 
             className='w-full h-full object-cover'
             src={`http://localhost:8080/${product?.images[selectedImg]?.imagePath}` || ''} alt={product?.images?.[selectedImg]?.imageAlt} />
@@ -48,7 +48,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
         </div>
       </div>
 
-      <div className="col-span-7">
+      <div className="">
         <div className='flex flex-col gap-4'>
 
           <div className='product--title text-[42px] font-normal leading-normal'>{product?.name}</div>
