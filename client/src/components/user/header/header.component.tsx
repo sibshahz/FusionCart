@@ -8,18 +8,21 @@ import Image from 'next/image'
 import Logo from '../../../../public/imgs/logo.png'
 import { Account,Search,Heart,Cart } from '@/src/utils/user/icons/icons'
 import { ThreeLineHorizontal,Cross } from 'akar-icons'
+import ClientPortal from '../portal/portal.component'
 
 
 
 const Header:FC = () => {
   const pathname = usePathname()
   const [mobileMenu,setMobileMenu] = useState(false);
+  const [display,setDisplay] = useState(false);
   const menuBurger = useRef(null);
 
   const toggleMenu=(): void =>{
     setMobileMenu(!mobileMenu)
   }
   return (
+    <>
     <LayoutContainer bg='inherit'>
     <div className='flex justify-between
                     flex-wrap items-center
@@ -53,10 +56,39 @@ const Header:FC = () => {
       </div>
       
       <div className='header--icons-container flex flex-wrap items-center gap-x-11'>
-        <img className="inline hover:cursor-pointer" src={Account.src} alt="Account" />
-        <img className="inline hover:cursor-pointer" src={Search.src} alt="Search" />
-        <img className="inline hover:cursor-pointer" src={Heart.src} alt="Heart" />
-        <img className="inline hover:cursor-pointer" src={Cart.src} alt="Cart" />        
+        
+        <div className="dropdown dropdown-end">
+        <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Account.src} alt="Account" />
+          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a>Item 1</a></li>
+            <li><a>Item 2</a></li>
+          </ul>
+        </div>
+
+        <div className="dropdown dropdown-end">
+        <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Search.src} alt="Search" />
+          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a>Item 1</a></li>
+            <li><a>Item 2</a></li>
+          </ul>
+        </div>
+
+        <div className="dropdown dropdown-end">
+        <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Heart.src} alt="Heart" />
+          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a>Item 1</a></li>
+            <li><a>Item 2</a></li>
+          </ul>
+        </div>
+
+        <div className="dropdown dropdown-end">
+        <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Cart.src} alt="Cart" />
+          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a>Item 1</a></li>
+            <li><a>Item 2</a></li>
+          </ul>
+        </div>
+
       </div>
       
       <div className="header--menu-burger 
@@ -108,6 +140,12 @@ const Header:FC = () => {
 
     </div>
     </LayoutContainer>
+    {/* {
+      display && (
+        <ClientPortal><div className='w-[418px] min-h-[92%] bg-white h-96 fixed right-0 top-0 z-20' onClick={() => setDisplay(!display)}></div></ClientPortal>
+      )
+    } */}
+    </>
   )
 }
 

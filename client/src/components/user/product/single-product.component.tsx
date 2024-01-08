@@ -52,6 +52,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
         <div className='flex flex-col gap-4'>
 
           <div className='product--title text-[42px] font-normal leading-normal'>{product?.name}</div>
+          <div className='product--price text-xl font-medium text-gray-3'>{product?.tagline}</div>
           <div className='product--price text-2xl font-medium text-gray-5'>Rs. {product?.salePrice} .00</div>
           <div className='product--actions flex flex-row gap-5'>
 
@@ -74,6 +75,11 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
         <div className='text-justify text-base font-normal text-gray-5 leading-normal'>
           {product?.description}
         </div>
+        <span className="loading loading-ring loading-xs"></span>
+        <span className="loading loading-ring loading-sm"></span>
+        <span className="loading loading-ring loading-md"></span>
+        <span className="loading loading-ring loading-lg"></span>
+        <input type="checkbox" value="synthwave" className="toggle theme-controller"/>
       </LayoutContainer>
     </div>
     </>

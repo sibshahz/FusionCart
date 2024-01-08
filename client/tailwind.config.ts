@@ -48,6 +48,10 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    // themes: ['dark','light','synthwave'],
+    themes: [],
+  },
 }
 export default config
