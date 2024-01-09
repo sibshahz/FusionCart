@@ -9,6 +9,7 @@ import Logo from '../../../../public/imgs/logo.png'
 import { Account,Search,Heart,Cart } from '@/src/utils/user/icons/icons'
 import { ThreeLineHorizontal,Cross } from 'akar-icons'
 import ClientPortal from '../portal/portal.component'
+import SigninForm from '../signin/signin-form.component'
 
 
 
@@ -59,9 +60,8 @@ const Header:FC = () => {
         
         <div className="dropdown dropdown-end">
         <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Account.src} alt="Account" />
-          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li><a>Item 1</a></li>
-            <li><a>Item 2</a></li>
+          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 w-96">
+            <li><SigninForm /></li>
           </ul>
         </div>
 
