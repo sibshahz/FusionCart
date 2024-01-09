@@ -75,11 +75,6 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
         <div className='text-justify text-base font-normal text-gray-5 leading-normal'>
           {product?.description}
         </div>
-        <span className="loading loading-ring loading-xs"></span>
-        <span className="loading loading-ring loading-sm"></span>
-        <span className="loading loading-ring loading-md"></span>
-        <span className="loading loading-ring loading-lg"></span>
-        <input type="checkbox" value="synthwave" className="toggle theme-controller"/>
       </LayoutContainer>
     </div>
     </>

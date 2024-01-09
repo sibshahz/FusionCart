@@ -25,10 +25,9 @@ const postLogin=async (details:LoginDetails)=>{
     return userData;
 
   } catch (error) {
-    // handle error
     resetUserDetails();
     console.error(error);
-    throw error; // Re-throw the error to handle it at the caller's level if needed
+    throw error; 
   }
 }
 
