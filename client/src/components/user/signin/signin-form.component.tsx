@@ -26,10 +26,10 @@ const SigninForm = () => {
     reset({email:"",password:""});
   },
     onError: (error) => {
-          console.log("there was an error: ",error)
+      console.log("there was an error: ",error)
   },
     onSettled: () => {
-        queryClient.invalidateQueries('user')
+      queryClient.invalidateQueries('user')
   }
   });
 

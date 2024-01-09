@@ -1,9 +1,11 @@
 import { resetUserDetails, setAuthDetails } from "@/src/utils/localstorage/localStorage";
 import { axios_default } from "../axios-core";
+
 type LoginDetails={
   email:string,
   password:string
 }
+
 type userDetails={
   firstName?:string,
   lastName?:string,
@@ -11,6 +13,7 @@ type userDetails={
   userType?:string,
   isLoggedIn:boolean,
 }
+
 const postLogin=async (details:LoginDetails)=>{
   try {
     const {data:response} = await axios_default.post(`/auth/login`,details);

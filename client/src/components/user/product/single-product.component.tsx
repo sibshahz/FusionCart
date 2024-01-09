@@ -59,7 +59,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
           <button className="bg-white text-xl font-normal py-4 px-12 rounded-2xl border border-black">
             + Add to cart
           </button>
-
+              
           <button className="bg-white text-xl font-normal py-4 px-12 rounded-2xl border border-black">
             Buy now
           </button>
