@@ -4,6 +4,7 @@ import '../globals.css'
 import Header from '@/src/components/user/header/header.component'
 import { Footer } from '@/src/components/user/footer/footer.component'
 import ReactQueryProvider from '@/src/providers/ReactQueryProvider'
+import ClientStoreProvider from '@/src/redux/ClientStoreProvider'
 
 const poppins = localFont({
   src: [
@@ -106,11 +107,13 @@ export default function UserRootLayout({
       className='min-h-screen'
 
       >
+        <ClientStoreProvider>
         <ReactQueryProvider>
           <Header />
           {children}
           <Footer />
         </ReactQueryProvider>
+        </ClientStoreProvider>
       </body>
     </html>
   )

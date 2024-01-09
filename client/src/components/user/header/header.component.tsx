@@ -10,11 +10,16 @@ import { Account,Search,Heart,Cart } from '@/src/utils/user/icons/icons'
 import { ThreeLineHorizontal,Cross } from 'akar-icons'
 import ClientPortal from '../portal/portal.component'
 import SigninForm from '../signin/signin-form.component'
+import { RootState } from '@/src/redux/client-store'
+import { useAppSelector } from '@/src/redux/hooks'
+import UserDetails from '../user-details/user-details.component'
 
 
 
 const Header:FC = () => {
   const pathname = usePathname()
+  const userDetails=useAppSelector((state:RootState) => state.user)
+  const isLoggedIn=userDetails.isLoggedIn;
   const [mobileMenu,setMobileMenu] = useState(false);
   const [display,setDisplay] = useState(false);
   const menuBurger = useRef(null);
@@ -58,14 +63,14 @@ const Header:FC = () => {
       
       <div className='header--icons-container flex flex-wrap items-center gap-x-11'>
         
-        <div className="dropdown dropdown-end">
+        <div className="dropdown md:dropdown-end">
         <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Account.src} alt="Account" />
-          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 w-96">
-            <li><SigninForm /></li>
+          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 w-max">
+            <li className='pb-8 bg-white'>{isLoggedIn ? <UserDetails /> : <SigninForm />}</li>
           </ul>
         </div>
 
-        <div className="dropdown dropdown-end">
+        <div className="dropdown md:dropdown-end">
         <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Search.src} alt="Search" />
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
             <li><a>Item 1</a></li>
@@ -73,7 +78,7 @@ const Header:FC = () => {
           </ul>
         </div>
 
-        <div className="dropdown dropdown-end">
+        <div className="dropdown md:dropdown-end">
         <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Heart.src} alt="Heart" />
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
             <li><a>Item 1</a></li>
@@ -81,7 +86,7 @@ const Header:FC = () => {
           </ul>
         </div>
 
-        <div className="dropdown dropdown-end">
+        <div className="dropdown md:dropdown-end">
         <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Cart.src} alt="Cart" />
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
             <li><a>Item 1</a></li>

@@ -6,6 +6,10 @@ import {useQueryClient,useMutation} from 'react-query'
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import { getUserDetails } from '@/src/utils/localstorage/localStorage';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { setUser } from '@/src/redux/features/user/userSlice';
+import { RootState } from '@/src/redux/client-store';
 
 type Props = {}
 type Inputs = {
@@ -15,6 +19,7 @@ type Inputs = {
 
 const SigninForm = (props: Props) => {
   const router=useRouter();
+  const dispatch=useAppDispatch();
   const queryClient=useQueryClient();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -28,9 +33,9 @@ const SigninForm = (props: Props) => {
     formState: { errors },
   } = useForm<Inputs>()
 
-  const { mutate, isLoading } = useMutation(postLogin, {
+  const { mutate, isLoading,isError } = useMutation(postLogin, {
     onSuccess: data => {
-    // dispatch(setUser(data));    
+    dispatch(setUser(data));    
     console.log("로그인 성공: ",data);
     reset({email:"",password:""});
     // router.push('/dashboard')   
@@ -51,6 +56,8 @@ const SigninForm = (props: Props) => {
     mutate(userDetails)
   }
   return(
+    <>
+    <h2 className='text-xl text-center'>Sign in</h2>
     <form className='w-full block'
           onSubmit={handleSubmit((data) => {
             mutate(data);
@@ -88,9 +95,13 @@ const SigninForm = (props: Props) => {
             </div>
 
             <button className="btn btn-neutral mb-3" onClick={handleSignin}>Signin</button>
+            {isError && 
+                <div className="alert alert-error border border-red-accents p-4 text-red-accents text-center">Email or password is incorrect.</div>
+            }
             <div>Already have an account? <Link href="signup" className='text-primary'>Signup</Link></div>
             </div>
         </form>
+        </>
   )
 
 }
