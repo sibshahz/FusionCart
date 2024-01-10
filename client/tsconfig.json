@@ -24,6 +24,6 @@
       "@/*": ["./*","../common/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts","../common/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts","../common/**/*.ts", "src/redux/features/user"],
   "exclude": ["node_modules"]
 }
