@@ -6,4 +6,5 @@ export type CartProduct = {
   quantity:number;
   subTotal:number;
   addedOn:Date;
+  user?:string;
 };

@@ -28,7 +28,7 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state,action:PayloadAction<UserState>) => {
       const {
-        // _id,
+        _id,
         firstName,
         // profilePic,
         lastName,
@@ -37,7 +37,7 @@ export const userSlice = createSlice({
         isLoggedIn,
       } = action.payload;
       
-      // state._id = _id ?? '';
+      state._id = _id ?? '';
       state.firstName = firstName ?? '';
       // state.profilePic = profilePic ?? '';
       state.lastName = lastName ?? '';
@@ -47,7 +47,7 @@ export const userSlice = createSlice({
     },
     logOutUser: (state) => {
 
-      // state._id = _id ?? '';
+      state._id = undefined;
       state.firstName = undefined;
       // state.profilePic = profilePic ?? '';
       state.lastName = undefined;

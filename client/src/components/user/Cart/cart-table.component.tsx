@@ -2,18 +2,24 @@
 import React from 'react'
 import { RootState } from '@/src/redux/client-store'
 import { useAppDispatch, useAppSelector } from '@/src/redux/client-hooks'
-import { deleteFromCart } from '@/src/redux/features/client/cart/cartSlice'
-
+import { addToCart, deleteFromCart } from '@/src/redux/features/client/cart/cartSlice'
+import { useQuery } from 'react-query'
+import { getAllCartItems } from '@/src/api/cart/cart'
 type Props = {}
 
 const CartTable = (props: Props) => {
   const dispatch=useAppDispatch()
   const cartProducts=useAppSelector((state:RootState) => state.cart.cartProducts);
-  
-
+  const userId=useAppSelector((state:RootState) => state.user._id);
+  const {data,error,isLoading,refetch}=useQuery(['cart',userId],getAllCartItems);
   const handleDelete=(id)=>{
-    console.log("ITEM TO DELETE IN TABLE: ", id)
     dispatch(deleteFromCart(id))
+  }
+  if(data){
+    
+    // dispatch(addToCart(data))
+    
+    console.table("DATA OF CART IS: ", data);
   }
 
   return (
@@ -31,9 +37,9 @@ const CartTable = (props: Props) => {
     </thead>
     <tbody>
       {
-        cartProducts.map((cartItem) => {
+        data?.map((cartItem,index) => {
           return(
-              <tr key={cartItem.product._id}>
+              <tr key={cartItem.product._id+index}>
               <td>
                 <div className="flex items-center gap-3">
                   <div className="avatar">

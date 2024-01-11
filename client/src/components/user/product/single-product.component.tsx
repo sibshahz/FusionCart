@@ -2,8 +2,11 @@
 import React from 'react';
 import { Product } from '@/product/product.types';
 import LayoutContainer from '../layout-container/layout-container.component';
-import { useAppDispatch } from '@/src/redux/client-hooks';
+import { useAppDispatch, useAppSelector } from '@/src/redux/client-hooks';
 import { addToCart } from '@/src/redux/features/client/cart/cartSlice';
+import { useQueryClient,useMutation } from 'react-query';
+import { RootState } from '@/src/redux/client-store';
+import { postCart } from '@/src/api/cart/cart';
 
 type Props = {
   product: Product;
@@ -11,6 +14,21 @@ type Props = {
 
 const SingleProduct: React.FC<Props> = ({ product }) => {
   const dispatch=useAppDispatch();
+  const userId=useAppSelector((state:RootState) => state.user._id);
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation(postCart, {
+    onSuccess: data => {
+    dispatch(addToCart(data))
+
+  },
+    onError: (error) => {
+          console.log("there was an error: ",error)
+  },
+    onSettled: () => {
+        queryClient.invalidateQueries('cart')
+  }
+  });
+
   const [selectedImg,setSelectedImg]=React.useState(0)
   
   const setIndex = React.useCallback((index) => {
@@ -19,14 +37,14 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
 
   const handleAddToCart=()=>{
     //dispatch action to add the selected item into cart
-    dispatch(addToCart(
-      {
-        product:{...product},
-        quantity:1,
-        subTotal:1000,
-        addedOn:new Date(),
-      }
-    ))
+    const data={
+      product:{...product},
+      quantity:1,
+      subTotal:product.salePrice,
+      user:userId,
+      addedOn:new Date(),
+    }
+    mutate(data);
   }
 
   return (
