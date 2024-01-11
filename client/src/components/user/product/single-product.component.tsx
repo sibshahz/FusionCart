@@ -1,17 +1,33 @@
+'use client'
 import React from 'react';
 import { Product } from '@/product/product.types';
 import LayoutContainer from '../layout-container/layout-container.component';
+import { useAppDispatch } from '@/src/redux/client-hooks';
+import { addToCart } from '@/src/redux/features/client/cart/cartSlice';
 
 type Props = {
   product: Product;
 };
 
 const SingleProduct: React.FC<Props> = ({ product }) => {
+  const dispatch=useAppDispatch();
   const [selectedImg,setSelectedImg]=React.useState(0)
   
   const setIndex = React.useCallback((index) => {
     setSelectedImg(index);
   }, []);
+
+  const handleAddToCart=()=>{
+    //dispatch action to add the selected item into cart
+    dispatch(addToCart(
+      {
+        product:{...product},
+        quantity:1,
+        subTotal:1000,
+        addedOn:new Date(),
+      }
+    ))
+  }
 
   return (
     <>
@@ -56,7 +72,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
           <div className='product--price text-2xl font-medium text-gray-5'>Rs. {product?.salePrice} .00</div>
           <div className='product--actions flex flex-row gap-5'>
 
-          <button className="bg-white text-xl font-normal py-4 px-12 rounded-2xl border border-black">
+          <button className="bg-white text-xl font-normal py-4 px-12 rounded-2xl border border-black" onClick={() => handleAddToCart()}>
             + Add to cart
           </button>
               
