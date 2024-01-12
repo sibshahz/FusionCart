@@ -12,6 +12,7 @@ const config: Config = {
       'primary': '#B88E2F',
       'golden' : '#B88E2F',
       'red-accents': '#E97171',
+      'light-pink':'#F9F1E7',
       'green-accents': '#2EC1AC',
       'black':'#000',
       'white':'#fff',

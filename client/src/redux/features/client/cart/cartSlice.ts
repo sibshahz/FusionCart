@@ -20,10 +20,35 @@ export const cartSlice = createSlice({
       state.cartProducts=action.payload;
       state.subTotal = calculateSubTotal(state.cartProducts);
     },
-    addToCart: (state,action:PayloadAction<CartProduct>) => {      
-      state.cartProducts.push(action.payload);
+    addToCart: (state, action: PayloadAction<CartProduct>) => {
+      const existingCartItemIndex = state.cartProducts.findIndex(
+        item => item.product._id === action.payload.product._id
+      );
+    
+      if (existingCartItemIndex !== -1) {
+        // If the product is already in the cart, update quantity and subtotal
+        state.cartProducts = state.cartProducts.map((item, index) => {
+          if (index === existingCartItemIndex) {
+            return {
+              ...item,
+              quantity: item.quantity + 1,
+              subTotal: (item.quantity + 1) * item.product?.salePrice || 0,
+            };
+          }
+          return item;
+        });
+      } else {
+        // If the product is not in the cart, add it
+        state.cartProducts.push({
+          ...action.payload,
+          quantity: 1,
+          subTotal: action.payload.product?.salePrice || 0,
+        });
+      }
+    
       state.subTotal = calculateSubTotal(state.cartProducts);
     },
+    
     deleteFromCart: (state, action) => {
       const id = action.payload;
       state.cartProducts = state.cartProducts.filter((item:CartProduct) => item._id !== id);
@@ -33,19 +58,27 @@ export const cartSlice = createSlice({
       state.cartProducts=[]
       state.subTotal=0;
     },
-    updateCartItemQuantity: (state,action) => {
-      state.cartProducts.map((item) => {
-        if(item._id === action.payload._id){
-          return {...item, quantity: item.quantity+action.payload};
+    updateCartItemQuantity: (state, action) => {
+      state.cartProducts = state.cartProducts.map(item => {
+        if (item._id === action.payload._id) {
+          const quantity = parseInt(action.payload.quantity);
+          const subTotal = quantity * (item?.product?.salePrice || 0);
+          return {
+            ...item,
+            quantity,
+            subTotal,
+          };
         }
-      })
+        return item;
+      });
+    
       state.subTotal = calculateSubTotal(state.cartProducts);
     },
   },
 })
 
 const calculateSubTotal = (cartProducts: CartProduct[]): number => {
-  return cartProducts.reduce((total, cartItem) => total + cartItem?.product?.salePrice, 0);
+  return cartProducts.reduce((total, cartItem) => total + cartItem?.product?.salePrice*cartItem.quantity, 0);
 };
 
 // Action creators are generated for each case reducer function

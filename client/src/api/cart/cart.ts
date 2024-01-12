@@ -54,9 +54,12 @@ const getAllCartItems=async(query)=>{
   } 
  }
 
- const updateCartItem=async()=>{
+ const updateCartItem=async(cart)=>{
   try {
-   
+    const response = await axios_default.put(`/cart/${cart._id}`,{quantity:cart.quantity});
+    // handle success
+    return response.data; // Assuming you want to return the data property of the response
+
   } catch (error) {
    console.error(error);
    throw error;

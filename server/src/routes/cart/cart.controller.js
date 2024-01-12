@@ -15,7 +15,8 @@ async function httpGetCartItem(req,res){
 
 async function httpUpdateCartItem(req,res){
   const {id}=req.params;
-  return res.status(200).json(await cartModel.updateCartItem(id));
+  const {quantity}=req.body;
+  return res.status(200).json(await cartModel.updateCartItem(id,quantity));
   
 }
 

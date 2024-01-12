@@ -14,6 +14,7 @@ const CartDialog = (props: Props) => {
   const queryClient = useQueryClient();
   const cartProducts=useAppSelector((state:RootState) => state.cart.cartProducts);
   const userId=useAppSelector((state:RootState) => state.user._id);
+  const subTotal=useAppSelector((state:RootState) => state.cart.subTotal)
   const {data,error,isLoading,refetch}=useQuery(['cart',userId],getAllCartItems);
   const { mutate:deleteMutate, isLoading:deleteLoading } = useMutation(deleteCartItem, {
     onSuccess: data => {
@@ -60,7 +61,7 @@ const CartDialog = (props: Props) => {
                     <div className="cart-item-price">
                       <span className=' font-poppins text-base font-light leading-normal text-black'>{cartItem.quantity}</span>
                        <span className='font-poppins text-xs font-normal leading-normal text-black mx-4'>X</span> 
-                       <span className='font-poppins text-xs font-medium leading-normal text-golden'>{cartItem.product.salePrice}</span>
+                       <span className='font-poppins text-xs font-medium leading-normal text-golden'>Rs. {cartItem.product.salePrice}</span>
                     </div>
                   </div>
                   <div className="cart-item-del">
@@ -73,6 +74,11 @@ const CartDialog = (props: Props) => {
         })
       }
       </div>
+      </div>
+
+      <div className="sub-total text-left mb-6 justify-self-start px-6 w-full">
+        <span className='font-poppins text-base font-normal leading-normal text-black w-24 inline-block mr-24'>Subtotal: </span>
+        <span className='font-poppins text-base font-semibold leading-normal text-golden'>Rs. {subTotal}</span>
       </div>
       <div className='cart-footer w-full border-t border-gray p-6 flex flex-row gap-3 justify-start'>
 

@@ -38,12 +38,21 @@ async function getCartItem(id){
   }
 }
 
-async function updateCartItem(id,update){
-  try{
-    const updatedCart= await Cart.findByIdAndUpdate(id,update,{new: true});
+async function updateCartItem(id, quantity) {
+  try {
+    const updatedCart = await Cart.findByIdAndUpdate(id, {
+      quantity: quantity,
+      subTotal: quantity * (await Cart.findById(id).select('product.salePrice')).product.salePrice,
+    }, { new: true });
+
+    if (!updatedCart) {
+      throw new Error("Cart not found");
+    }
+
     return updatedCart;
-  }catch(error){
-    console.log(error);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error updating cart item");
   }
 }
 

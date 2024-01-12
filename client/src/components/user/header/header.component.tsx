@@ -79,7 +79,7 @@ const Header:FC = () => {
           </ul>
         </div>
 
-        <div className="dropdown md:dropdown-end">
+        <div className="dropdown dropdown-end">
         <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Heart.src} alt="Heart" />
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max">
             <li><a>Item 1</a></li>
@@ -87,8 +87,8 @@ const Header:FC = () => {
           </ul>
         </div>
 
-        <div className="dropdown md:dropdown-end">
-        <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Cart.src} alt="Cart" />
+        <div className="dropdown dropdown-left">
+          <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Cart.src} alt="Cart" />
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max">
             <li className='bg-white'><CartDialog /></li>
           </ul>
