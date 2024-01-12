@@ -10,6 +10,7 @@ const config: Config = {
   theme: {
     colors: {
       'primary': '#B88E2F',
+      'golden' : '#B88E2F',
       'red-accents': '#E97171',
       'green-accents': '#2EC1AC',
       'black':'#000',

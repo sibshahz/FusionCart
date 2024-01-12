@@ -63,9 +63,10 @@ const getAllCartItems=async(query)=>{
   } 
  }
 
- const deleteCartItem=async()=>{
+ const deleteCartItem=async(id:string)=>{
   try {
-   
+    const response = await axios_default.delete(`/cart/${id}`);
+    return response.data;
   } catch (error) {
    console.error(error);
    throw error;
