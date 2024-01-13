@@ -45,6 +45,8 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
       addedOn:new Date(),
     }
     mutate(data);
+    dispatch(addToCart(data))
+
   }
 
   return (
