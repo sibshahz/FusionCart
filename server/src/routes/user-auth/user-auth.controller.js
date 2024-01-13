@@ -60,7 +60,7 @@ const isUserAuthenticated = (req, res, next) => {
   jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: 'Invalid token' });
-    }else if(decoded.role!=='customer'){
+    }else if(decoded.userType!=='customer'){
       return res.status(401).json({ message: 'Unauthorized access sir' });
     } else {
       req.user = decoded; // Attach the decoded user to the request object

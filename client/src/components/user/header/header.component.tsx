@@ -13,6 +13,7 @@ import SigninForm from '../signin/signin-form.component'
 import { RootState } from '@/src/redux/client-store'
 import { useAppSelector } from '@/src/redux/hooks'
 import UserDetails from '../user-details/user-details.component'
+import CartDialog from '../CartDialog/cart-dialog.component'
 
 
 
@@ -72,25 +73,24 @@ const Header:FC = () => {
 
         <div className="dropdown md:dropdown-end">
         <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Search.src} alt="Search" />
-          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max">
             <li><a>Item 1</a></li>
             <li><a>Item 2</a></li>
           </ul>
         </div>
 
-        <div className="dropdown md:dropdown-end">
+        <div className="dropdown dropdown-end">
         <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Heart.src} alt="Heart" />
-          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max">
             <li><a>Item 1</a></li>
             <li><a>Item 2</a></li>
           </ul>
         </div>
 
-        <div className="dropdown md:dropdown-end">
-        <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Cart.src} alt="Cart" />
-          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li><a>Item 1</a></li>
-            <li><a>Item 2</a></li>
+        <div className="dropdown dropdown-left">
+          <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Cart.src} alt="Cart" />
+          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max">
+            <li className='bg-white'><CartDialog /></li>
           </ul>
         </div>
 

@@ -47,7 +47,7 @@ export const userSlice = createSlice({
     },
     logOutUser: (state) => {
 
-      // state._id = _id ?? '';
+      state._id = undefined;
       state.firstName = undefined;
       // state.profilePic = profilePic ?? '';
       state.lastName = undefined;

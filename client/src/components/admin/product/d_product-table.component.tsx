@@ -24,9 +24,11 @@ const D_ProductTable = (props: Props) => {
   const queryClient = useQueryClient();
   const dispatch=useDispatch();
   const { isLoading, isError, data, error } = useQuery('products', getProductsList);
+  
   if(data){
     dispatch(setProducts(data))
   }
+  
   const products = useSelector((state:RootState) => state.products.products)
 
   const { mutate:deleteMutate, isLoading:deleteLoading } = useMutation(deleteProduct, {
