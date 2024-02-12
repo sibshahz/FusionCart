@@ -89,9 +89,9 @@ const Header:FC = () => {
           </ul>
         </div>
 
-        <div  tabIndex={0} className="dropdown dropdown-left relative flex flex-row items-center hover:cursor-pointer">
+        <div  tabIndex={0} className="dropdown dropdown-left relative flex flex-row items-center hover:cursor-pointer w-12">
           {
-            cartCount > 0 && <div className="count right-[-80%] absolute text-center z-10 text-golden bg-white p-1 rounded-full border text-xs font-light">{cartCount}</div>          
+            cartCount > 0 && <div className="count text-center z-10 text-golden bg-white p-1 rounded-full border text-xs font-light">{cartCount}</div>          
           }
           <img role='button' className="inline" src={Cart.src} alt="Cart" />
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max">

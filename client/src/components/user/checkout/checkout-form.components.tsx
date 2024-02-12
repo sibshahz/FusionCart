@@ -8,6 +8,20 @@ import LayoutContainer from "../layout-container/layout-container.component";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
+  const appearance = {
+    theme: 'stripe',
+  
+    variables: {
+      colorPrimary: '#0570de',
+      colorBackground: '#ffffff',
+      colorText: '#30313d',
+      colorDanger: '#df1b41',
+      fontFamily: 'Ideal Sans, system-ui, sans-serif',
+      spacingUnit: '2px',
+      borderRadius: '4px',
+      // See all possible variables below
+    }
+  };
   const elements = useElements();
 
   const [message, setMessage] = useState(null);
@@ -59,7 +73,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/shop/payment", //this is the correct url to return to
+        return_url: "http://localhost:3000/shop/payment-completion", //this is the correct url to return to
         // return_url:"http://localhost:3000/shop/checkout"
       },
     });
@@ -84,17 +98,16 @@ export default function CheckoutForm() {
 
   return (
     <div>
-    <h2 className="mb-5 font-medium text-base text-black">Payment details</h2>
     <form id="payment-form" onSubmit={handleSubmit}>
 
       <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit" className="bg-white text-md font-normal py-2 px-6 rounded-md border border-black mt-3">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+      <button disabled={isLoading || !stripe || !elements} id="submit" className="mb-6 bg-white text-md font-normal py-2 px-6 rounded-md border border-black mt-3">
+        <span id="btn btn-primary font-normal text-xl w-16 h-12">
+          {isLoading ? <span className="loading loading-dots loading-xs"></span> : "Pay now"}
         </span>
       </button>
       {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
+      {message && <div id="payment-message block text-red-accents text-['red']">{message}</div>}
     </form>
     </div>
   );
