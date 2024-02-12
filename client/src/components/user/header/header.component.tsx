@@ -11,7 +11,7 @@ import { ThreeLineHorizontal,Cross } from 'akar-icons'
 import ClientPortal from '../portal/portal.component'
 import SigninForm from '../signin/signin-form.component'
 import { RootState } from '@/src/redux/client-store'
-import { useAppSelector } from '@/src/redux/hooks'
+import { useAppSelector } from '@/src/redux/client-hooks'
 import UserDetails from '../user-details/user-details.component'
 import CartDialog from '../CartDialog/cart-dialog.component'
 
@@ -20,6 +20,8 @@ import CartDialog from '../CartDialog/cart-dialog.component'
 const Header:FC = () => {
   const pathname = usePathname()
   const userDetails=useAppSelector((state:RootState) => state.user)
+
+  const cartCount = useAppSelector((state:RootState) => state.cart.cartCount)
   const isLoggedIn=userDetails.isLoggedIn;
   const [mobileMenu,setMobileMenu] = useState(false);
   const [display,setDisplay] = useState(false);
@@ -87,8 +89,11 @@ const Header:FC = () => {
           </ul>
         </div>
 
-        <div className="dropdown dropdown-left">
-          <img tabIndex={0} role='button' className="inline hover:cursor-pointer" src={Cart.src} alt="Cart" />
+        <div  tabIndex={0} className="dropdown dropdown-left relative flex flex-row items-center hover:cursor-pointer">
+          {
+            cartCount > 0 && <div className="count right-[-80%] absolute text-center z-10 text-golden bg-white p-1 rounded-full border text-xs font-light">{cartCount}</div>          
+          }
+          <img role='button' className="inline" src={Cart.src} alt="Cart" />
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-max">
             <li className='bg-white'><CartDialog /></li>
           </ul>

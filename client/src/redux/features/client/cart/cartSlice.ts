@@ -4,12 +4,14 @@ import {CartProduct} from "@/cart/cart.types";
 
 export interface CartState {
     cartProducts:CartProduct[],
+    cartCount:number;
     subTotal:number;
 }
 
 const initialState: CartState = {
-    cartProducts:[],
-    subTotal: 0,
+  cartProducts: [],
+  cartCount: 0, 
+  subTotal: 0,
 }
 
 export const cartSlice = createSlice({
@@ -19,6 +21,7 @@ export const cartSlice = createSlice({
     setCartData: (state,action:PayloadAction<CartProduct[]>) => {      
       state.cartProducts=action.payload;
       state.subTotal = calculateSubTotal(state.cartProducts);
+      state.cartCount = state.cartProducts.length;
     },
     addToCart: (state, action: PayloadAction<CartProduct>) => {
       const existingCartItemIndex = state.cartProducts.findIndex(
@@ -32,7 +35,7 @@ export const cartSlice = createSlice({
             return {
               ...item,
               quantity: item.quantity + 1,
-              subTotal: (item.quantity + 1) * item.product?.salePrice || 0,
+              subTotal: (item.quantity + 1) * item?.product?.salePrice
             };
           }
           return item;
@@ -42,21 +45,24 @@ export const cartSlice = createSlice({
         state.cartProducts.push({
           ...action.payload,
           quantity: 1,
-          subTotal: action.payload.product?.salePrice || 0,
+          subTotal: action.payload.product?.salePrice,
         });
       }
     
       state.subTotal = calculateSubTotal(state.cartProducts);
+      state.cartCount = state.cartProducts.length;
     },
     
     deleteFromCart: (state, action) => {
       const id = action.payload;
       state.cartProducts = state.cartProducts.filter((item:CartProduct) => item._id !== id);
       state.subTotal = calculateSubTotal(state.cartProducts);
+      state.cartCount = state.cartProducts.length;
     },
     resetCart: (state) => {
       state.cartProducts=[]
       state.subTotal=0;
+      state.cartCount = state.cartProducts.length;
     },
     updateCartItemQuantity: (state, action) => {
       state.cartProducts = state.cartProducts.map(item => {
@@ -73,6 +79,7 @@ export const cartSlice = createSlice({
       });
     
       state.subTotal = calculateSubTotal(state.cartProducts);
+      state.cartCount = state.cartProducts.length;
     },
   },
 })

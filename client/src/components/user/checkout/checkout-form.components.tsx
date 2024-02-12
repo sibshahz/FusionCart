@@ -84,7 +84,7 @@ export default function CheckoutForm() {
 
   return (
     <div>
-    <h2>Payment details</h2>
+    <h2 className="mb-5 font-medium text-base text-black">Payment details</h2>
     <form id="payment-form" onSubmit={handleSubmit}>
 
       <PaymentElement id="payment-element" options={paymentElementOptions} />

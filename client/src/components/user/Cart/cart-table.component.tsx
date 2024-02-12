@@ -91,7 +91,6 @@ const CartTable = (props: Props) => {
                 <div className="bg-white">
                 <input 
                   onChange={(e) => handleChange({_id:cartItem._id,quantity:parseInt(e.target.value)})}
-                  
                   min="1" max="10" 
                   className="w-8 h-8 text-center bg-white border border-gray-5 rounded-md text-black text-base font-normal leading-normal" 
                   type="number" 
