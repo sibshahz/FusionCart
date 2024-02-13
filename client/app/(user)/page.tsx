@@ -1,8 +1,6 @@
 "use client"
 import LayoutContainer from '@/src/components/user/layout-container/layout-container.component'
 import React from 'react'
-import Cover from '../../public/imgs/main-cover.jpg'
-import Image from 'next/image'
 import {
   useQuery,
   useQueryClient,
@@ -10,6 +8,8 @@ import {
 import {
   getProductsList
 } from '@/src/api/products/products'
+import HeroSection from '@/src/components/user/hero-section/hero-section.component'
+import FeaturedRanges from '@/src/components/user/featured-ranges/featured-range.component'
 
 const Home = () => {
   const queryClient = useQueryClient()
@@ -17,10 +17,10 @@ const Home = () => {
   // Queries
   const query = useQuery('products', getProductsList)
   return (
-    <LayoutContainer bg='inherit'>
-      <h1>Furnior Products</h1>
-      <Image src={Cover.src} alt="Main cover" width={500} height={500} />
-    </LayoutContainer>
+    <>
+      <HeroSection />
+      <FeaturedRanges />
+    </>
   )
 }
 

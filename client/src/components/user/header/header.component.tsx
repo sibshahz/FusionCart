@@ -121,6 +121,7 @@ const Header:FC = () => {
             fixed md:hidden 
             top-0 flex-col 
             max-w-full flex-1 
+            z-10
             h-full w-full bg-light-bg
             overflow-y-scroll">
           {

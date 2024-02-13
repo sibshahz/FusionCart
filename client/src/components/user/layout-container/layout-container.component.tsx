@@ -12,7 +12,7 @@ const LayoutContainer = ({
       style={{ 
         backgroundColor:bg
        }} 
-      className="p-5 flex justify-center items-center">    
+      className="px-5 flex justify-center items-center">    
         <div className="flex-1 max-w-8xl w-full">  
         {children}
         </div>

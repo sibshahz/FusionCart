@@ -35,8 +35,6 @@ const AddressForm = (props: Props) => {
     router.push("/shop/payment")
   }
 
-  console.log(watch("firstName")) // watch input 
-
   return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-44 gap-y-16">
@@ -129,7 +127,7 @@ const AddressForm = (props: Props) => {
 
         <p className='text-base font-light text-justify'>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <Link href="#" className="font-semibold">privacy policy.</Link></p>
 
-        <button type='submit' className='btn btn-primary font-normal text-xl'>Place order</button>
+        <button type='submit' className='btn btn-primary font-normal text-xl'>Continue to payment</button>
       </div>
         </div>
       </form>

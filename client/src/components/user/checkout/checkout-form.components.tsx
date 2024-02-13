@@ -5,6 +5,7 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 import LayoutContainer from "../layout-container/layout-container.component";
+import './checkout-form.styles.css'
 
 export default function CheckoutForm() {
   const stripe = useStripe();

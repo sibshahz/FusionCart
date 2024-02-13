@@ -26,6 +26,7 @@ const config: Config = {
       'blue': '#1fb6ff',
       'purple': '#7e5bef',
       'pink': '#ff49db',
+      'baby-pink': '#fff3e3',
       'orange': '#ff7849',
       'green': '#13ce66',
       'yellow': '#ffc82c',
