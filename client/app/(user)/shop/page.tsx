@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   useQuery,
   useQueryClient,
@@ -16,7 +16,11 @@ const ShopPage = () => {
   const queryClient = useQueryClient()
 
   // Queries
-  const { data, error, isLoading, refetch }= useQuery('products', getProductsList)
+
+  const { data, error, isLoading, refetch }= useQuery({queryKey:'products', queryFn:getProductsList,enabled:false})
+  useEffect(() => {
+    refetch()
+  },[])
   return (
     <>
     {
