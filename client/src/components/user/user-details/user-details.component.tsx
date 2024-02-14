@@ -17,18 +17,17 @@ const UserDetails = (props: Props) => {
         </div>
       </div>
       <div className="flex flex-col w-full">
-        <div className="grid h-max bg-primary place-items-center border-b border-gray-5 pb-2">
+        <div className="grid h-max bg-primary place-items-center border-b border-gray-light pb-6">
           <div className="join-item font-poppins text-xl font-normal leading-6 text-black">{userDetails.firstName+' '+userDetails.lastName}</div>
           <div className="join-item font-poppins text-sm font-normal leading-6 text-black">{userDetails.email}</div>  
         </div> 
         <div className="grid h-max bg-primary place-items-center">
-          <Link  className="w-full px-4 py-2 hover:bg-gray-5  border-b border-gray-5 pb-2" href="/settings"><div>Settings</div></Link>
-          <Link  className="w-full px-4 py-2 hover:bg-gray-5  border-b border-gray-5 pb-2" href="/orders"><div>Orders</div></Link>
-          <Link  className="w-full block px-4 py-2 hover:bg-gray-5  border-b border-gray-5 pb-2" href="/support"><div>Support</div></Link>
+          <Link  className="w-full px-4 py-4 hover:bg-gray-light  border-b border-gray-light" href="/settings"><div>Settings</div></Link>
+          <Link  className="w-full px-4 py-4 hover:bg-gray-light  border-b border-gray-light" href="/orders"><div>Orders</div></Link>
+          <Link  className="w-full block px-4 py-4 hover:bg-gray-light  border-b border-gray-light" href="/support"><div>Support</div></Link>
         </div>
       </div>
-      <button className="join-item btn btn-neutral mb-3" onClick={()=> dispatch(setUser({}))}>Signout</button>
-
+      <button className="join-item btn btn-neutral" onClick={()=> dispatch(setUser({}))}>Signout</button>
     </div>
   )
 }

@@ -47,7 +47,7 @@ const CartDialog = (props: Props) => {
         cartProducts?.map((cartItem,index) => {
           return(
 
-                <div key={cartItem._id} className="cart-item-row flex flex-row gap-8 justify-between flex-grow-1 items-center">
+                <div key={cartItem._id+index} className="cart-item-row flex flex-row gap-8 justify-between flex-grow-1 items-center">
                   <div className="cart-item-img">
                     <div className="avatar">
                       <div className="mask mask-squircle w-24 h-24">
