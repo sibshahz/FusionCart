@@ -1,4 +1,5 @@
 // import Product from "./product.mongo";
+const mongoose = require('mongoose');
 const Image =require('../images/images.mongo');
 const Product = require("./product.mongo");
 
@@ -29,6 +30,25 @@ async function getProduct(id){
     console.log(error);
   }
 }
+
+
+async function getProductSalePrice(id) {
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return 0;
+  }
+
+  try {
+    const product = await Product.findById(id,'salePrice').exec();
+    return product.salePrice || 0;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error getting product sale price');
+  }
+}
+
+
+
 
 async function updateProduct(id,update){
   try{
@@ -68,5 +88,6 @@ module.exports={
   delProduct,
   getProductCategory,
   getProductTags,
-  getProductCatAndTags
+  getProductCatAndTags,
+  getProductSalePrice
 }
