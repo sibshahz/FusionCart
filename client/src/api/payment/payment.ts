@@ -4,7 +4,7 @@ import { axios_default } from "../axios-core";
 const postOrder = async (order) => {
   try {
     const {data:response} = await axios_default.post(`/create-payment`,order);
-    return response.clientSecret;
+    return response;
 
   } catch (error) {
     // handle error

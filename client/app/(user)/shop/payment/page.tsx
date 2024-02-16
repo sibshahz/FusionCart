@@ -1,6 +1,6 @@
 'use client'
-
-import React, { useState, useEffect } from "react";
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import React, { useState, useEffect,useRef } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/src/components/user/checkout/checkout-form.components";
@@ -29,7 +29,8 @@ export default function PaymentPage() {
 
   const { mutate:mutatePayment, isLoading:paymentLoading } = useMutation(postOrder, {
     onSuccess: data => {
-    setClientSecret(data);
+    setClientSecret(data.clientSecret);
+    console.log("*** ORDER DETAILS: ", data.orderDetails);
   },
     onError: (error) => {
       console.log("there was an error: ",error)
@@ -38,16 +39,29 @@ export default function PaymentPage() {
       queryClient.invalidateQueries('payment')
   },retry:false
   });
+  const effectRan = useRef(false);
+
   useEffect(() => {
-    if(paymentIntent==false){
+  if (!effectRan.current) {
     console.table("*** POSTING ORDER",cartProducts)
-      mutatePayment({
-        customer:user._id,
-        productsOrdered:cartProducts,
-      });
-      setPaymentIntent((prev) => !prev);
-    }
-  }, [paymentIntent]);
+    mutatePayment({
+      customer:user._id,
+      productsOrdered:cartProducts,
+    });
+  }
+
+  return () => effectRan.current = true;
+}, []);
+  // useEffect(() => {
+  //   if(paymentIntent==false){
+  //   console.table("*** POSTING ORDER",cartProducts)
+  //     mutatePayment({
+  //       customer:user._id,
+  //       productsOrdered:cartProducts,
+  //     });
+  //     setPaymentIntent((prev) => !prev);
+  //   }
+  // }, [paymentIntent]);
 
   const appearance = {
     theme: 'stripe',

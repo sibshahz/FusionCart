@@ -7,6 +7,12 @@ const orderSchema = new mongoose.Schema({
     ref: 'User',
     required:true,
   },
+  paymentIntentID:String,
+  paymentStatus: {
+    type:String,
+    enum:['pending','succeeded','failed'],
+    default:'pending',
+  },
   orderDate: {
     type: Date,
     default: Date.now,
