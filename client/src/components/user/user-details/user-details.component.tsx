@@ -22,9 +22,9 @@ const UserDetails = (props: Props) => {
           <div className="join-item font-poppins text-sm font-normal leading-6 text-black">{userDetails.email}</div>  
         </div> 
         <div className="grid h-max bg-primary place-items-center">
-          <Link  className="w-full px-4 py-4 hover:bg-gray-light  border-b border-gray-light" href="/settings"><div>Settings</div></Link>
-          <Link  className="w-full px-4 py-4 hover:bg-gray-light  border-b border-gray-light" href="/orders"><div>Orders</div></Link>
-          <Link  className="w-full block px-4 py-4 hover:bg-gray-light  border-b border-gray-light" href="/support"><div>Support</div></Link>
+          <Link  className="w-full px-4 py-4 hover:bg-gray-light  border-b border-gray-light" href="/user/settings"><div>Settings</div></Link>
+          <Link  className="w-full px-4 py-4 hover:bg-gray-light  border-b border-gray-light" href="/user/orders"><div>Orders</div></Link>
+          <Link  className="w-full block px-4 py-4 hover:bg-gray-light  border-b border-gray-light" href="/user/support"><div>Support</div></Link>
         </div>
       </div>
       <button className="join-item btn btn-neutral" onClick={()=> dispatch(setUser({}))}>Signout</button>

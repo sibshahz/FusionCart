@@ -9,6 +9,7 @@ const reviewsRouter = require('./reviews/reviews.router');
 const imagesRouter = require('./images/images.router');
 const paymentRouter = require('./payments/payments.router');
 const cartRouter = require('./cart/cart.router');
+const ordersRouter = require('./orders/orders.router');
 
 const api = express.Router();
 
@@ -16,6 +17,7 @@ api.use('/auth', userAuthRouter);
 
 api.use('/create-payment',paymentRouter)
 api.use('/products', productsRouter);
+api.use('/orders', ordersRouter);
 api.use('/images',imagesRouter)
 api.use('/admins',adminsRouter);
 api.use('/tags',tagsRouter);

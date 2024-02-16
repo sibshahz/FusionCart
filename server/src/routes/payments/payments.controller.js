@@ -37,6 +37,12 @@ async function httpPostPayment(req,res){
       // orderStatus,
       // orderTotal,
     } = req.body;
+    if(!customer){
+      return res.status(400).send("Customer is required");
+    }
+    if(productsOrdered.length===0){
+      return res.status(400).send("Products are required");
+    }
     const totalAmount =await calculateOrderAmount(productsOrdered);
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalAmount,

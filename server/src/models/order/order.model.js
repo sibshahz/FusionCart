@@ -10,6 +10,16 @@ async function addOrder(orderData) {
   }
 }
 
+async function getAllOrders(customerID){
+  try {
+    const orders = await Order.find({customer:customerID});
+    return orders;
+  } catch (error) {
+    console.error("Error getting orders",error);
+  }
+}
+
 module.exports={
   addOrder,
+  getAllOrders
 }
