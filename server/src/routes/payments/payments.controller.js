@@ -1,5 +1,5 @@
 const { getProductSalePrice } = require("../../models/product/product.model");
-
+const {addOrder} = require("../../models/order/order.model");
 const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 
 async function calculateOrderAmount (items) {
@@ -15,13 +15,14 @@ async function calculateOrderAmount (items) {
 };
 async function httpPostPayment(req,res){
   const { 
-    // customer,
+    customer,
     // orderDate,
     productsOrdered,
     // orderStatus,
     // orderTotal,
   } = req.body;
   const totalAmount =await calculateOrderAmount(productsOrdered);
+  await addOrder({customer,productsOrdered,orderTotal:totalAmount});
   const paymentIntent = await stripe.paymentIntents.create({
     amount: totalAmount,
     currency: "usd",

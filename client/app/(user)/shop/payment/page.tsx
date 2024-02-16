@@ -9,6 +9,8 @@ import AddressForm from "@/src/components/user/address-form/address-form.compone
 import OrderSummary from "@/src/components/user/order-summary/order-summary.component";
 import { useAppSelector } from "@/src/redux/client-hooks";
 import { RootState } from "@/src/redux/client-store";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { postOrder } from "@/src/api/payment/payment";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -17,18 +19,35 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 export default function PaymentPage() {
   const [clientSecret, setClientSecret] = useState("");
+  const [paymentIntent, setPaymentIntent] = useState(false);
   //send cart products, user details for order creation
+  const user=useAppSelector((state:RootState) => state.user);
   const cartProducts=useAppSelector((state:RootState) => state.cart.cartProducts);
+
+
+  const queryClient = useQueryClient();
+
+  const { mutate:mutatePayment, isLoading:paymentLoading } = useMutation(postOrder, {
+    onSuccess: data => {
+    setClientSecret(data);
+  },
+    onError: (error) => {
+      console.log("there was an error: ",error)
+  },
+    onSettled: () => {
+      queryClient.invalidateQueries('payment')
+  },retry:false
+  });
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("http://localhost:8080/v1/create-payment", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({productsOrdered:cartProducts}),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, []);
+    if(paymentIntent==false){
+    console.table("*** POSTING ORDER",cartProducts)
+      mutatePayment({
+        customer:user._id,
+        productsOrdered:cartProducts,
+      });
+      setPaymentIntent((prev) => !prev);
+    }
+  }, [paymentIntent]);
 
   const appearance = {
     theme: 'stripe',

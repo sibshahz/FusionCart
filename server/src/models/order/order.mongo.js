@@ -11,7 +11,11 @@ const orderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  orderStatus: String,
+  orderStatus: {
+    type:String,
+    enum:['pending','shipped','delivered'],
+    default:'pending',
+  },
   productsOrdered: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product', 

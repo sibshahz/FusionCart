@@ -50,9 +50,9 @@ const CartTable = (props: Props) => {
     updateMutate(cart);
   }
 
-  if(data){  
-    dispatch(setCartData(data))
-  }
+  // if(data){  
+  //   dispatch(setCartData(data))
+  // }
 
   return (
     <div className="overflow-x-auto">
