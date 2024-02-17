@@ -53,8 +53,9 @@ async function httpPostPayment(req,res){
         enabled: true,
       },
     });
+    console.log("*** orderedproduct", productsOrdered);
+    const orderDetails=await addOrder({customer,productsOrdered:[productsOrdered],orderTotal:totalAmount,paymentIntentID:paymentIntent.id});
     await deleteFromCart(productsOrdered)
-    const orderDetails=await addOrder({customer,productsOrdered,orderTotal:totalAmount,paymentIntentID:paymentIntent.id});
   
     res.send({
       clientSecret: paymentIntent.client_secret,

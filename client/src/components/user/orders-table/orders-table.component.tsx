@@ -6,14 +6,18 @@ import { addToCart, deleteFromCart,setCartData, updateCartItemQuantity } from '@
 import { useQuery,useMutation, useQueryClient } from 'react-query'
 import { deleteCartItem, getAllCartItems, updateCartItem } from '@/src/api/cart/cart'
 import { Delete, Remove } from '@/src/utils/user/icons/icons'
+import { getOrders } from '@/src/api/orders/orders'
+import { Product } from '@/product/product.types'
+
 type Props = {}
 
-const CartTable = (props: Props) => {
+const OrdersTable = (props: Props) => {
   const dispatch=useAppDispatch()
   const queryClient = useQueryClient();
   const cartProducts=useAppSelector((state:RootState) => state.cart.cartProducts);
-  const userId=useAppSelector((state:RootState) => state.user._id);
-  const {data,error,isLoading,refetch}=useQuery(['cart',userId],getAllCartItems);
+  const customerID=useAppSelector((state:RootState) => state.user._id);
+  const { data, error, isLoading, refetch }= useQuery({queryKey:['orders',customerID], queryFn:() => getOrders(customerID || ""),enabled:false})
+
   const { mutate:deleteMutate, isLoading:deleteLoading } = useMutation(deleteCartItem, {
     onSuccess: data => {
     dispatch(deleteFromCart(data));
@@ -50,9 +54,6 @@ const CartTable = (props: Props) => {
     updateMutate(cart);
   }
 
-  // if(data){  
-  //   dispatch(setCartData(data))
-  // }
 
   return (
     <div className="overflow-x-auto">
@@ -60,71 +61,60 @@ const CartTable = (props: Props) => {
     {/* head */}
     <thead className='bg-light-pink border-0 text-black text-base font-medium leading-normal text-center'>
       <tr className='border-0'>
-        <th>Product</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Subtotal</th>
-        <th></th>
+        <th>S. No</th>
+        <th>Order #</th>
+        <th>Products</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Payment</th>
       </tr>
     </thead>
     <tbody>
       {
-        cartProducts?.map((cartItem,index) => {
+        data?.data?.map((orderItem,index) => {
           return(
-            <tr key={cartItem.product._id+index} className='border-0 text-center'>
+            <tr key={orderItem._id+index} className='border-0 text-center'>
+              <td>{index}</td>
               <td className='w-max'>
                 <div className="flex items-center gap-3 justify-around">
-                  <div className="avatar">
-                    <div className="mask mask-squircle w-24 h-24">
-                      <img src={`http://localhost:8080/${cartItem.product.images[0].imagePath}`} alt={`http://localhost:8080/${cartItem.product?.images[0].imageAlt}`} />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-gray-5 text-base font-normal leading-normal">{cartItem.product.name}</div>
-                  </div>
+                  {orderItem._id}
                 </div>
               </td>
               <td className='text-gray-5 text-base font-normal leading-normal'>
-                {cartItem.product.salePrice}
+                {
+                  // productsOrdered
+                  orderItem.productsOrdered.map((product:Product,index) => {
+                    <div key={index}>{product.name}</div>
+                  })
+                }
               </td>
               <td>
-                <div className="bg-white">
-                <input 
-                  onChange={(e) => handleChange({_id:cartItem._id,quantity:parseInt(e.target.value)})}
-                  min="1" max="10" 
-                  className="w-8 h-8 text-center bg-white border border-gray-5 rounded-md text-black text-base font-normal leading-normal" 
-                  type="number" 
-                  value={cartItem.quantity}
-                    />
-                </div>
+                ${orderItem.orderTotal.toFixed(2)}
               </td>
               <td className='text-black text-base font-normal leading-normal'>
-                <div className="btn btn-ghost btn-xs text-base">Rs. {cartItem.subTotal}</div>
+                {
+                   new Date(orderItem.orderDate).toLocaleString('en-GB', {
+                    day: 'numeric',
+                    month: 'numeric',
+                    year: 'numeric',
+                  })
+                } 
               </td>
-              <td>
-                <button className="btn btn-ghost btn-xs" onClick={() => handleDelete(cartItem._id)}> 
-                  <img role='button' className="inline hover:cursor-pointer" src={Delete.src} alt="Remove item" />
-                </button>
+              <td className='capitalize'>
+                {orderItem.orderStatus}
+              </td>
+              <td className='capitalize'>
+                {orderItem.paymentStatus}
               </td>
             </tr>
           )
         })
       }
     </tbody>
-    {/* foot */}
-    {/* <tfoot>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Job</th>
-        <th>Favorite Color</th>
-        <th></th>
-      </tr>
-    </tfoot> */}
-    
   </table>
 </div>
   )
 }
 
-export default CartTable
+export default OrdersTable

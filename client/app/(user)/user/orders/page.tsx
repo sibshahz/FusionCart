@@ -6,6 +6,7 @@ import { useAppSelector } from '@/src/redux/client-hooks'
 import { RootState } from '@/src/redux/client-store'
 import { useQuery, useQueryClient } from 'react-query'
 import LayoutContainer from '@/src/components/user/layout-container/layout-container.component'
+import OrdersTable from '@/src/components/user/orders-table/orders-table.component'
 
 type Props = {}
 
@@ -18,12 +19,12 @@ const OrdersPage = (props: Props) => {
     refetch()
   },[])
   if(data){
-    console.table("*** ORDERS ", data);
+    console.table("*** ORDERS ", data.data);
   }
   return (
     <div>
       <LayoutContainer bg='inherit'>
-
+        <OrdersTable />
       </LayoutContainer>
     </div>
   )
